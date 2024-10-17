@@ -1,0 +1,21 @@
+﻿<Window x:Class="UseExample.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UseExample"
+        xmlns:vm="clr-namespace:UseExample.ViewModels"
+        xmlns:widget="clr-namespace:ExperimentalProject.Views;assembly=ExperimentalProject"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=vm:MainWindow}"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid Margin="40 20">
+        <widget:WidgetBoard GridColumnCount="8" d:CellSize="60" WidgetsPalette="{Binding WidgetPalette}"  GridRowCount="12" IsSidebarHidden="{Binding IsSidebarHidden}" IsManipulatorHidden="{Binding IsManipulatorHidden}" WidgetsOnBoard="{Binding WidgetBoard}" CellSize="{Binding CellSize, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ></widget:WidgetBoard>
+
+        <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10pt">
+            <Button Command="{Binding ToggleSidebarVisibleCommand}">Sidebar</Button>
+            <Button Command="{Binding ToggleManipulatorVisibleCommand}">Manipulator</Button>
+            <Slider Width="120px" Minimum="50" Maximum="250" Value="{Binding CellSize, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+        </StackPanel>
+    </Grid>
+</Window>
