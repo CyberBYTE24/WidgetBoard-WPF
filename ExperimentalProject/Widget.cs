@@ -111,6 +111,9 @@ namespace ExperimentalProject
             set => widgetView.ManipulatorVisibility = value ? Visibility.Visible : Visibility.Collapsed;
         }
 
+        /// <summary>
+        /// Flag representing the visibility state of Settings Button in header
+        /// </summary>
         public bool IsSettingsButtonVisible
         {
             get => widgetView.SettingsButtonVisibility == Visibility.Visible;

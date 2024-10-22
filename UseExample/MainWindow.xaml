@@ -10,12 +10,27 @@
         d:DataContext="{d:DesignInstance Type=vm:MainWindow}"
         Title="MainWindow" Height="450" Width="800">
     <Grid Margin="40 20">
-        <widget:WidgetBoard GridColumnCount="8" d:CellSize="60" WidgetsPalette="{Binding WidgetPalette}"  GridRowCount="12" IsSidebarHidden="{Binding IsSidebarHidden}" IsManipulatorHidden="{Binding IsManipulatorHidden}" WidgetsOnBoard="{Binding WidgetBoard}" CellSize="{Binding CellSize, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ></widget:WidgetBoard>
+        <widget:WidgetBoard 
+            BoardBackground="{Binding BackgroundColor}"
+            BoardForeground="White"
+            PaletteBackground="DimGray"
+            PaletteForeground="White"
+            IsGridDisplayed="{Binding IsGridDisplayed}"
+
+            GridColumnCount="10"
+            d:CellSize="60"
+            WidgetsPalette="{Binding WidgetPalette}"
+            GridRowCount="6"
+            IsSidebarHidden="{Binding IsSidebarHidden}"
+            IsManipulatorHidden="{Binding IsManipulatorHidden}"
+            WidgetsOnBoard="{Binding WidgetBoard}"
+            CellSize="{Binding CellSize, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
         <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10pt">
             <Button Command="{Binding ToggleSidebarVisibleCommand}">Sidebar</Button>
             <Button Command="{Binding ToggleManipulatorVisibleCommand}">Manipulator</Button>
             <Slider Width="120px" Minimum="50" Maximum="250" Value="{Binding CellSize, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+            <Button Command="{Binding SetBackgroundCommand}">Set Background</Button>
         </StackPanel>
     </Grid>
 </Window>

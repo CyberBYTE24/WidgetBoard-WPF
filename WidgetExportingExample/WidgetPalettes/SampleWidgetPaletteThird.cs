@@ -1,6 +1,7 @@
 ﻿
 
 using System;
+using WidgetExportingExample.Properties;
 
 namespace WidgetExportingExample.WidgetPalettes
 {
@@ -10,6 +11,8 @@ namespace WidgetExportingExample.WidgetPalettes
         {
             WidgetId = new Guid("05E807AD-1155-4FF4-8ABD-674363AAB7C3");
             Title = "Palette No.3";
+            GroupName = "Without Settings";
+            IconBytes = Resources.Icon1;
         }
     }
 }

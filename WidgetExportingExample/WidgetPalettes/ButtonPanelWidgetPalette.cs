@@ -1,6 +1,7 @@
 ﻿
 
 using System;
+using WidgetExportingExample.Properties;
 
 namespace WidgetExportingExample.WidgetPalettes
 {
@@ -11,6 +12,8 @@ namespace WidgetExportingExample.WidgetPalettes
         {
             WidgetId = new Guid("64297CF5-73E4-44AD-9F19-694F7F2B52D1");
             Title = "Button Panel";
+            GroupName = "With Settings";
+            IconBytes = Resources.Icon1;
         }
     }
 }

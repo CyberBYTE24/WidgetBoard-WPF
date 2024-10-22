@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:ExperimentalProject.Views"
              mc:Ignorable="d" 
              ClipToBounds="True" 
-             d:DesignHeight="1000" d:DesignWidth="1000">
+             d:DesignHeight="1000" d:DesignWidth="1000"
+             >
     <Grid>
         <Grid>
             <Canvas x:Name="WidgetCanvas" Background="LightGray">
@@ -16,7 +17,7 @@
             </Canvas>
         </Grid>
         <Grid ClipToBounds="True" x:Name="WidgetSidebar" Width="0pt" VerticalAlignment="Stretch" HorizontalAlignment="Right">
-            <Rectangle HorizontalAlignment="Left" Width="200pt" Fill="Azure" RadiusX="20" RadiusY="20" Margin="0 4pt"/>
+            <Rectangle HorizontalAlignment="Left" x:Name="WidgetSidebarBackground" Width="200pt" Fill="Azure" RadiusX="20" RadiusY="20" Margin="0 4pt"/>
             <StackPanel Margin="10pt" x:Name="WidgetPalette" Orientation="Vertical"/>
         </Grid>
     </Grid>

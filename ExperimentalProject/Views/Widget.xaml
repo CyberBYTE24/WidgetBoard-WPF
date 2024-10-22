@@ -25,14 +25,23 @@
             <DropShadowEffect BlurRadius="6" Direction="-90" RenderingBias="Quality" ShadowDepth="2" Opacity="{Binding ShadowOpacity}"/>
         </Grid.Effect>
         <ContentPresenter x:Name="UserControl"></ContentPresenter>
-        <Grid x:Name="WidgetHeader" Height="20pt" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="#eee">
-            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                <TextBlock VerticalAlignment="Center" Margin="10pt 0" Style="{StaticResource HeaderText}" Text="{Binding Title}" d:Text="Title"/>
-            </StackPanel>
-            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
-                <Button x:Name="SettingsButton" Style="{StaticResource HeaderButton}" Command="{Binding SettingsCommand}" BorderThickness="0">S</Button>
-                <Button Style="{StaticResource HeaderButton}" Command="{Binding RemoveCommand}" Background="Crimson" Foreground="White" BorderThickness="0px">X</Button>
-            </StackPanel>
+        <Grid x:Name="WidgetHeader">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20pt"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Background="#eee">
+                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Margin="10pt 0" Style="{StaticResource HeaderText}" Text="{Binding Title}" d:Text="Title"/>
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
+                    <Button x:Name="SettingsButton" Style="{StaticResource HeaderButton}" Command="{Binding SettingsCommand}" BorderThickness="0">S</Button>
+                    <Button Style="{StaticResource HeaderButton}" Command="{Binding RemoveCommand}" Background="Crimson" Foreground="White" BorderThickness="0px">X</Button>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="1" Background="#000" Opacity="0.2">
+
+            </Grid>
         </Grid>
         <ResizeGrip x:Name="ResizeGrip" VerticalAlignment="Bottom" ToolTip="Resize Grip" Cursor="SizeNWSE" HorizontalAlignment="Right"></ResizeGrip>
     </Grid>

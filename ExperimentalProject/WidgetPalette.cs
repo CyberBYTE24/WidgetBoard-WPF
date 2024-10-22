@@ -20,6 +20,8 @@ namespace ExperimentalProject
         private Guid widgetId;
         private RelayCommand createWidgetCommand;
         private string title;
+        private string groupName;
+        private byte[] iconBytes;
         private readonly bool isWidgetSettingsEnabled;
 
         /// <summary>
@@ -75,6 +77,16 @@ namespace ExperimentalProject
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public string GroupName
+        {
+            get => groupName;
+            set
+            {
+                groupName = value;
+                OnPropertyChanged();
+            }
+        }
+
         /// <summary>
         ///     The title displayed in the interface of the <see cref="WidgetPalette" />
         /// </summary>
@@ -87,6 +99,18 @@ namespace ExperimentalProject
                 OnPropertyChanged();
             }
         }
+
+        public byte[] IconBytes
+        {
+            get => iconBytes;
+            set
+            {
+                iconBytes = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IconBase64));
+            }
+        }
+        public string IconBase64 => $"data:image/svg+xml;base64,{Convert.ToBase64String(IconBytes)}";
 
         /// <summary>
         ///     Widget variant ID

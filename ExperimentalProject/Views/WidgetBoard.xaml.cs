@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
@@ -14,20 +17,74 @@ namespace ExperimentalProject.Views
     /// </summary>
     public partial class WidgetBoard
     {
+        public static readonly DependencyProperty BoardBackgroundProperty;
+        public static readonly DependencyProperty BoardForegroundProperty;
+        public static readonly DependencyProperty IsGridDisplayedProperty;
         public static readonly DependencyProperty CellSizeProperty;
         public static readonly DependencyProperty GridColumnCountProperty;
         public static readonly DependencyProperty GridRowCountProperty;
         public static readonly DependencyProperty IsManipulatorHiddenProperty;
         public static readonly DependencyProperty IsSidebarHiddenProperty;
+        public static readonly DependencyProperty PaletteBackgroundProperty;
+        public static readonly DependencyProperty PaletteForegroundProperty;
         public static readonly DependencyProperty SidebarWidthProperty;
         public static readonly DependencyProperty WidgetsOnBoardProperty;
         public static readonly DependencyProperty WidgetsPaletteProperty;
+
+        private readonly List<Line> boardGridLines = new List<Line>();
+        private readonly List<TextBlock> sidebarGroupLabels = new List<TextBlock>();
 
         /// <summary>
         ///     Class for handling interface logic and providing bindings
         /// </summary>
         static WidgetBoard()
         {
+            IsGridDisplayedProperty = DependencyProperty.Register(
+                "IsGridDisplayed",
+                typeof(bool),
+                typeof(WidgetBoard),
+                new FrameworkPropertyMetadata(
+                    true,
+                    OnIsGridDisplayedChanged
+                )
+            );
+            BoardBackgroundProperty = DependencyProperty.Register(
+                "BoardBackground",
+                typeof(Brush),
+                typeof(WidgetBoard),
+                new FrameworkPropertyMetadata(
+                    Brushes.LightGray,
+                    OnBoardBackgroundChanged
+                )
+            );
+            BoardForegroundProperty = DependencyProperty.Register(
+                "BoardForeground",
+                typeof(Brush),
+                typeof(WidgetBoard),
+                new FrameworkPropertyMetadata(
+                    Brushes.DimGray,
+                    OnBoardForegroundChanged
+                )
+            );
+            PaletteBackgroundProperty = DependencyProperty.Register(
+                "PaletteBackground",
+                typeof(Brush),
+                typeof(WidgetBoard),
+                new FrameworkPropertyMetadata(
+                    Brushes.Azure,
+                    OnPaletteBackgroundChanged
+                )
+            );
+            PaletteForegroundProperty = DependencyProperty.Register(
+                "PaletteForeground",
+                typeof(Brush),
+                typeof(WidgetBoard),
+                new FrameworkPropertyMetadata(
+                    Brushes.DimGray,
+                    OnPaletteForegroundChanged
+                )
+            );
+
             CellSizeProperty = DependencyProperty.Register(
                 "CellSize",
                 typeof(double),
@@ -101,6 +158,14 @@ namespace ExperimentalProject.Views
             );
         }
 
+        private static void OnIsGridDisplayedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is WidgetBoard board)
+            {
+                board.RenderGrid();
+            }
+        }
+
         /// <summary>
         ///     Class for handling interface logic and providing bindings
         /// </summary>
@@ -118,6 +183,11 @@ namespace ExperimentalProject.Views
             get => (bool)GetValue(IsManipulatorHiddenProperty);
             set => SetValue(IsManipulatorHiddenProperty, value);
         }
+        public bool IsGridDisplayed
+        {
+            get => (bool)GetValue(IsGridDisplayedProperty);
+            set => SetValue(IsGridDisplayedProperty, value);
+        }
 
         /// <summary>
         ///     Flag indicating the visibility of sidebar with <see cref="Views.WidgetPalette">WidgetPalette</see>
@@ -126,6 +196,30 @@ namespace ExperimentalProject.Views
         {
             get => (bool)GetValue(IsSidebarHiddenProperty);
             set => SetValue(IsSidebarHiddenProperty, value);
+        }
+
+        public Brush BoardBackground
+        {
+            get => (Brush)GetValue(BoardBackgroundProperty);
+            set => SetValue(BoardBackgroundProperty, value);
+        }
+
+        public Brush BoardForeground
+        {
+            get => (Brush)GetValue(BoardForegroundProperty);
+            set => SetValue(BoardForegroundProperty, value);
+        }
+
+        public Brush PaletteBackground
+        {
+            get => (Brush)GetValue(PaletteBackgroundProperty);
+            set => SetValue(PaletteBackgroundProperty, value);
+        }
+
+        public Brush PaletteForeground
+        {
+            get => (Brush)GetValue(PaletteForegroundProperty);
+            set => SetValue(PaletteForegroundProperty, value);
         }
 
         /// <summary>
@@ -180,6 +274,18 @@ namespace ExperimentalProject.Views
         {
             get => (ObservableCollection<ExperimentalProject.WidgetPalette>)GetValue(WidgetsPaletteProperty);
             set => SetValue(WidgetsPaletteProperty, value);
+        }
+
+        private static void OnBoardBackgroundChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is WidgetBoard board) board.WidgetCanvas.Background = (Brush)e.NewValue;
+        }
+
+        private static void OnBoardForegroundChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is WidgetBoard board)
+                foreach (var line in board.boardGridLines)
+                    line.Stroke = (Brush)e.NewValue;
         }
 
         /// <summary>
@@ -240,6 +346,21 @@ namespace ExperimentalProject.Views
                 board.ToggleWidgetSidebar();
         }
 
+        private static void OnPaletteBackgroundChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is WidgetBoard board)
+            {
+                board.WidgetSidebarBackground.Fill = (Brush)e.NewValue;
+            }
+        }
+
+        private static void OnPaletteForegroundChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is WidgetBoard board)
+                foreach (var label in board.sidebarGroupLabels)
+                    label.Foreground = (Brush)e.NewValue;
+        }
+
         /// <summary>
         ///     Handler called when the <see cref="WidgetsOnBoard">WidgetsOnBoard</see> replaced
         /// </summary>
@@ -265,13 +386,12 @@ namespace ExperimentalProject.Views
         {
             if (d is WidgetBoard board)
             {
-                ((ObservableCollection<ExperimentalProject.WidgetPalette>)e.NewValue).CollectionChanged +=
-                    board.OnPaletteChangedHandler;
+                var newWidgetsPalette = (ObservableCollection<ExperimentalProject.WidgetPalette>)e.NewValue;
+                newWidgetsPalette.CollectionChanged += board.OnPaletteChangedHandler;
+
                 foreach (var widgetPalette in (ObservableCollection<ExperimentalProject.WidgetPalette>)e.NewValue)
-                {
-                    board.AddWidgetPalette(widgetPalette);
                     widgetPalette.OnCreateWidgetEvent += board.OnCreateWidgetHandler;
-                }
+                board.RenderWidgetPalette();
             }
         }
 
@@ -322,15 +442,6 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Add <see cref="ExperimentalProject.WidgetPalette">Widget</see> to this WidgetBoard
-        /// </summary>
-        /// <param name="palette">WidgetPalette to add</param>
-        private void AddWidgetPalette(ExperimentalProject.WidgetPalette palette)
-        {
-            WidgetPalette.Children.Add(palette.WidgetPaletteView);
-        }
-
-        /// <summary>
         ///     Handler called when the <see cref="WidgetsOnBoard">WidgetsOnBoard</see> collection changed
         /// </summary>
         /// <param name="sender">The object that initiated the change to the collection</param>
@@ -373,14 +484,18 @@ namespace ExperimentalProject.Views
                 case NotifyCollectionChangedAction.Add:
                     foreach (ExperimentalProject.WidgetPalette widgetPalette in e.NewItems)
                     {
-                        AddWidgetPalette(widgetPalette);
+                        WidgetPalette.Children.Add(widgetPalette.WidgetPaletteView);
                         widgetPalette.OnCreateWidgetEvent += OnCreateWidgetHandler;
                     }
 
                     break;
                 case NotifyCollectionChangedAction.Remove:
                     foreach (ExperimentalProject.WidgetPalette widgetPalette in e.OldItems)
-                        RemoveWidgetPalette(widgetPalette);
+                    {
+                        WidgetsPalette.Remove(widgetPalette);
+                        WidgetPalette.Children.Remove(widgetPalette.WidgetPaletteView);
+                    }
+
                     break;
                 case NotifyCollectionChangedAction.Replace:
                     break;
@@ -414,16 +529,6 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Remove <see cref="WidgetsPalette">WidgetsPalette</see> from WidgetBoard sidebar
-        /// </summary>
-        /// <param name="widgetPalette">Removed <see cref="WidgetsPalette">WidgetsPalette</see> instance</param>
-        private void RemoveWidgetPalette(ExperimentalProject.WidgetPalette widgetPalette)
-        {
-            WidgetsPalette.Remove(widgetPalette);
-            WidgetPalette.Children.Remove(widgetPalette.WidgetPaletteView);
-        }
-
-        /// <summary>
         ///     Draw a background grid to show the size of the cells
         /// </summary>
         private void RenderGrid()
@@ -431,36 +536,65 @@ namespace ExperimentalProject.Views
             var cellSize = (double)GetValue(CellSizeProperty);
 
             GridOverlay.Children.Clear();
-            for (var i = 0; i <= GridRowCount; i++)
+            boardGridLines.Clear();
+
+            if(!IsGridDisplayed)
+                return;
+            for (var i = 0; i <= GridColumnCount; i++)
             {
                 var verticalLine = new Line
                 {
-                    Stroke = Brushes.Gray,
+                    Stroke = BoardForeground,
                     X1 = i * cellSize,
                     X2 = i * cellSize,
                     Y1 = 0,
-                    Y2 = GridColumnCount * cellSize,
+                    Y2 = GridRowCount * cellSize,
                     StrokeThickness = 1,
                     StrokeDashArray = new DoubleCollection { 4, 4 },
                     ClipToBounds = true
                 };
+                boardGridLines.Add(verticalLine);
                 GridOverlay.Children.Add(verticalLine);
             }
 
-            for (var i = 0; i <= GridColumnCount; i++)
+            for (var i = 0; i <= GridRowCount; i++)
             {
                 var horizontalLine = new Line
                 {
-                    Stroke = Brushes.Gray,
+                    Stroke = BoardForeground,
                     X1 = 0,
-                    X2 = GridRowCount * cellSize,
+                    X2 = GridColumnCount * cellSize,
                     Y1 = i * cellSize,
                     Y2 = i * cellSize,
                     StrokeThickness = 1,
                     StrokeDashArray = new DoubleCollection { 4, 4 },
                     ClipToBounds = true
                 };
+                boardGridLines.Add(horizontalLine);
                 GridOverlay.Children.Add(horizontalLine);
+            }
+        }
+
+        /// <summary>
+        ///     Draw a widget palettes in sidebar
+        /// </summary>
+        private void RenderWidgetPalette()
+        {
+            sidebarGroupLabels.Clear();
+
+            foreach (var widgetGroup in WidgetsPalette.OrderBy(x => x.GroupName).ThenBy(x => x.Title)
+                         .GroupBy(x => x.GroupName))
+            {
+                var label = new TextBlock
+                {
+                    Text = widgetGroup.Key,
+                    Padding = new Thickness(10, 10, 0, 0),
+                    Foreground = PaletteForeground
+                };
+                sidebarGroupLabels.Add(label);
+                WidgetPalette.Children.Add(label);
+
+                foreach (var widget in widgetGroup) WidgetPalette.Children.Add(widget.WidgetPaletteView);
             }
         }
     }
