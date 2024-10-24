@@ -6,7 +6,6 @@ namespace WidgetExportingExample.Widgets
 {
     internal class ButtonPanelWidget : ExperimentalProject.Widget
     {
-        private string settings;
         public ButtonPanelWidget(UserControl control, IUserWidgetViewModel widgetViewModel, Guid widgetId) : base(control, widgetViewModel, widgetId)
         {
             Title = "Button Panel";
@@ -20,7 +19,7 @@ namespace WidgetExportingExample.Widgets
             Views.ButtonPanelSettings settingsView = new Views.ButtonPanelSettings();
             var settingsViewModel = new ViewModel.ButtonPanelSettings();
             settingsView.DataContext = settingsViewModel;
-            settingsViewModel.SelectedParameter = settings;
+            settingsViewModel.SelectedParameter = Settings;
 
 
             if (settingsView.ShowDialog() == true)

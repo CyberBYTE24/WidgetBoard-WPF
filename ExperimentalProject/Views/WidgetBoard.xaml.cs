@@ -176,13 +176,17 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Flag indicating the visibility of widget manipulators for <see cref="Widget" />
+        ///     Gets or sets the visibility of widget manipulators for <see cref="Widget" />
         /// </summary>
         public bool IsManipulatorHidden
         {
             get => (bool)GetValue(IsManipulatorHiddenProperty);
             set => SetValue(IsManipulatorHiddenProperty, value);
         }
+
+        /// <summary>
+        ///     Gets or sets the grid's rendering state
+        /// </summary>
         public bool IsGridDisplayed
         {
             get => (bool)GetValue(IsGridDisplayedProperty);
@@ -190,7 +194,7 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Flag indicating the visibility of sidebar with <see cref="Views.WidgetPalette">WidgetPalette</see>
+        ///     Gets or sets the visibility of sidebar with <see cref="Views.WidgetPalette">WidgetPalette</see>
         /// </summary>
         public bool IsSidebarHidden
         {
@@ -198,24 +202,36 @@ namespace ExperimentalProject.Views
             set => SetValue(IsSidebarHiddenProperty, value);
         }
 
+        /// <summary>
+        ///     Gets or sets the filling the background for the main widget board field
+        /// </summary>
         public Brush BoardBackground
         {
             get => (Brush)GetValue(BoardBackgroundProperty);
             set => SetValue(BoardBackgroundProperty, value);
         }
 
+        /// <summary>
+        ///     Gets or sets the color for grid lines and other stuff
+        /// </summary>
         public Brush BoardForeground
         {
             get => (Brush)GetValue(BoardForegroundProperty);
             set => SetValue(BoardForegroundProperty, value);
         }
 
+        /// <summary>
+        ///     Gets or sets the filling the background for the widget palette field
+        /// </summary>
         public Brush PaletteBackground
         {
             get => (Brush)GetValue(PaletteBackgroundProperty);
             set => SetValue(PaletteBackgroundProperty, value);
         }
 
+        /// <summary>
+        ///     Gets or sets the color for Group Labels and other stuff
+        /// </summary>
         public Brush PaletteForeground
         {
             get => (Brush)GetValue(PaletteForegroundProperty);
@@ -223,7 +239,7 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Cell size to use in building the interface.
+        ///     Gets or sets the cell size to use in building the interface.
         /// </summary>
         public double CellSize
         {
@@ -232,7 +248,7 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Sidebar width with <see cref="Views.WidgetPalette">WidgetPalette</see>
+        ///     Gets or sets the sidebar width with <see cref="Views.WidgetPalette">WidgetPalette</see>
         /// </summary>
         public double SidebarWidth
         {
@@ -241,7 +257,7 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Displayed on background grid column count
+        ///     Gets or sets the displayed on background grid column count
         /// </summary>
         public int GridColumnCount
         {
@@ -250,7 +266,7 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Displayed on background grid row count
+        ///     Gets or sets the displayed on background grid row count
         /// </summary>
         public int GridRowCount
         {
@@ -259,7 +275,7 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     A collection of <see cref="ExperimentalProject.Widget">Widgets</see> located on a board
+        ///     Gets or sets the collection of <see cref="ExperimentalProject.Widget">Widgets</see> located on a board
         /// </summary>
         public ObservableCollection<ExperimentalProject.Widget> WidgetsOnBoard
         {
@@ -268,7 +284,7 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     A collection of <see cref="ExperimentalProject.WidgetPalette">WidgetPalettes</see> located on a board
+        ///     Gets or sets the collection of <see cref="ExperimentalProject.WidgetPalette">WidgetPalettes</see> located on a board
         /// </summary>
         public ObservableCollection<ExperimentalProject.WidgetPalette> WidgetsPalette
         {
@@ -276,11 +292,21 @@ namespace ExperimentalProject.Views
             set => SetValue(WidgetsPaletteProperty, value);
         }
 
+        /// <summary>
+        ///     Handler called when the <see cref="BoardBackground">Board Background</see> changes
+        /// </summary>
+        /// <param name="d">The <see cref="WidgetBoard" /> instance whose property has been changed </param>
+        /// <param name="e">An object that describes a change in a dependent property</param>
         private static void OnBoardBackgroundChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is WidgetBoard board) board.WidgetCanvas.Background = (Brush)e.NewValue;
         }
 
+        /// <summary>
+        ///     Handler called when the <see cref="BoardForeground">Board Foreground</see> changes
+        /// </summary>
+        /// <param name="d">The <see cref="WidgetBoard" /> instance whose property has been changed </param>
+        /// <param name="e">An object that describes a change in a dependent property</param>
         private static void OnBoardForegroundChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is WidgetBoard board)
@@ -291,7 +317,7 @@ namespace ExperimentalProject.Views
         /// <summary>
         ///     Handler called when the <see cref="CellSize">CellSize</see> changes
         /// </summary>
-        /// <param name="d">The <see cref="WidgetBoard" /> instance whose property has been changed </param>
+        /// <param name="d">The <see cref="WidgetBoard" /> instance whose property has been changed</param>
         /// <param name="e">An object that describes a change in a dependent property</param>
         private static void OnCellSizeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -346,6 +372,11 @@ namespace ExperimentalProject.Views
                 board.ToggleWidgetSidebar();
         }
 
+        /// <summary>
+        ///     Handler called when the <see cref="PaletteBackground">Palette Background</see> changes
+        /// </summary>
+        /// <param name="d">The <see cref="WidgetBoard" /> instance whose property has been changed </param>
+        /// <param name="e">An object that describes a change in a dependent property</param>
         private static void OnPaletteBackgroundChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is WidgetBoard board)
@@ -354,6 +385,11 @@ namespace ExperimentalProject.Views
             }
         }
 
+        /// <summary>
+        ///     Handler called when the <see cref="PaletteForeground">Palette Foreground</see> changes
+        /// </summary>
+        /// <param name="d">The <see cref="WidgetBoard" /> instance whose property has been changed </param>
+        /// <param name="e">An object that describes a change in a dependent property</param>
         private static void OnPaletteForegroundChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is WidgetBoard board)
