@@ -21,6 +21,9 @@ using Brushes = System.Windows.Media.Brushes;
 
 namespace UseExample.ViewModels
 {
+    /// <summary>
+    /// ViewModel for MainWindow
+    /// </summary>
     internal class MainWindow : INotifyPropertyChanged
     {
         private bool isGridDisplayed;
@@ -32,6 +35,9 @@ namespace UseExample.ViewModels
         private RelayCommand toggleManipulatorCommand;
         private RelayCommand toggleSidebarCommand;
 
+        /// <summary>
+        ///     Class that represents the view model of a <see cref="UseExample.MainWindow">Main Window</see>.
+        /// </summary>
         public MainWindow()
         {
             var a = Assembly.LoadFrom("WidgetExportingExample.dll");
@@ -63,8 +69,14 @@ namespace UseExample.ViewModels
             }
         }
 
+        /// <summary>
+        ///     Event that triggered when any properties are changed
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        ///     Bound property for grid visibility state on widget board
+        /// </summary>
         public bool IsGridDisplayed
         {
             get => isGridDisplayed;
@@ -75,6 +87,9 @@ namespace UseExample.ViewModels
             }
         }
 
+        /// <summary>
+        ///     Bound property for the visibility state of widget handles
+        /// </summary>
         public bool IsManipulatorHidden
         {
             get => isManipulatorHidden;
@@ -85,6 +100,9 @@ namespace UseExample.ViewModels
             }
         }
 
+        /// <summary>
+        ///     Bound property for the visibility state of widget palette
+        /// </summary>
         public bool IsSidebarHidden
         {
             get => isSidebarHidden;
@@ -95,6 +113,9 @@ namespace UseExample.ViewModels
             }
         }
 
+        /// <summary>
+        ///     Bound property to fill the background with a color or image
+        /// </summary>
         public Brush BackgroundColor
         {
             get => backgroundImage;
@@ -105,6 +126,9 @@ namespace UseExample.ViewModels
             }
         }
 
+        /// <summary>
+        ///     Bound property for cell size
+        /// </summary>
         public double CellSize
         {
             get => cellSize;
@@ -115,11 +139,20 @@ namespace UseExample.ViewModels
             }
         }
 
+        /// <summary>
+        ///     Bound property for widget list on the board
+        /// </summary>
         public ObservableCollection<Widget> WidgetBoard { get; set; } = new ObservableCollection<Widget>();
 
+        /// <summary>
+        ///     Bound property for widget palettes list on the sidebar
+        /// </summary>
         public ObservableCollection<WidgetPalette> WidgetPalette { get; set; } =
             new ObservableCollection<WidgetPalette>();
 
+        /// <summary>
+        ///     Command to define widget board background image from file
+        /// </summary>
         public RelayCommand SetBackgroundCommand
         {
             get
@@ -127,7 +160,7 @@ namespace UseExample.ViewModels
                 return setBackgroundCommand ?? (setBackgroundCommand = new RelayCommand(obj =>
                 {
                     var dialog = new OpenFileDialog();
-                    dialog.Filter = "PNG files|*.png|All files (*.*)|*.*";
+                    dialog.Filter = "Image files|*.png;*.jpg;*.bmp|All files (*.*)|*.*";
                     dialog.Multiselect = false;
                     if (dialog.ShowDialog() == true)
                     {
@@ -150,6 +183,9 @@ namespace UseExample.ViewModels
             }
         }
 
+        /// <summary>
+        ///     Command to toggle widget handles visibility
+        /// </summary>
         public RelayCommand ToggleManipulatorVisibleCommand
         {
             get
@@ -164,6 +200,9 @@ namespace UseExample.ViewModels
             }
         }
 
+        /// <summary>
+        ///     Command to toggle widget palette visibility
+        /// </summary>
         public RelayCommand ToggleSidebarVisibleCommand
         {
             get

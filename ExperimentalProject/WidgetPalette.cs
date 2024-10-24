@@ -75,8 +75,14 @@ namespace ExperimentalProject
         /// </summary>
         public event OnCreateWidget OnCreateWidgetEvent;
 
+        /// <summary>
+        ///     Event that triggered when any properties are changed
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        ///     Gets or sets the name for grouping widgets in the palette
+        /// </summary>
         public string GroupName
         {
             get => groupName;
@@ -88,7 +94,7 @@ namespace ExperimentalProject
         }
 
         /// <summary>
-        ///     The title displayed in the interface of the <see cref="WidgetPalette" />
+        ///     Gets or sets the title displayed in the interface of the <see cref="WidgetPalette" />
         /// </summary>
         public string Title
         {
@@ -100,6 +106,9 @@ namespace ExperimentalProject
             }
         }
 
+        /// <summary>
+        ///     Gets or sets the ByteArray of SVG file for drawing the icon
+        /// </summary>
         public byte[] IconBytes
         {
             get => iconBytes;
@@ -110,10 +119,14 @@ namespace ExperimentalProject
                 OnPropertyChanged(nameof(IconBase64));
             }
         }
+
+        /// <summary>
+        ///     Gets the Icon in Base64 format
+        /// </summary>
         public string IconBase64 => $"data:image/svg+xml;base64,{Convert.ToBase64String(IconBytes)}";
 
         /// <summary>
-        ///     Widget variant ID
+        ///     Gets or protected sets the widget variant ID
         /// </summary>
         public Guid WidgetId
         {
@@ -138,7 +151,7 @@ namespace ExperimentalProject
         }
 
         /// <summary>
-        ///     View for WidgetPalette Control
+        ///     Gets the view for WidgetPalette Control
         /// </summary>
         internal V.WidgetPalette WidgetPaletteView { get; private set; }
 

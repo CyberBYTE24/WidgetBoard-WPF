@@ -131,7 +131,16 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     X-position on <see cref="WidgetBoard">WidgetBoard</see> (measured in cells)
+        /// The transparency of the shadow cast by the widget
+        /// </summary>
+        public double ShadowOpacity
+        {
+            get => (double)GetValue(ShadowOpacityProperty);
+            set => SetValue(ShadowOpacityProperty, value);
+        }
+
+        /// <summary>
+        ///     Gets or sets the X-position on <see cref="WidgetBoard">WidgetBoard</see> (measured in cells)
         /// </summary>
         public int Column
         {
@@ -140,7 +149,7 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Width on <see cref="WidgetBoard">WidgetBoard</see> (measured in cells)
+        ///     Gets or sets the width on <see cref="WidgetBoard">WidgetBoard</see> (measured in cells)
         /// </summary>
         public int ColumnSpan
         {
@@ -149,7 +158,7 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Minimal Widget width (measured in cells)
+        ///     Gets or sets the minimal Widget width (measured in cells)
         /// </summary>
         public int MinColumnSpan
         {
@@ -158,7 +167,7 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Minimal Widget height (measured in cells)
+        ///     Gets or sets the minimal Widget height (measured in cells)
         /// </summary>
         public int MinRowSpan
         {
@@ -167,7 +176,7 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Widget height on <see cref="WidgetBoard">WidgetBoard</see> (measured in cells)
+        ///     Gets or sets the Y-position on <see cref="WidgetBoard">WidgetBoard</see> (measured in cells)
         /// </summary>
         public int Row
         {
@@ -176,7 +185,7 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Height on <see cref="WidgetBoard">WidgetBoard</see> (measured in cells)
+        ///     Gets or sets the height on <see cref="WidgetBoard">WidgetBoard</see> (measured in cells)
         /// </summary>
         public int RowSpan
         {
@@ -185,7 +194,7 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Representing the visibility state of Widget manipulator
+        ///     Gets or sets the visibility state of Widget manipulator
         /// </summary>
         public Visibility ManipulatorVisibility
         {
@@ -193,15 +202,13 @@ namespace ExperimentalProject.Views
             set => SetValue(ManipulatorVisibilityProperty, value);
         }
 
+        /// <summary>
+        ///     Gets or sets the visibility of the settings button
+        /// </summary>
         public Visibility SettingsButtonVisibility
         {
             get => (Visibility)GetValue(SettingsButtonVisibilityProperty);
             set => SetValue(SettingsButtonVisibilityProperty, value);
-        }
-        public double ShadowOpacity
-        {
-            get => (double)GetValue(ShadowOpacityProperty);
-            set => SetValue(ShadowOpacityProperty, value);
         }
 
         /// <summary>
@@ -281,17 +288,27 @@ namespace ExperimentalProject.Views
             if (d is Widget widget)
                 widget.Height = (int)e.NewValue * widget.cellSize;
         }
-        private static void OnShadowOpacityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is Widget widget)
-                widget.ShadowOpacity = (double)e.NewValue;
-        }
 
+        /// <summary>
+        ///     Handler that is called when the visibility state changes
+        /// </summary>
+        /// <param name="d">The <see cref="Widget" /> instance whose property has been changed</param>
+        /// <param name="e">An object that describes a change in a dependent property</param>
         private static void OnSettingsButtonVisibilityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is Widget widget) widget.SettingsButton.Visibility = (Visibility)e.NewValue;
         }
 
+        /// <summary>
+        ///     Handler that is called when the shadow opacity changes
+        /// </summary>
+        /// <param name="d">The <see cref="Widget" /> instance whose property has been changed</param>
+        /// <param name="e">An object that describes a change in a dependent property</param>
+        private static void OnShadowOpacityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is Widget widget)
+                widget.ShadowOpacity = (double)e.NewValue;
+        }
 
         /// <summary>
         ///     Set new Cell size and then update transform
