@@ -17,10 +17,10 @@
             PaletteForeground="White"
             IsGridDisplayed="{Binding IsGridDisplayed}"
 
-            GridColumnCount="10"
+            GridColumnCount="30"
             d:CellSize="60"
             WidgetsPalette="{Binding WidgetPalette}"
-            GridRowCount="6"
+            GridRowCount="20"
             IsSidebarHidden="{Binding IsSidebarHidden}"
             IsManipulatorHidden="{Binding IsManipulatorHidden}"
             WidgetsOnBoard="{Binding WidgetBoard}"
