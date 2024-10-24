@@ -12,6 +12,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UseExample", "UseExample\Us
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WidgetExportingExample", "WidgetExportingExample\WidgetExportingExample.csproj", "{8D3B4DD4-E4DD-4288-BD31-50D4CFFA5FBC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решения", "Элементы решения", "{052AC04E-44A6-4D84-BC3D-210E1A54D47D}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\Videos\Demo.gif = ..\..\..\Videos\Demo.gif
+		README.md = README.md
+		..\..\..\Videos\Demo.mp4 = ..\..\..\Videos\Demo.mp4
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
