@@ -97,7 +97,6 @@
     <None Include="App.config" />
     <None Include="Documentation.md" />
     <None Include="packages.config" />
-    <None Include="xmldoc2md.ps1" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\Widget.xaml">
@@ -115,7 +114,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documentation.xml" />
-    <Content Include="xmldoc2md.xsl" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
