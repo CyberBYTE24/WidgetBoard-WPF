@@ -26,7 +26,7 @@
             WidgetsOnBoard="{Binding WidgetBoard}"
             CellSize="{Binding CellSize, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
-        <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10pt">
+        <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10pt">
             <Button Command="{Binding ToggleSidebarVisibleCommand}">Sidebar</Button>
             <Button Command="{Binding ToggleManipulatorVisibleCommand}">Manipulator</Button>
             <Slider Width="120px" Minimum="50" Maximum="250" Value="{Binding CellSize, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
