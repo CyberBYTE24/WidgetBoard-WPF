@@ -8,6 +8,9 @@
              d:DesignHeight="1000" d:DesignWidth="1000"
              >
     <UserControl.Resources>
+        <Color x:Key="ForegroundColor">#888</Color>
+        <Color x:Key="FocusedColor">#ccc</Color>
+        <SolidColorBrush x:Key="ForegroundBrush" Color="{StaticResource ForegroundColor}" />
         <Style x:Key="WidgetPaletteScrollViewer" TargetType="ScrollViewer">
             <Setter Property="Template">
                 <Setter.Value>
@@ -67,7 +70,7 @@
                                                     Command="ScrollBar.LineUpCommand" 
                                                     Focusable="False" 
                                                     Height="0.5cm">
-                                                    <Path HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 10 L 7 0 L 14 10 Z" Fill="#999" />
+                                                    <Path HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 10 L 7 0 L 14 10 Z" Fill="{StaticResource ForegroundBrush}" />
 
                                                 </RepeatButton>
                                                 <RepeatButton 
@@ -76,7 +79,7 @@
                                                     Command="ScrollBar.LineDownCommand" 
                                                     Focusable="False" 
                                                     Height="0.5cm">
-                                                    <Path HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 7 10 L 14 0 Z" Fill="#999"/>
+                                                    <Path HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 7 10 L 14 0 Z" Fill="{StaticResource ForegroundBrush}"/>
 
                                                 </RepeatButton>
 
@@ -97,22 +100,22 @@
                                                         <Thumb Width="10pt">
                                                             <Thumb.Template>
                                                                 <ControlTemplate TargetType="Thumb">
-                                                                    <Border Background="#999" CornerRadius="7" BorderThickness="0">
+                                                                    <Border Background="{StaticResource ForegroundBrush}" Opacity="0.6" CornerRadius="7" BorderThickness="0">
                                                                         <VisualStateManager.VisualStateGroups>
                                                                             <VisualStateGroup x:Name="CommonStates">
                                                                                 <VisualState x:Name="Normal">
                                                                                     <Storyboard>
-                                                                                        <ColorAnimationUsingKeyFrames Duration="0:0:1" AutoReverse="False" DecelerationRatio="1" Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)">
-                                                                                            <EasingColorKeyFrame KeyTime="0%" Value="#fff"/>
-                                                                                            <EasingColorKeyFrame KeyTime="100%" Value="#999"/>
+                                                                                        <ColorAnimationUsingKeyFrames Duration="0:0:0.5" AutoReverse="False" DecelerationRatio="1" Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)">
+                                                                                            <EasingColorKeyFrame KeyTime="0%" Value="{StaticResource FocusedColor}"/>
+                                                                                            <EasingColorKeyFrame KeyTime="100%" Value="{StaticResource ForegroundColor}"/>
                                                                                         </ColorAnimationUsingKeyFrames>
                                                                                     </Storyboard>
                                                                                 </VisualState>
                                                                                 <VisualState x:Name="MouseOver">
                                                                                     <Storyboard>
-                                                                                        <ColorAnimationUsingKeyFrames Duration="0:0:1" AutoReverse="False" DecelerationRatio="1" Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)">
-                                                                                            <EasingColorKeyFrame KeyTime="0%" Value="#999"/>
-                                                                                            <EasingColorKeyFrame KeyTime="100%" Value="#fff"/>
+                                                                                        <ColorAnimationUsingKeyFrames Duration="0:0:0.5" AutoReverse="False" DecelerationRatio="1" Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)">
+                                                                                            <EasingColorKeyFrame KeyTime="0%" Value="{StaticResource ForegroundColor}"/>
+                                                                                            <EasingColorKeyFrame KeyTime="100%" Value="{StaticResource FocusedColor}"/>
                                                                                         </ColorAnimationUsingKeyFrames>
                                                                                     </Storyboard>
                                                                                 </VisualState>
@@ -151,11 +154,7 @@
                                 <RowDefinition />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <Border Grid.Column="0"
-                                    BorderThickness="0,1,1,1">
-                                <Border.BorderBrush>
-                                    <SolidColorBrush Color="{DynamicResource BorderMediumColor}" />
-                                </Border.BorderBrush>
+                            <Border Grid.Column="0" BorderThickness="0">
                                 <ScrollContentPresenter CanContentScroll="{TemplateBinding CanContentScroll}" />
                             </Border>
                             <ScrollBar Grid.Row="0"
