@@ -45,12 +45,7 @@ namespace UseExample.ViewModels
             var parent = typeof(WidgetPalette);
             var inheritingTypes = a.DefinedTypes.Where(t => parent.IsAssignableFrom(t)).ToList();
             foreach (var type in inheritingTypes)
-            {
-
                 WidgetPalette.Add((WidgetPalette)type.GetConstructor(new Type[] { })?.Invoke(new object[] { }));
-                WidgetPalette.Add((WidgetPalette)type.GetConstructor(new Type[] { })?.Invoke(new object[] { }));
-                WidgetPalette.Add((WidgetPalette)type.GetConstructor(new Type[] { })?.Invoke(new object[] { }));
-            }
 
             if (string.IsNullOrEmpty(Settings.Default.WidgetSerialized)) return;
             var serializer = new XmlSerializer(typeof(List<WidgetSerializable>));
