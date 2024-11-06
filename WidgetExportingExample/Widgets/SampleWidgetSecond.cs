@@ -6,7 +6,7 @@ namespace WidgetExportingExample.Widgets
 {
     internal class SampleWidgetSecond : ExperimentalProject.Widget
     {
-        public SampleWidgetSecond(UserControl control, IUserWidgetViewModel widgetViewModel, Guid widgetId) : base(control, widgetViewModel, widgetId)
+        public SampleWidgetSecond(UserControl control, object widgetViewModel, Guid widgetId) : base(control, widgetViewModel, widgetId)
         {
             Title = "Sample Widget 2";
             MinColumnSpan = 2;

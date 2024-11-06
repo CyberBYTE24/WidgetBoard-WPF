@@ -15,7 +15,7 @@ namespace ExperimentalProject
     public abstract class WidgetPalette : INotifyPropertyChanged
     {
         private readonly Type widgetControlType;
-        private readonly Type widgetControlViewModel;
+        private readonly Type widgetViewModelType;
         private readonly Type widgetType;
         private Guid widgetId;
         private RelayCommand createWidgetCommand;
@@ -36,9 +36,9 @@ namespace ExperimentalProject
         ///     The type that should inherit <see cref="UserControl">UserControl</see> and that will be
         ///     embedded in the Widget.
         /// </param>
-        /// <param name="widgetControlViewModel"></param>
+        /// <param name="widgetViewModelType"></param>
         /// <exception cref="ArgumentException">Occurs when types are passed as arguments that do not inherit the required classes.</exception>
-        protected WidgetPalette(Type widgetType, Type widgetControlType, Type widgetControlViewModel)
+        protected WidgetPalette(Type widgetType, Type widgetControlType, Type widgetViewModelType)
         {
             WidgetPaletteView = new V.WidgetPalette
             {
@@ -50,17 +50,17 @@ namespace ExperimentalProject
             if (widgetControlType.BaseType != typeof(UserControl))
                 throw new ArgumentException(
                     "Expected to get class type inherited from `System.Windows.Controls.UserControl` in `widgetControlType` argument");
-            //if (widgetControlViewModel.GetInterfaces().All(x => x != typeof(IUserWidgetViewModel)))
+            //if (widgetViewModelType.GetInterfaces().All(x => x != typeof(IUserWidgetViewModel)))
             //    throw new ArgumentException(
-            //        "Expected to get class type what implement `IUserWidgetViewModel` in `widgetControlViewModel` argument");
+            //        "Expected to get class type what implement `IUserWidgetViewModel` in `widgetViewModelType` argument");
 
-            if (widgetControlViewModel != null && widgetControlViewModel.GetInterfaces().Any(x => x == typeof(IUserWidgetViewModel)))
+            if (widgetViewModelType != null && widgetViewModelType.GetInterfaces().Any(x => x == typeof(IUserWidgetViewModel)))
                 isWidgetSettingsEnabled = true;
 
 
             this.widgetType = widgetType;
             this.widgetControlType = widgetControlType;
-            this.widgetControlViewModel = widgetControlViewModel;
+            this.widgetViewModelType = widgetViewModelType;
         }
 
         /// <summary>
@@ -177,27 +177,24 @@ namespace ExperimentalProject
                 throw new Exception("ControlView class does not have a constructor with zero argument overload");
 
 
-            IUserWidgetViewModel controlViewModel = null;
+            object controlViewModel = null;
 
-            if (widgetControlViewModel != null &&
-                widgetControlViewModel.GetInterfaces().Any(x => x == typeof(IUserWidgetViewModel)))
+            if (widgetViewModelType != null)
             {
-                controlViewModel =
-                    (IUserWidgetViewModel)widgetControlViewModel.GetConstructor(new Type[] { })
+                controlViewModel = widgetViewModelType.GetConstructor(new Type[] { })
                         ?.Invoke(new object[] { });
                 if (controlViewModel == null)
                     throw new Exception("ControlViewModel class does not have a constructor with zero argument overload");
-
             }
 
-            var widget = (Widget)widgetType.GetConstructor(new[] { typeof(UserControl), typeof(IUserWidgetViewModel), typeof(Guid) })
+            var widget = (Widget)widgetType.GetConstructor(new[] { typeof(UserControl), typeof(object), typeof(Guid) })
                 ?.Invoke(new object[] { controlView, controlViewModel, WidgetId });
 
             if (widget == null)
                 throw new Exception(
-                    "ControlView class does not have a constructor with two arguments overload `UserControl` and `IUserWidgetViewModel`");
+                    "ControlView class does not have a constructor with two arguments overload `UserControl` and `object` for ViewModel");
 
-            widget.IsSettingsButtonVisible = isWidgetSettingsEnabled;
+            widget.IsSettingsButtonVisible = controlViewModel is IUserWidgetViewModel;
 
             OnCreateWidgetEvent?.Invoke(this, widget);
             return widget;

@@ -15,7 +15,7 @@ namespace ExperimentalProject
     /// </summary>
     public abstract class Widget : INotifyPropertyChanged
     {
-        private readonly IUserWidgetViewModel widgetViewModelControlViewModel;
+        private readonly object widgetViewModelControlViewModel;
         private readonly V.Widget widgetView;
         private double shadowOpacity;
         private int column;
@@ -34,7 +34,7 @@ namespace ExperimentalProject
         /// </summary>
         /// <param name="widgetControl"><see cref="UserControl" /> to be included in the widget</param>
         /// <param name="widgetViewModelControlViewModel"></param>
-        protected Widget(UserControl widgetControl, IUserWidgetViewModel widgetViewModelControlViewModel, Guid widgetId)
+        protected Widget(UserControl widgetControl, object widgetViewModelControlViewModel, Guid widgetId)
         {
             this.widgetViewModelControlViewModel = widgetViewModelControlViewModel;
             widgetControl.DataContext = widgetViewModelControlViewModel;
@@ -100,7 +100,8 @@ namespace ExperimentalProject
                 if (string.IsNullOrEmpty(value))
                     return;
                 settings = value;
-                widgetViewModelControlViewModel.Settings = value;
+                if(widgetViewModelControlViewModel is IUserWidgetViewModel model)
+                    model.Settings = value;
                 OnPropertyChanged();
             }
         }
