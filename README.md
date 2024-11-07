@@ -1,35 +1,25 @@
-# Доска виджетов (WPF)
+# Widget Board (WPF)
  | ReadMe | [Documentation](ExperimentalProject/Documentation.md) | 
 
-## Описание
+## Description
 
-Данная библиотека компонентов WPF предоставляет компонент WidgetBoard, на котором вы можете реализовать UI, предоставляющий пользователю возможность размещения и масштабирования ваших UserControl в его поле
+This WPF component library provides a WidgetBoard component on which you can implement a user interface that allows the user to position and scale your UserControl within its field.
 
 ![](Assets/Demo.gif)
 
-## Состав решения
+## Composition of the solution
 
-- Библиотека WidgetBoard
-- Пример библиотеки для реализации виджетов для доски
-- Пример реализации WidgetBoard с получением виджетов из библиотеки
+- WidgetBoard Library
+- Example of a library for implementing widgets for a board
+- Example of implementing WidgetBoard with getting widgets from a library
 
-## Функционал
+## Functional
 
-Данное решение умеет:
-- привязывать расположение и масштаб виджетов к сетке
-- предоставлять настраиваемые размерность сетки и размер ячейки
-- принимать цветовые схемы оформления через свойства
-- передавать экземплярам виджетов пользовательские настройки
-- сериализовать и десериализовать расположение и виджетов, а также их настройки
-- сохранять и восстанавливать положение виджетов и их настройки при открытии
-
-## Благодарности
-
-- [Кулаков Илья](http://192.168.188.66/Kulakov)
-  - Программирование первого продукта с применением компонента
-  - Тестирование
-  - Предложение о расширении функционала
-- [Гаряев Иван](http://192.168.188.66/Garyaev)
-  - Тестирование
-  - Предолжение о расширении функционала и повышении удобства
-  - Программирование первого продукта с применением компонента
+This solution can:
+- bind the location and scale of widgets to the grid
+- provide custom grid dimensions and cell sizes
+- make the cell size adaptive to the size of the WPF element
+- accept color schemes via properties
+- pass user settings to widget instances
+- serialize and deserialize the location of widgets and their settings
+- save and restore the position of widgets and their settings when opened
