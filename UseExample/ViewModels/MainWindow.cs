@@ -30,7 +30,8 @@ namespace UseExample.ViewModels
         private bool isManipulatorHidden = true;
         private bool isSidebarHidden = true;
         private Brush backgroundImage = Brushes.LightSlateGray;
-        private double cellSize = 120;
+        private double cellWidth = 120;
+        private double cellHeight = 120;
         private RelayCommand setBackgroundCommand;
         private RelayCommand toggleManipulatorCommand;
         private RelayCommand toggleSidebarCommand;
@@ -127,14 +128,27 @@ namespace UseExample.ViewModels
         }
 
         /// <summary>
-        ///     Bound property for cell size
+        ///     Bound property for cell width
         /// </summary>
-        public double CellSize
+        public double CellWidth
         {
-            get => cellSize;
+            get => cellWidth;
             set
             {
-                cellSize = value;
+                cellWidth = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        ///     Bound property for cell height
+        /// </summary>
+        public double CellHeight
+        {
+            get => cellHeight;
+            set
+            {
+                cellHeight = value;
                 OnPropertyChanged();
             }
         }

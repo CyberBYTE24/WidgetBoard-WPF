@@ -18,18 +18,21 @@
             IsGridDisplayed="{Binding IsGridDisplayed}"
 
             GridColumnCount="30"
-            d:CellSize="60"
+            d:CellWidth="50"
+            d:CellHeight="60"
             WidgetsPalette="{Binding WidgetPalette}"
             GridRowCount="20"
             IsSidebarHidden="{Binding IsSidebarHidden}"
             IsManipulatorHidden="{Binding IsManipulatorHidden}"
             WidgetsOnBoard="{Binding WidgetBoard}"
-            CellSize="{Binding CellSize, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            CellWidth="{Binding CellWidth, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            CellHeight="{Binding CellHeight, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
         <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10pt">
             <Button Command="{Binding ToggleSidebarVisibleCommand}">Sidebar</Button>
             <Button Command="{Binding ToggleManipulatorVisibleCommand}">Manipulator</Button>
-            <Slider Width="120px" Minimum="50" Maximum="250" Value="{Binding CellSize, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+            <Slider Width="120px" Minimum="50" Maximum="250" Value="{Binding CellHeight, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+            <Slider Width="120px" Minimum="50" Maximum="250" Value="{Binding CellWidth, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
             <Button Command="{Binding SetBackgroundCommand}">Set Background</Button>
         </StackPanel>
     </Grid>

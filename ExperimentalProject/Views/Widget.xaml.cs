@@ -23,7 +23,8 @@ namespace ExperimentalProject.Views
 
         private bool isDragging;
         private bool isResizing;
-        private double cellSize = 100;
+        private double cellHeight = 150;
+        private double cellWidth = 200;
         private Point lastPosition;
 
         /// <summary>
@@ -219,7 +220,7 @@ namespace ExperimentalProject.Views
         private static void OnColumnChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is Widget widget)
-                Canvas.SetLeft(widget, (int)e.NewValue * widget.cellSize);
+                Canvas.SetLeft(widget, (int)e.NewValue * widget.cellWidth);
         }
 
         /// <summary>
@@ -230,7 +231,7 @@ namespace ExperimentalProject.Views
         private static void OnColumnSpanChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is Widget widget)
-                widget.Width = (int)e.NewValue * widget.cellSize;
+                widget.Width = (int)e.NewValue * widget.cellWidth;
         }
 
         /// <summary>
@@ -275,7 +276,7 @@ namespace ExperimentalProject.Views
         private static void OnRowChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is Widget widget)
-                Canvas.SetTop(widget, (int)e.NewValue * widget.cellSize);
+                Canvas.SetTop(widget, (int)e.NewValue * widget.cellHeight);
         }
 
         /// <summary>
@@ -286,7 +287,7 @@ namespace ExperimentalProject.Views
         private static void OnRowSpanChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is Widget widget)
-                widget.Height = (int)e.NewValue * widget.cellSize;
+                widget.Height = (int)e.NewValue * widget.cellHeight;
         }
 
         /// <summary>
@@ -311,12 +312,17 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Set new Cell size and then update transform
+        ///     Set new Cell height and then update transform
         /// </summary>
-        /// <param name="newCellSize"></param>
-        internal void SetCellSize(double newCellSize)
+        /// <param name="value"></param>
+        internal void SetCellHeight(double value)
         {
-            cellSize = newCellSize;
+            cellHeight = value;
+            InitializeOnBoard();
+        }
+        internal void SetCellWidth(double value)
+        {
+            cellWidth = value;
             InitializeOnBoard();
         }
 
@@ -348,8 +354,8 @@ namespace ExperimentalProject.Views
             var left = Canvas.GetLeft(this);
             var top = Canvas.GetTop(this);
 
-            var snappedLeft = Math.Round(left / cellSize) * cellSize;
-            var snappedTop = Math.Round(top / cellSize) * cellSize;
+            var snappedLeft = Math.Round(left /cellWidth) * cellWidth;
+            var snappedTop = Math.Round(top / cellHeight) * cellHeight;
 
             var leftAnimation = new DoubleAnimation
             {
@@ -383,8 +389,8 @@ namespace ExperimentalProject.Views
             BeginAnimation(Canvas.LeftProperty, leftAnimation);
             BeginAnimation(Canvas.TopProperty, topAnimation);
 
-            Column = (int)Math.Round(snappedLeft / cellSize);
-            Row = (int)Math.Round(snappedTop / cellSize);
+            Column = (int)Math.Round(snappedLeft / cellWidth);
+            Row = (int)Math.Round(snappedTop / cellHeight);
             InitializeOnBoard();
         }
 
@@ -426,12 +432,12 @@ namespace ExperimentalProject.Views
         /// </summary>
         private void InitializeOnBoard()
         {
-            Canvas.SetTop(this, Row * cellSize);
-            Canvas.SetLeft(this, Column * cellSize);
-            Height = RowSpan * cellSize;
-            Width = ColumnSpan * cellSize;
-            MinWidth = cellSize * MinColumnSpan;
-            MinHeight = cellSize * MinRowSpan;
+            Canvas.SetTop(this, Row * cellHeight);
+            Canvas.SetLeft(this, Column * cellWidth);
+            Height = RowSpan * cellHeight;
+            Width = ColumnSpan * cellWidth;
+            MinWidth = cellWidth * MinColumnSpan;
+            MinHeight = cellHeight * MinRowSpan;
         }
 
         /// <summary>
@@ -466,8 +472,8 @@ namespace ExperimentalProject.Views
             isResizing = false;
             Mouse.Capture(null);
 
-            var newWidth = Math.Round(Width / cellSize) * cellSize;
-            var newHeight = Math.Round(Height / cellSize) * cellSize;
+            var newWidth = Math.Round(Width / cellWidth) * cellWidth;
+            var newHeight = Math.Round(Height / cellHeight) * cellHeight;
 
             var widthAnimation = new DoubleAnimation
             {
@@ -498,8 +504,8 @@ namespace ExperimentalProject.Views
             };
             BeginAnimation(WidthProperty, widthAnimation);
             BeginAnimation(HeightProperty, heightAnimation);
-            RowSpan = Math.Max((int)Math.Round(newHeight / cellSize), MinRowSpan);
-            ColumnSpan = Math.Max((int)Math.Round(newWidth / cellSize), MinColumnSpan);
+            RowSpan = Math.Max((int)Math.Round(newHeight / cellHeight), MinRowSpan);
+            ColumnSpan = Math.Max((int)Math.Round(newWidth / cellWidth), MinColumnSpan);
 
             InitializeOnBoard();
         }
