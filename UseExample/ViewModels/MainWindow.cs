@@ -29,9 +29,12 @@ namespace UseExample.ViewModels
         private bool isGridDisplayed;
         private bool isManipulatorHidden = true;
         private bool isSidebarHidden = true;
+        private bool isAutoCellSize = true;
         private Brush backgroundImage = Brushes.LightSlateGray;
         private double cellWidth = 120;
         private double cellHeight = 120;
+        private int gridColumnCount = 10;
+        private int gridRowCount = 5;
         private RelayCommand setBackgroundCommand;
         private RelayCommand toggleManipulatorCommand;
         private RelayCommand toggleSidebarCommand;
@@ -140,6 +143,16 @@ namespace UseExample.ViewModels
             }
         }
 
+        public bool IsAutoCellSize
+        {
+            get => isAutoCellSize;
+            set
+            {
+                isAutoCellSize = value;
+                OnPropertyChanged();
+            }
+        }
+
         /// <summary>
         ///     Bound property for cell height
         /// </summary>
@@ -149,6 +162,26 @@ namespace UseExample.ViewModels
             set
             {
                 cellHeight = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int GridColumnCount
+        {
+            get => gridColumnCount;
+            set
+            {
+                gridColumnCount = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int GridRowCount
+        {
+            get=> gridRowCount;
+            set
+            {
+                gridRowCount = value;
                 OnPropertyChanged();
             }
         }

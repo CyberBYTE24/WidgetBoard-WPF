@@ -132,7 +132,7 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        /// The transparency of the shadow cast by the widget
+        ///     The transparency of the shadow cast by the widget
         /// </summary>
         public double ShadowOpacity
         {
@@ -312,14 +312,19 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Set new Cell height and then update transform
+        ///     Set new cell height and then update transform
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="value">New cell height</param>
         internal void SetCellHeight(double value)
         {
             cellHeight = value;
             InitializeOnBoard();
         }
+
+        /// <summary>
+        ///     Set new cell width and then update transform
+        /// </summary>
+        /// <param name="value">New cell width</param>
         internal void SetCellWidth(double value)
         {
             cellWidth = value;
@@ -354,7 +359,7 @@ namespace ExperimentalProject.Views
             var left = Canvas.GetLeft(this);
             var top = Canvas.GetTop(this);
 
-            var snappedLeft = Math.Round(left /cellWidth) * cellWidth;
+            var snappedLeft = Math.Round(left / cellWidth) * cellWidth;
             var snappedTop = Math.Round(top / cellHeight) * cellHeight;
 
             var leftAnimation = new DoubleAnimation

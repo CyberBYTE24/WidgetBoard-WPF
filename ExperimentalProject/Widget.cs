@@ -101,7 +101,7 @@ namespace ExperimentalProject
                 if (string.IsNullOrEmpty(value))
                     return;
                 settings = value;
-                if(widgetViewModel is IUserWidgetViewModel model)
+                if (widgetViewModel is IUserWidgetViewModel model)
                     model.Settings = value;
                 OnPropertyChanged();
             }
@@ -117,7 +117,7 @@ namespace ExperimentalProject
         }
 
         /// <summary>
-        /// Gets or sets the flag representing the visibility state of Settings Button in header
+        ///     Gets or sets the flag representing the visibility state of Settings Button in header
         /// </summary>
         public bool IsSettingsButtonVisible
         {

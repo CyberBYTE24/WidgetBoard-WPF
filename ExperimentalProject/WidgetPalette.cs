@@ -14,15 +14,15 @@ namespace ExperimentalProject
     /// </summary>
     public abstract class WidgetPalette : INotifyPropertyChanged
     {
+        private readonly bool isWidgetSettingsEnabled;
         private readonly Type widgetControlType;
-        private readonly Type widgetViewModelType;
         private readonly Type widgetType;
+        private readonly Type widgetViewModelType;
+        private byte[] iconBytes;
         private Guid widgetId;
         private RelayCommand createWidgetCommand;
-        private string title;
         private string groupName;
-        private byte[] iconBytes;
-        private readonly bool isWidgetSettingsEnabled;
+        private string title;
 
         /// <summary>
         ///     Class that provides the ability to create widgets on a
@@ -54,7 +54,8 @@ namespace ExperimentalProject
             //    throw new ArgumentException(
             //        "Expected to get class type what implement `IUserWidgetViewModel` in `widgetViewModelType` argument");
 
-            if (widgetViewModelType != null && widgetViewModelType.GetInterfaces().Any(x => x == typeof(IUserWidgetViewModel)))
+            if (widgetViewModelType != null &&
+                widgetViewModelType.GetInterfaces().Any(x => x == typeof(IUserWidgetViewModel)))
                 isWidgetSettingsEnabled = true;
 
 
@@ -81,32 +82,6 @@ namespace ExperimentalProject
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        ///     Gets or sets the name for grouping widgets in the palette
-        /// </summary>
-        public string GroupName
-        {
-            get => groupName;
-            set
-            {
-                groupName = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        ///     Gets or sets the title displayed in the interface of the <see cref="WidgetPalette" />
-        /// </summary>
-        public string Title
-        {
-            get => title;
-            set
-            {
-                title = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
         ///     Gets or sets the ByteArray of SVG file for drawing the icon
         /// </summary>
         public byte[] IconBytes
@@ -119,11 +94,6 @@ namespace ExperimentalProject
                 OnPropertyChanged(nameof(IconBase64));
             }
         }
-
-        /// <summary>
-        ///     Gets the Icon in Base64 format
-        /// </summary>
-        public string IconBase64 => $"data:image/svg+xml;base64,{Convert.ToBase64String(IconBytes)}";
 
         /// <summary>
         ///     Gets or protected sets the widget variant ID
@@ -147,6 +117,37 @@ namespace ExperimentalProject
             {
                 return createWidgetCommand ??
                        (createWidgetCommand = new RelayCommand(obj => { CreateWidgetInstance(); }));
+            }
+        }
+
+        /// <summary>
+        ///     Gets or sets the name for grouping widgets in the palette
+        /// </summary>
+        public string GroupName
+        {
+            get => groupName;
+            set
+            {
+                groupName = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        ///     Gets the Icon in Base64 format
+        /// </summary>
+        public string IconBase64 => $"data:image/svg+xml;base64,{Convert.ToBase64String(IconBytes)}";
+
+        /// <summary>
+        ///     Gets or sets the title displayed in the interface of the <see cref="WidgetPalette" />
+        /// </summary>
+        public string Title
+        {
+            get => title;
+            set
+            {
+                title = value;
+                OnPropertyChanged();
             }
         }
 
@@ -182,13 +183,14 @@ namespace ExperimentalProject
             if (widgetViewModelType != null)
             {
                 controlViewModel = widgetViewModelType.GetConstructor(new Type[] { })
-                        ?.Invoke(new object[] { });
+                    ?.Invoke(new object[] { });
                 if (controlViewModel == null)
-                    throw new Exception("ControlViewModel class does not have a constructor with zero argument overload");
+                    throw new Exception(
+                        "ControlViewModel class does not have a constructor with zero argument overload");
             }
 
             var widget = (Widget)widgetType.GetConstructor(new[] { typeof(UserControl), typeof(object), typeof(Guid) })
-                ?.Invoke(new object[] { controlView, controlViewModel, WidgetId });
+                ?.Invoke(new[] { controlView, controlViewModel, WidgetId });
 
             if (widget == null)
                 throw new Exception(

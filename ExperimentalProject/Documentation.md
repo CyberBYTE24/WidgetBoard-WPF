@@ -56,6 +56,7 @@
   - [ResizeMouseLeftButtonUpHandler(sender,e)](#M-ExperimentalProject-Views-Widget-ResizeMouseLeftButtonUpHandler-System-Object,System-Windows-Input-MouseButtonEventArgs- 'ExperimentalProject.Views.Widget.ResizeMouseLeftButtonUpHandler(System.Object,System.Windows.Input.MouseButtonEventArgs)')
   - [ResizeMouseMoveHandler(sender,e)](#M-ExperimentalProject-Views-Widget-ResizeMouseMoveHandler-System-Object,System-Windows-Input-MouseEventArgs- 'ExperimentalProject.Views.Widget.ResizeMouseMoveHandler(System.Object,System.Windows.Input.MouseEventArgs)')
   - [SetCellHeight(value)](#M-ExperimentalProject-Views-Widget-SetCellHeight-System-Double- 'ExperimentalProject.Views.Widget.SetCellHeight(System.Double)')
+  - [SetCellWidth(value)](#M-ExperimentalProject-Views-Widget-SetCellWidth-System-Double- 'ExperimentalProject.Views.Widget.SetCellWidth(System.Double)')
   - [TopAnimation_Completed(sender,e)](#M-ExperimentalProject-Views-Widget-TopAnimation_Completed-System-Object,System-EventArgs- 'ExperimentalProject.Views.Widget.TopAnimation_Completed(System.Object,System.EventArgs)')
   - [WidthAnimation_Completed(sender,e)](#M-ExperimentalProject-Views-Widget-WidthAnimation_Completed-System-Object,System-EventArgs- 'ExperimentalProject.Views.Widget.WidthAnimation_Completed(System.Object,System.EventArgs)')
   - [OnPropertyChanged(prop)](#M-ExperimentalProject-Widget-OnPropertyChanged-System-String- 'ExperimentalProject.Widget.OnPropertyChanged(System.String)')
@@ -63,6 +64,7 @@
   - [SetCellWidth(value)](#M-ExperimentalProject-Widget-SetCellWidth-System-Double- 'ExperimentalProject.Widget.SetCellWidth(System.Double)')
 - [WidgetBoard](#T-ExperimentalProject-Views-WidgetBoard 'ExperimentalProject.Views.WidgetBoard')
   - [#ctor()](#M-ExperimentalProject-Views-WidgetBoard-#ctor 'ExperimentalProject.Views.WidgetBoard.#ctor')
+  - [AutoCellSize](#P-ExperimentalProject-Views-WidgetBoard-AutoCellSize 'ExperimentalProject.Views.WidgetBoard.AutoCellSize')
   - [BoardBackground](#P-ExperimentalProject-Views-WidgetBoard-BoardBackground 'ExperimentalProject.Views.WidgetBoard.BoardBackground')
   - [BoardForeground](#P-ExperimentalProject-Views-WidgetBoard-BoardForeground 'ExperimentalProject.Views.WidgetBoard.BoardForeground')
   - [CellHeight](#P-ExperimentalProject-Views-WidgetBoard-CellHeight 'ExperimentalProject.Views.WidgetBoard.CellHeight')
@@ -80,6 +82,7 @@
   - [#cctor()](#M-ExperimentalProject-Views-WidgetBoard-#cctor 'ExperimentalProject.Views.WidgetBoard.#cctor')
   - [AddWidget(widget)](#M-ExperimentalProject-Views-WidgetBoard-AddWidget-ExperimentalProject-Widget- 'ExperimentalProject.Views.WidgetBoard.AddWidget(ExperimentalProject.Widget)')
   - [InitializeComponent()](#M-ExperimentalProject-Views-WidgetBoard-InitializeComponent 'ExperimentalProject.Views.WidgetBoard.InitializeComponent')
+  - [OnAutoCellSizeChanged(d,e)](#M-ExperimentalProject-Views-WidgetBoard-OnAutoCellSizeChanged-System-Windows-DependencyObject,System-Windows-DependencyPropertyChangedEventArgs- 'ExperimentalProject.Views.WidgetBoard.OnAutoCellSizeChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)')
   - [OnBoardBackgroundChanged(d,e)](#M-ExperimentalProject-Views-WidgetBoard-OnBoardBackgroundChanged-System-Windows-DependencyObject,System-Windows-DependencyPropertyChangedEventArgs- 'ExperimentalProject.Views.WidgetBoard.OnBoardBackgroundChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)')
   - [OnBoardChangedHandler(sender,e)](#M-ExperimentalProject-Views-WidgetBoard-OnBoardChangedHandler-System-Object,System-Collections-Specialized-NotifyCollectionChangedEventArgs- 'ExperimentalProject.Views.WidgetBoard.OnBoardChangedHandler(System.Object,System.Collections.Specialized.NotifyCollectionChangedEventArgs)')
   - [OnBoardForegroundChanged(d,e)](#M-ExperimentalProject-Views-WidgetBoard-OnBoardForegroundChanged-System-Windows-DependencyObject,System-Windows-DependencyPropertyChangedEventArgs- 'ExperimentalProject.Views.WidgetBoard.OnBoardForegroundChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)')
@@ -88,19 +91,24 @@
   - [OnCreateWidgetHandler(sender,widget)](#M-ExperimentalProject-Views-WidgetBoard-OnCreateWidgetHandler-System-Object,ExperimentalProject-Widget- 'ExperimentalProject.Views.WidgetBoard.OnCreateWidgetHandler(System.Object,ExperimentalProject.Widget)')
   - [OnGridColumnCountChanged(d,e)](#M-ExperimentalProject-Views-WidgetBoard-OnGridColumnCountChanged-System-Windows-DependencyObject,System-Windows-DependencyPropertyChangedEventArgs- 'ExperimentalProject.Views.WidgetBoard.OnGridColumnCountChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)')
   - [OnGridRowCountChanged(d,e)](#M-ExperimentalProject-Views-WidgetBoard-OnGridRowCountChanged-System-Windows-DependencyObject,System-Windows-DependencyPropertyChangedEventArgs- 'ExperimentalProject.Views.WidgetBoard.OnGridRowCountChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)')
+  - [OnIsGridDisplayedChanged(d,e)](#M-ExperimentalProject-Views-WidgetBoard-OnIsGridDisplayedChanged-System-Windows-DependencyObject,System-Windows-DependencyPropertyChangedEventArgs- 'ExperimentalProject.Views.WidgetBoard.OnIsGridDisplayedChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)')
   - [OnIsManipulatorHiddenChanged(d,e)](#M-ExperimentalProject-Views-WidgetBoard-OnIsManipulatorHiddenChanged-System-Windows-DependencyObject,System-Windows-DependencyPropertyChangedEventArgs- 'ExperimentalProject.Views.WidgetBoard.OnIsManipulatorHiddenChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)')
   - [OnIsSidebarHiddenChanged(d,e)](#M-ExperimentalProject-Views-WidgetBoard-OnIsSidebarHiddenChanged-System-Windows-DependencyObject,System-Windows-DependencyPropertyChangedEventArgs- 'ExperimentalProject.Views.WidgetBoard.OnIsSidebarHiddenChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)')
+  - [OnLoad(sender)](#M-ExperimentalProject-Views-WidgetBoard-OnLoad-System-Object,System-Windows-RoutedEventArgs- 'ExperimentalProject.Views.WidgetBoard.OnLoad(System.Object,System.Windows.RoutedEventArgs)')
   - [OnPaletteBackgroundChanged(d,e)](#M-ExperimentalProject-Views-WidgetBoard-OnPaletteBackgroundChanged-System-Windows-DependencyObject,System-Windows-DependencyPropertyChangedEventArgs- 'ExperimentalProject.Views.WidgetBoard.OnPaletteBackgroundChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)')
   - [OnPaletteChangedHandler(sender,e)](#M-ExperimentalProject-Views-WidgetBoard-OnPaletteChangedHandler-System-Object,System-Collections-Specialized-NotifyCollectionChangedEventArgs- 'ExperimentalProject.Views.WidgetBoard.OnPaletteChangedHandler(System.Object,System.Collections.Specialized.NotifyCollectionChangedEventArgs)')
   - [OnPaletteForegroundChanged(d,e)](#M-ExperimentalProject-Views-WidgetBoard-OnPaletteForegroundChanged-System-Windows-DependencyObject,System-Windows-DependencyPropertyChangedEventArgs- 'ExperimentalProject.Views.WidgetBoard.OnPaletteForegroundChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)')
+  - [OnSizeChanged(sender,e)](#M-ExperimentalProject-Views-WidgetBoard-OnSizeChanged-System-Object,System-Windows-SizeChangedEventArgs- 'ExperimentalProject.Views.WidgetBoard.OnSizeChanged(System.Object,System.Windows.SizeChangedEventArgs)')
   - [OnWidgetsOnBoardChanged(d,e)](#M-ExperimentalProject-Views-WidgetBoard-OnWidgetsOnBoardChanged-System-Windows-DependencyObject,System-Windows-DependencyPropertyChangedEventArgs- 'ExperimentalProject.Views.WidgetBoard.OnWidgetsOnBoardChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)')
   - [OnWidgetsPaletteChanged(d,e)](#M-ExperimentalProject-Views-WidgetBoard-OnWidgetsPaletteChanged-System-Windows-DependencyObject,System-Windows-DependencyPropertyChangedEventArgs- 'ExperimentalProject.Views.WidgetBoard.OnWidgetsPaletteChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)')
   - [OnWidthAnimationCompletedHandler(sender,e)](#M-ExperimentalProject-Views-WidgetBoard-OnWidthAnimationCompletedHandler-System-Object,System-EventArgs- 'ExperimentalProject.Views.WidgetBoard.OnWidthAnimationCompletedHandler(System.Object,System.EventArgs)')
   - [RemoveWidget(widget)](#M-ExperimentalProject-Views-WidgetBoard-RemoveWidget-ExperimentalProject-Widget- 'ExperimentalProject.Views.WidgetBoard.RemoveWidget(ExperimentalProject.Widget)')
-  - [RenderGrid()](#M-ExperimentalProject-Views-WidgetBoard-RenderGrid 'ExperimentalProject.Views.WidgetBoard.RenderGrid')
   - [RenderWidgetPalette()](#M-ExperimentalProject-Views-WidgetBoard-RenderWidgetPalette 'ExperimentalProject.Views.WidgetBoard.RenderWidgetPalette')
+  - [ResizeGrid()](#M-ExperimentalProject-Views-WidgetBoard-ResizeGrid 'ExperimentalProject.Views.WidgetBoard.ResizeGrid')
+  - [ToggleAutoCellSize()](#M-ExperimentalProject-Views-WidgetBoard-ToggleAutoCellSize 'ExperimentalProject.Views.WidgetBoard.ToggleAutoCellSize')
   - [ToggleWidgetManipulators()](#M-ExperimentalProject-Views-WidgetBoard-ToggleWidgetManipulators 'ExperimentalProject.Views.WidgetBoard.ToggleWidgetManipulators')
   - [ToggleWidgetSidebar()](#M-ExperimentalProject-Views-WidgetBoard-ToggleWidgetSidebar 'ExperimentalProject.Views.WidgetBoard.ToggleWidgetSidebar')
+  - [UpdateGridDimensions()](#M-ExperimentalProject-Views-WidgetBoard-UpdateGridDimensions 'ExperimentalProject.Views.WidgetBoard.UpdateGridDimensions')
 - [WidgetPalette](#T-ExperimentalProject-Views-WidgetPalette 'ExperimentalProject.Views.WidgetPalette')
 - [WidgetPalette](#T-ExperimentalProject-WidgetPalette 'ExperimentalProject.WidgetPalette')
   - [#ctor()](#M-ExperimentalProject-Views-WidgetPalette-#ctor 'ExperimentalProject.Views.WidgetPalette.#ctor')
@@ -663,13 +671,26 @@ Handler called during Widget Resize
 
 ##### Summary
 
-Set new Cell height and then update transform
+Set new cell height and then update transform
 
 ##### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| value | [System.Double](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Double 'System.Double') |  |
+| value | [System.Double](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Double 'System.Double') | New cell height |
+
+<a name='M-ExperimentalProject-Views-Widget-SetCellWidth-System-Double-'></a>
+### SetCellWidth(value) `method`
+
+##### Summary
+
+Set new cell width and then update transform
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| value | [System.Double](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Double 'System.Double') | New cell width |
 
 <a name='M-ExperimentalProject-Views-Widget-TopAnimation_Completed-System-Object,System-EventArgs-'></a>
 ### TopAnimation_Completed(sender,e) `method`
@@ -760,6 +781,13 @@ Class for handling interface logic and providing bindings
 ##### Parameters
 
 This constructor has no parameters.
+
+<a name='P-ExperimentalProject-Views-WidgetBoard-AutoCellSize'></a>
+### AutoCellSize `property`
+
+##### Summary
+
+Gets or sets the activity of calculated cell sizes
 
 <a name='P-ExperimentalProject-Views-WidgetBoard-BoardBackground'></a>
 ### BoardBackground `property`
@@ -857,7 +885,8 @@ Gets or sets the collection of [Widget](#T-ExperimentalProject-Widget 'Experimen
 
 ##### Summary
 
-Gets or sets the collection of [WidgetPalette](#T-ExperimentalProject-WidgetPalette 'ExperimentalProject.WidgetPalette') located on a board
+Gets or sets the collection of [WidgetPalette](#T-ExperimentalProject-WidgetPalette 'ExperimentalProject.WidgetPalette') located on a
+    board
 
 <a name='M-ExperimentalProject-Views-WidgetBoard-#cctor'></a>
 ### #cctor() `method`
@@ -893,6 +922,20 @@ InitializeComponent
 ##### Parameters
 
 This method has no parameters.
+
+<a name='M-ExperimentalProject-Views-WidgetBoard-OnAutoCellSizeChanged-System-Windows-DependencyObject,System-Windows-DependencyPropertyChangedEventArgs-'></a>
+### OnAutoCellSizeChanged(d,e) `method`
+
+##### Summary
+
+Handler called when the [AutoCellSize](#P-ExperimentalProject-Views-WidgetBoard-AutoCellSize 'ExperimentalProject.Views.WidgetBoard.AutoCellSize') value changes
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| d | [System.Windows.DependencyObject](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Windows.DependencyObject 'System.Windows.DependencyObject') | The [WidgetBoard](#T-ExperimentalProject-Views-WidgetBoard 'ExperimentalProject.Views.WidgetBoard') instance whose property has been changed |
+| e | [System.Windows.DependencyPropertyChangedEventArgs](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Windows.DependencyPropertyChangedEventArgs 'System.Windows.DependencyPropertyChangedEventArgs') | An object that describes a change in a dependent property |
 
 <a name='M-ExperimentalProject-Views-WidgetBoard-OnBoardBackgroundChanged-System-Windows-DependencyObject,System-Windows-DependencyPropertyChangedEventArgs-'></a>
 ### OnBoardBackgroundChanged(d,e) `method`
@@ -1007,6 +1050,20 @@ Handler called when the [GridRowCount](#P-ExperimentalProject-Views-WidgetBoard-
 | d | [System.Windows.DependencyObject](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Windows.DependencyObject 'System.Windows.DependencyObject') | The [WidgetBoard](#T-ExperimentalProject-Views-WidgetBoard 'ExperimentalProject.Views.WidgetBoard') instance whose property has been changed |
 | e | [System.Windows.DependencyPropertyChangedEventArgs](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Windows.DependencyPropertyChangedEventArgs 'System.Windows.DependencyPropertyChangedEventArgs') | An object that describes a change in a dependent property |
 
+<a name='M-ExperimentalProject-Views-WidgetBoard-OnIsGridDisplayedChanged-System-Windows-DependencyObject,System-Windows-DependencyPropertyChangedEventArgs-'></a>
+### OnIsGridDisplayedChanged(d,e) `method`
+
+##### Summary
+
+Handler called when the [IsGridDisplayed](#P-ExperimentalProject-Views-WidgetBoard-IsGridDisplayed 'ExperimentalProject.Views.WidgetBoard.IsGridDisplayed') changes
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| d | [System.Windows.DependencyObject](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Windows.DependencyObject 'System.Windows.DependencyObject') | The [WidgetBoard](#T-ExperimentalProject-Views-WidgetBoard 'ExperimentalProject.Views.WidgetBoard') instance whose property has been changed |
+| e | [System.Windows.DependencyPropertyChangedEventArgs](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Windows.DependencyPropertyChangedEventArgs 'System.Windows.DependencyPropertyChangedEventArgs') | An object that describes a change in a dependent property |
+
 <a name='M-ExperimentalProject-Views-WidgetBoard-OnIsManipulatorHiddenChanged-System-Windows-DependencyObject,System-Windows-DependencyPropertyChangedEventArgs-'></a>
 ### OnIsManipulatorHiddenChanged(d,e) `method`
 
@@ -1034,6 +1091,19 @@ Handler called when the [IsSidebarHidden](#P-ExperimentalProject-Views-WidgetBoa
 | ---- | ---- | ----------- |
 | d | [System.Windows.DependencyObject](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Windows.DependencyObject 'System.Windows.DependencyObject') | The [WidgetBoard](#T-ExperimentalProject-Views-WidgetBoard 'ExperimentalProject.Views.WidgetBoard') instance whose property has been changed |
 | e | [System.Windows.DependencyPropertyChangedEventArgs](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Windows.DependencyPropertyChangedEventArgs 'System.Windows.DependencyPropertyChangedEventArgs') | An object that describes a change in a dependent property |
+
+<a name='M-ExperimentalProject-Views-WidgetBoard-OnLoad-System-Object,System-Windows-RoutedEventArgs-'></a>
+### OnLoad(sender) `method`
+
+##### Summary
+
+Handler called when the [WidgetBoard](#T-ExperimentalProject-Views-WidgetBoard 'ExperimentalProject.Views.WidgetBoard') has been completely initialized
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| sender | [System.Object](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Object 'System.Object') | The [WidgetBoard](#T-ExperimentalProject-Views-WidgetBoard 'ExperimentalProject.Views.WidgetBoard') instance that has been initialized |
 
 <a name='M-ExperimentalProject-Views-WidgetBoard-OnPaletteBackgroundChanged-System-Windows-DependencyObject,System-Windows-DependencyPropertyChangedEventArgs-'></a>
 ### OnPaletteBackgroundChanged(d,e) `method`
@@ -1076,6 +1146,20 @@ Handler called when the [PaletteForeground](#P-ExperimentalProject-Views-WidgetB
 | ---- | ---- | ----------- |
 | d | [System.Windows.DependencyObject](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Windows.DependencyObject 'System.Windows.DependencyObject') | The [WidgetBoard](#T-ExperimentalProject-Views-WidgetBoard 'ExperimentalProject.Views.WidgetBoard') instance whose property has been changed |
 | e | [System.Windows.DependencyPropertyChangedEventArgs](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Windows.DependencyPropertyChangedEventArgs 'System.Windows.DependencyPropertyChangedEventArgs') | An object that describes a change in a dependent property |
+
+<a name='M-ExperimentalProject-Views-WidgetBoard-OnSizeChanged-System-Object,System-Windows-SizeChangedEventArgs-'></a>
+### OnSizeChanged(sender,e) `method`
+
+##### Summary
+
+Handler called when the [WidgetBoard](#T-ExperimentalProject-Views-WidgetBoard 'ExperimentalProject.Views.WidgetBoard') has been resized
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| sender | [System.Object](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Object 'System.Object') | The [WidgetBoard](#T-ExperimentalProject-Views-WidgetBoard 'ExperimentalProject.Views.WidgetBoard') instance whose property has been changed |
+| e | [System.Windows.SizeChangedEventArgs](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Windows.SizeChangedEventArgs 'System.Windows.SizeChangedEventArgs') | An object that describes a size changing |
 
 <a name='M-ExperimentalProject-Views-WidgetBoard-OnWidgetsOnBoardChanged-System-Windows-DependencyObject,System-Windows-DependencyPropertyChangedEventArgs-'></a>
 ### OnWidgetsOnBoardChanged(d,e) `method`
@@ -1132,23 +1216,34 @@ Remove [Widget](#T-ExperimentalProject-Widget 'ExperimentalProject.Widget') from
 | ---- | ---- | ----------- |
 | widget | [ExperimentalProject.Widget](#T-ExperimentalProject-Widget 'ExperimentalProject.Widget') | Removed [Widget](#T-ExperimentalProject-Widget 'ExperimentalProject.Widget') instance |
 
-<a name='M-ExperimentalProject-Views-WidgetBoard-RenderGrid'></a>
-### RenderGrid() `method`
-
-##### Summary
-
-Draw a background grid to show the size of the cells
-
-##### Parameters
-
-This method has no parameters.
-
 <a name='M-ExperimentalProject-Views-WidgetBoard-RenderWidgetPalette'></a>
 ### RenderWidgetPalette() `method`
 
 ##### Summary
 
 Draw a widget palettes in sidebar
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-ExperimentalProject-Views-WidgetBoard-ResizeGrid'></a>
+### ResizeGrid() `method`
+
+##### Summary
+
+Update the positions of the background grid lines
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-ExperimentalProject-Views-WidgetBoard-ToggleAutoCellSize'></a>
+### ToggleAutoCellSize() `method`
+
+##### Summary
+
+Update cell size by [AutoCellSize](#P-ExperimentalProject-Views-WidgetBoard-AutoCellSize 'ExperimentalProject.Views.WidgetBoard.AutoCellSize') value
 
 ##### Parameters
 
@@ -1171,6 +1266,17 @@ This method has no parameters.
 ##### Summary
 
 Toggles visibility of sidebar with [WidgetPalette](#T-ExperimentalProject-WidgetPalette 'ExperimentalProject.WidgetPalette')
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-ExperimentalProject-Views-WidgetBoard-UpdateGridDimensions'></a>
+### UpdateGridDimensions() `method`
+
+##### Summary
+
+Complete updating grid lines
 
 ##### Parameters
 
