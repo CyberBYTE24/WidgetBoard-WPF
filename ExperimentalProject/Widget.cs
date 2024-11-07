@@ -15,7 +15,7 @@ namespace ExperimentalProject
     /// </summary>
     public abstract class Widget : INotifyPropertyChanged
     {
-        private readonly object widgetViewModelControlViewModel;
+        private readonly object widgetViewModel;
         private readonly V.Widget widgetView;
         private double shadowOpacity;
         private int column;
@@ -33,11 +33,12 @@ namespace ExperimentalProject
         ///     Class that represents the view model of a <see cref="V.Widget">Widget</see> on a widget board.
         /// </summary>
         /// <param name="widgetControl"><see cref="UserControl" /> to be included in the widget</param>
-        /// <param name="widgetViewModelControlViewModel"></param>
-        protected Widget(UserControl widgetControl, object widgetViewModelControlViewModel, Guid widgetId)
+        /// <param name="widgetViewModel">ViewModel object for WidgetControl</param>
+        /// <param name="widgetId">Widget type ID</param>
+        protected Widget(UserControl widgetControl, object widgetViewModel, Guid widgetId)
         {
-            this.widgetViewModelControlViewModel = widgetViewModelControlViewModel;
-            widgetControl.DataContext = widgetViewModelControlViewModel;
+            this.widgetViewModel = widgetViewModel;
+            widgetControl.DataContext = this.widgetViewModel;
             widgetView = new V.Widget(widgetControl)
             {
                 DataContext = this
@@ -100,7 +101,7 @@ namespace ExperimentalProject
                 if (string.IsNullOrEmpty(value))
                     return;
                 settings = value;
-                if(widgetViewModelControlViewModel is IUserWidgetViewModel model)
+                if(widgetViewModel is IUserWidgetViewModel model)
                     model.Settings = value;
                 OnPropertyChanged();
             }
@@ -272,12 +273,21 @@ namespace ExperimentalProject
         }
 
         /// <summary>
-        ///     Sets the cell size to use in building the interface.
+        ///     Sets the cell height to use in building the interface.
         /// </summary>
-        /// <param name="cellSize">Cell side size</param>
-        internal void SetCellSize(double cellSize)
+        /// <param name="value">Cell height size</param>
+        internal void SetCellHeight(double value)
         {
-            widgetView.SetCellSize(cellSize);
+            widgetView.SetCellHeight(value);
+        }
+
+        /// <summary>
+        ///     Sets the cell width to use in building the interface.
+        /// </summary>
+        /// <param name="value">Cell width size</param>
+        internal void SetCellWidth(double value)
+        {
+            widgetView.SetCellWidth(value);
         }
     }
 }
