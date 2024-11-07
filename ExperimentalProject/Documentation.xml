@@ -141,11 +141,11 @@
             <param name="d">The <see cref="T:ExperimentalProject.Views.Widget" /> instance whose property has been changed</param>
             <param name="e">An object that describes a change in a dependent property</param>
         </member>
-        <member name="M:ExperimentalProject.Views.Widget.SetCellSize(System.Double)">
+        <member name="M:ExperimentalProject.Views.Widget.SetCellHeight(System.Double)">
             <summary>
-                Set new Cell size and then update transform
+                Set new Cell height and then update transform
             </summary>
-            <param name="newCellSize"></param>
+            <param name="value"></param>
         </member>
         <member name="M:ExperimentalProject.Views.Widget.HeaderMouseLeftButtonDownHandler(System.Object,System.Windows.Input.MouseButtonEventArgs)">
             <summary>
@@ -300,9 +300,14 @@
                 Gets or sets the color for Group Labels and other stuff
             </summary>
         </member>
-        <member name="P:ExperimentalProject.Views.WidgetBoard.CellSize">
+        <member name="P:ExperimentalProject.Views.WidgetBoard.CellHeight">
             <summary>
-                Gets or sets the cell size to use in building the interface.
+                Gets or sets the cell height to use in building the interface.
+            </summary>
+        </member>
+        <member name="P:ExperimentalProject.Views.WidgetBoard.CellWidth">
+            <summary>
+                Gets or sets the cell width to use in building the interface.
             </summary>
         </member>
         <member name="P:ExperimentalProject.Views.WidgetBoard.SidebarWidth">
@@ -344,12 +349,19 @@
             <param name="d">The <see cref="T:ExperimentalProject.Views.WidgetBoard" /> instance whose property has been changed </param>
             <param name="e">An object that describes a change in a dependent property</param>
         </member>
-        <member name="M:ExperimentalProject.Views.WidgetBoard.OnCellSizeChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+        <member name="M:ExperimentalProject.Views.WidgetBoard.OnCellHeightChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
             <summary>
-                Handler called when the <see cref="P:ExperimentalProject.Views.WidgetBoard.CellSize">CellSize</see> changes
+                Handler called when the <see cref="P:ExperimentalProject.Views.WidgetBoard.CellHeight">CellHeight</see> changes
             </summary>
             <param name="d">The <see cref="T:ExperimentalProject.Views.WidgetBoard" /> instance whose property has been changed</param>
             <param name="e">An object that describes a change in a dependent property</param>
+        </member>
+        <member name="M:ExperimentalProject.Views.WidgetBoard.OnCellWidthChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+                Handler called when the <see cref="P:ExperimentalProject.Views.WidgetBoard.CellWidth">CellWidth</see> changes
+            </summary>
+            <param name="d"></param>
+            <param name="e"></param>
         </member>
         <member name="M:ExperimentalProject.Views.WidgetBoard.OnGridColumnCountChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
             <summary>
@@ -479,12 +491,13 @@
                 <see cref="T:ExperimentalProject.Views.WidgetBoard">WidgetBoard</see>.
             </summary>
         </member>
-        <member name="M:ExperimentalProject.Widget.#ctor(System.Windows.Controls.UserControl,ExperimentalProject.IUserWidgetViewModel,System.Guid)">
+        <member name="M:ExperimentalProject.Widget.#ctor(System.Windows.Controls.UserControl,System.Object,System.Guid)">
             <summary>
                 Class that represents the view model of a <see cref="T:ExperimentalProject.Views.Widget">Widget</see> on a widget board.
             </summary>
             <param name="widgetControl"><see cref="T:System.Windows.Controls.UserControl" /> to be included in the widget</param>
-            <param name="widgetViewModelControlViewModel"></param>
+            <param name="widgetViewModel">ViewModel object for WidgetControl</param>
+            <param name="widgetId">Widget type ID</param>
         </member>
         <member name="T:ExperimentalProject.Widget.ActionsWidgetHandler">
             <summary>
@@ -588,11 +601,17 @@
             </summary>
             <param name="prop">Property name</param>
         </member>
-        <member name="M:ExperimentalProject.Widget.SetCellSize(System.Double)">
+        <member name="M:ExperimentalProject.Widget.SetCellHeight(System.Double)">
             <summary>
-                Sets the cell size to use in building the interface.
+                Sets the cell height to use in building the interface.
             </summary>
-            <param name="cellSize">Cell side size</param>
+            <param name="value">Cell height size</param>
+        </member>
+        <member name="M:ExperimentalProject.Widget.SetCellWidth(System.Double)">
+            <summary>
+                Sets the cell width to use in building the interface.
+            </summary>
+            <param name="value">Cell width size</param>
         </member>
         <member name="T:ExperimentalProject.WidgetPalette">
             <summary>
@@ -613,7 +632,7 @@
                 The type that should inherit <see cref="T:System.Windows.Controls.UserControl">UserControl</see> and that will be
                 embedded in the Widget.
             </param>
-            <param name="widgetControlViewModel"></param>
+            <param name="widgetViewModelType"></param>
             <exception cref="T:System.ArgumentException">Occurs when types are passed as arguments that do not inherit the required classes.</exception>
         </member>
         <member name="T:ExperimentalProject.WidgetPalette.OnCreateWidget">

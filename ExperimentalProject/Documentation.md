@@ -10,7 +10,7 @@
 - [Widget](#T-ExperimentalProject-Views-Widget 'ExperimentalProject.Views.Widget')
 - [Widget](#T-ExperimentalProject-Widget 'ExperimentalProject.Widget')
   - [#ctor(userControl)](#M-ExperimentalProject-Views-Widget-#ctor-System-Windows-Controls-UserControl- 'ExperimentalProject.Views.Widget.#ctor(System.Windows.Controls.UserControl)')
-  - [#ctor(widgetControl,widgetViewModelControlViewModel)](#M-ExperimentalProject-Widget-#ctor-System-Windows-Controls-UserControl,ExperimentalProject-IUserWidgetViewModel,System-Guid- 'ExperimentalProject.Widget.#ctor(System.Windows.Controls.UserControl,ExperimentalProject.IUserWidgetViewModel,System.Guid)')
+  - [#ctor(widgetControl,widgetViewModel,widgetId)](#M-ExperimentalProject-Widget-#ctor-System-Windows-Controls-UserControl,System-Object,System-Guid- 'ExperimentalProject.Widget.#ctor(System.Windows.Controls.UserControl,System.Object,System.Guid)')
   - [Column](#P-ExperimentalProject-Views-Widget-Column 'ExperimentalProject.Views.Widget.Column')
   - [ColumnSpan](#P-ExperimentalProject-Views-Widget-ColumnSpan 'ExperimentalProject.Views.Widget.ColumnSpan')
   - [ManipulatorVisibility](#P-ExperimentalProject-Views-Widget-ManipulatorVisibility 'ExperimentalProject.Views.Widget.ManipulatorVisibility')
@@ -55,16 +55,18 @@
   - [ResizeMouseLeftButtonDownHandler(sender,e)](#M-ExperimentalProject-Views-Widget-ResizeMouseLeftButtonDownHandler-System-Object,System-Windows-Input-MouseButtonEventArgs- 'ExperimentalProject.Views.Widget.ResizeMouseLeftButtonDownHandler(System.Object,System.Windows.Input.MouseButtonEventArgs)')
   - [ResizeMouseLeftButtonUpHandler(sender,e)](#M-ExperimentalProject-Views-Widget-ResizeMouseLeftButtonUpHandler-System-Object,System-Windows-Input-MouseButtonEventArgs- 'ExperimentalProject.Views.Widget.ResizeMouseLeftButtonUpHandler(System.Object,System.Windows.Input.MouseButtonEventArgs)')
   - [ResizeMouseMoveHandler(sender,e)](#M-ExperimentalProject-Views-Widget-ResizeMouseMoveHandler-System-Object,System-Windows-Input-MouseEventArgs- 'ExperimentalProject.Views.Widget.ResizeMouseMoveHandler(System.Object,System.Windows.Input.MouseEventArgs)')
-  - [SetCellSize(newCellSize)](#M-ExperimentalProject-Views-Widget-SetCellSize-System-Double- 'ExperimentalProject.Views.Widget.SetCellSize(System.Double)')
+  - [SetCellHeight(value)](#M-ExperimentalProject-Views-Widget-SetCellHeight-System-Double- 'ExperimentalProject.Views.Widget.SetCellHeight(System.Double)')
   - [TopAnimation_Completed(sender,e)](#M-ExperimentalProject-Views-Widget-TopAnimation_Completed-System-Object,System-EventArgs- 'ExperimentalProject.Views.Widget.TopAnimation_Completed(System.Object,System.EventArgs)')
   - [WidthAnimation_Completed(sender,e)](#M-ExperimentalProject-Views-Widget-WidthAnimation_Completed-System-Object,System-EventArgs- 'ExperimentalProject.Views.Widget.WidthAnimation_Completed(System.Object,System.EventArgs)')
   - [OnPropertyChanged(prop)](#M-ExperimentalProject-Widget-OnPropertyChanged-System-String- 'ExperimentalProject.Widget.OnPropertyChanged(System.String)')
-  - [SetCellSize(cellSize)](#M-ExperimentalProject-Widget-SetCellSize-System-Double- 'ExperimentalProject.Widget.SetCellSize(System.Double)')
+  - [SetCellHeight(value)](#M-ExperimentalProject-Widget-SetCellHeight-System-Double- 'ExperimentalProject.Widget.SetCellHeight(System.Double)')
+  - [SetCellWidth(value)](#M-ExperimentalProject-Widget-SetCellWidth-System-Double- 'ExperimentalProject.Widget.SetCellWidth(System.Double)')
 - [WidgetBoard](#T-ExperimentalProject-Views-WidgetBoard 'ExperimentalProject.Views.WidgetBoard')
   - [#ctor()](#M-ExperimentalProject-Views-WidgetBoard-#ctor 'ExperimentalProject.Views.WidgetBoard.#ctor')
   - [BoardBackground](#P-ExperimentalProject-Views-WidgetBoard-BoardBackground 'ExperimentalProject.Views.WidgetBoard.BoardBackground')
   - [BoardForeground](#P-ExperimentalProject-Views-WidgetBoard-BoardForeground 'ExperimentalProject.Views.WidgetBoard.BoardForeground')
-  - [CellSize](#P-ExperimentalProject-Views-WidgetBoard-CellSize 'ExperimentalProject.Views.WidgetBoard.CellSize')
+  - [CellHeight](#P-ExperimentalProject-Views-WidgetBoard-CellHeight 'ExperimentalProject.Views.WidgetBoard.CellHeight')
+  - [CellWidth](#P-ExperimentalProject-Views-WidgetBoard-CellWidth 'ExperimentalProject.Views.WidgetBoard.CellWidth')
   - [GridColumnCount](#P-ExperimentalProject-Views-WidgetBoard-GridColumnCount 'ExperimentalProject.Views.WidgetBoard.GridColumnCount')
   - [GridRowCount](#P-ExperimentalProject-Views-WidgetBoard-GridRowCount 'ExperimentalProject.Views.WidgetBoard.GridRowCount')
   - [IsGridDisplayed](#P-ExperimentalProject-Views-WidgetBoard-IsGridDisplayed 'ExperimentalProject.Views.WidgetBoard.IsGridDisplayed')
@@ -81,7 +83,8 @@
   - [OnBoardBackgroundChanged(d,e)](#M-ExperimentalProject-Views-WidgetBoard-OnBoardBackgroundChanged-System-Windows-DependencyObject,System-Windows-DependencyPropertyChangedEventArgs- 'ExperimentalProject.Views.WidgetBoard.OnBoardBackgroundChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)')
   - [OnBoardChangedHandler(sender,e)](#M-ExperimentalProject-Views-WidgetBoard-OnBoardChangedHandler-System-Object,System-Collections-Specialized-NotifyCollectionChangedEventArgs- 'ExperimentalProject.Views.WidgetBoard.OnBoardChangedHandler(System.Object,System.Collections.Specialized.NotifyCollectionChangedEventArgs)')
   - [OnBoardForegroundChanged(d,e)](#M-ExperimentalProject-Views-WidgetBoard-OnBoardForegroundChanged-System-Windows-DependencyObject,System-Windows-DependencyPropertyChangedEventArgs- 'ExperimentalProject.Views.WidgetBoard.OnBoardForegroundChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)')
-  - [OnCellSizeChanged(d,e)](#M-ExperimentalProject-Views-WidgetBoard-OnCellSizeChanged-System-Windows-DependencyObject,System-Windows-DependencyPropertyChangedEventArgs- 'ExperimentalProject.Views.WidgetBoard.OnCellSizeChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)')
+  - [OnCellHeightChanged(d,e)](#M-ExperimentalProject-Views-WidgetBoard-OnCellHeightChanged-System-Windows-DependencyObject,System-Windows-DependencyPropertyChangedEventArgs- 'ExperimentalProject.Views.WidgetBoard.OnCellHeightChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)')
+  - [OnCellWidthChanged(d,e)](#M-ExperimentalProject-Views-WidgetBoard-OnCellWidthChanged-System-Windows-DependencyObject,System-Windows-DependencyPropertyChangedEventArgs- 'ExperimentalProject.Views.WidgetBoard.OnCellWidthChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)')
   - [OnCreateWidgetHandler(sender,widget)](#M-ExperimentalProject-Views-WidgetBoard-OnCreateWidgetHandler-System-Object,ExperimentalProject-Widget- 'ExperimentalProject.Views.WidgetBoard.OnCreateWidgetHandler(System.Object,ExperimentalProject.Widget)')
   - [OnGridColumnCountChanged(d,e)](#M-ExperimentalProject-Views-WidgetBoard-OnGridColumnCountChanged-System-Windows-DependencyObject,System-Windows-DependencyPropertyChangedEventArgs- 'ExperimentalProject.Views.WidgetBoard.OnGridColumnCountChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)')
   - [OnGridRowCountChanged(d,e)](#M-ExperimentalProject-Views-WidgetBoard-OnGridRowCountChanged-System-Windows-DependencyObject,System-Windows-DependencyPropertyChangedEventArgs- 'ExperimentalProject.Views.WidgetBoard.OnGridRowCountChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)')
@@ -101,7 +104,7 @@
 - [WidgetPalette](#T-ExperimentalProject-Views-WidgetPalette 'ExperimentalProject.Views.WidgetPalette')
 - [WidgetPalette](#T-ExperimentalProject-WidgetPalette 'ExperimentalProject.WidgetPalette')
   - [#ctor()](#M-ExperimentalProject-Views-WidgetPalette-#ctor 'ExperimentalProject.Views.WidgetPalette.#ctor')
-  - [#ctor(widgetType,widgetControlType,widgetControlViewModel)](#M-ExperimentalProject-WidgetPalette-#ctor-System-Type,System-Type,System-Type- 'ExperimentalProject.WidgetPalette.#ctor(System.Type,System.Type,System.Type)')
+  - [#ctor(widgetType,widgetControlType,widgetViewModelType)](#M-ExperimentalProject-WidgetPalette-#ctor-System-Type,System-Type,System-Type- 'ExperimentalProject.WidgetPalette.#ctor(System.Type,System.Type,System.Type)')
   - [CreateWidgetCommand](#P-ExperimentalProject-WidgetPalette-CreateWidgetCommand 'ExperimentalProject.WidgetPalette.CreateWidgetCommand')
   - [GroupName](#P-ExperimentalProject-WidgetPalette-GroupName 'ExperimentalProject.WidgetPalette.GroupName')
   - [IconBase64](#P-ExperimentalProject-WidgetPalette-IconBase64 'ExperimentalProject.WidgetPalette.IconBase64')
@@ -201,8 +204,8 @@ Class for handling interface logic and providing bindings
 | ---- | ---- | ----------- |
 | userControl | [System.Windows.Controls.UserControl](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Windows.Controls.UserControl 'System.Windows.Controls.UserControl') |  |
 
-<a name='M-ExperimentalProject-Widget-#ctor-System-Windows-Controls-UserControl,ExperimentalProject-IUserWidgetViewModel,System-Guid-'></a>
-### #ctor(widgetControl,widgetViewModelControlViewModel) `constructor`
+<a name='M-ExperimentalProject-Widget-#ctor-System-Windows-Controls-UserControl,System-Object,System-Guid-'></a>
+### #ctor(widgetControl,widgetViewModel,widgetId) `constructor`
 
 ##### Summary
 
@@ -213,7 +216,8 @@ Class that represents the view model of a [Widget](#T-ExperimentalProject-Views-
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | widgetControl | [System.Windows.Controls.UserControl](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Windows.Controls.UserControl 'System.Windows.Controls.UserControl') | [UserControl](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Windows.Controls.UserControl 'System.Windows.Controls.UserControl') to be included in the widget |
-| widgetViewModelControlViewModel | [ExperimentalProject.IUserWidgetViewModel](#T-ExperimentalProject-IUserWidgetViewModel 'ExperimentalProject.IUserWidgetViewModel') |  |
+| widgetViewModel | [System.Object](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Object 'System.Object') | ViewModel object for WidgetControl |
+| widgetId | [System.Guid](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Guid 'System.Guid') | Widget type ID |
 
 <a name='P-ExperimentalProject-Views-Widget-Column'></a>
 ### Column `property`
@@ -654,18 +658,18 @@ Handler called during Widget Resize
 | sender | [System.Object](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Object 'System.Object') | The object that triggered the event |
 | e | [System.Windows.Input.MouseEventArgs](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Windows.Input.MouseEventArgs 'System.Windows.Input.MouseEventArgs') | Provides data for mouse position events |
 
-<a name='M-ExperimentalProject-Views-Widget-SetCellSize-System-Double-'></a>
-### SetCellSize(newCellSize) `method`
+<a name='M-ExperimentalProject-Views-Widget-SetCellHeight-System-Double-'></a>
+### SetCellHeight(value) `method`
 
 ##### Summary
 
-Set new Cell size and then update transform
+Set new Cell height and then update transform
 
 ##### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| newCellSize | [System.Double](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Double 'System.Double') |  |
+| value | [System.Double](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Double 'System.Double') |  |
 
 <a name='M-ExperimentalProject-Views-Widget-TopAnimation_Completed-System-Object,System-EventArgs-'></a>
 ### TopAnimation_Completed(sender,e) `method`
@@ -708,18 +712,31 @@ Method that do trigger [](#E-ExperimentalProject-Widget-PropertyChanged 'Experim
 | ---- | ---- | ----------- |
 | prop | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Property name |
 
-<a name='M-ExperimentalProject-Widget-SetCellSize-System-Double-'></a>
-### SetCellSize(cellSize) `method`
+<a name='M-ExperimentalProject-Widget-SetCellHeight-System-Double-'></a>
+### SetCellHeight(value) `method`
 
 ##### Summary
 
-Sets the cell size to use in building the interface.
+Sets the cell height to use in building the interface.
 
 ##### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| cellSize | [System.Double](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Double 'System.Double') | Cell side size |
+| value | [System.Double](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Double 'System.Double') | Cell height size |
+
+<a name='M-ExperimentalProject-Widget-SetCellWidth-System-Double-'></a>
+### SetCellWidth(value) `method`
+
+##### Summary
+
+Sets the cell width to use in building the interface.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| value | [System.Double](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Double 'System.Double') | Cell width size |
 
 <a name='T-ExperimentalProject-Views-WidgetBoard'></a>
 ## WidgetBoard `type`
@@ -758,12 +775,19 @@ Gets or sets the filling the background for the main widget board field
 
 Gets or sets the color for grid lines and other stuff
 
-<a name='P-ExperimentalProject-Views-WidgetBoard-CellSize'></a>
-### CellSize `property`
+<a name='P-ExperimentalProject-Views-WidgetBoard-CellHeight'></a>
+### CellHeight `property`
 
 ##### Summary
 
-Gets or sets the cell size to use in building the interface.
+Gets or sets the cell height to use in building the interface.
+
+<a name='P-ExperimentalProject-Views-WidgetBoard-CellWidth'></a>
+### CellWidth `property`
+
+##### Summary
+
+Gets or sets the cell width to use in building the interface.
 
 <a name='P-ExperimentalProject-Views-WidgetBoard-GridColumnCount'></a>
 ### GridColumnCount `property`
@@ -912,12 +936,12 @@ Handler called when the [BoardForeground](#P-ExperimentalProject-Views-WidgetBoa
 | d | [System.Windows.DependencyObject](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Windows.DependencyObject 'System.Windows.DependencyObject') | The [WidgetBoard](#T-ExperimentalProject-Views-WidgetBoard 'ExperimentalProject.Views.WidgetBoard') instance whose property has been changed |
 | e | [System.Windows.DependencyPropertyChangedEventArgs](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Windows.DependencyPropertyChangedEventArgs 'System.Windows.DependencyPropertyChangedEventArgs') | An object that describes a change in a dependent property |
 
-<a name='M-ExperimentalProject-Views-WidgetBoard-OnCellSizeChanged-System-Windows-DependencyObject,System-Windows-DependencyPropertyChangedEventArgs-'></a>
-### OnCellSizeChanged(d,e) `method`
+<a name='M-ExperimentalProject-Views-WidgetBoard-OnCellHeightChanged-System-Windows-DependencyObject,System-Windows-DependencyPropertyChangedEventArgs-'></a>
+### OnCellHeightChanged(d,e) `method`
 
 ##### Summary
 
-Handler called when the [CellSize](#P-ExperimentalProject-Views-WidgetBoard-CellSize 'ExperimentalProject.Views.WidgetBoard.CellSize') changes
+Handler called when the [CellHeight](#P-ExperimentalProject-Views-WidgetBoard-CellHeight 'ExperimentalProject.Views.WidgetBoard.CellHeight') changes
 
 ##### Parameters
 
@@ -925,6 +949,20 @@ Handler called when the [CellSize](#P-ExperimentalProject-Views-WidgetBoard-Cell
 | ---- | ---- | ----------- |
 | d | [System.Windows.DependencyObject](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Windows.DependencyObject 'System.Windows.DependencyObject') | The [WidgetBoard](#T-ExperimentalProject-Views-WidgetBoard 'ExperimentalProject.Views.WidgetBoard') instance whose property has been changed |
 | e | [System.Windows.DependencyPropertyChangedEventArgs](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Windows.DependencyPropertyChangedEventArgs 'System.Windows.DependencyPropertyChangedEventArgs') | An object that describes a change in a dependent property |
+
+<a name='M-ExperimentalProject-Views-WidgetBoard-OnCellWidthChanged-System-Windows-DependencyObject,System-Windows-DependencyPropertyChangedEventArgs-'></a>
+### OnCellWidthChanged(d,e) `method`
+
+##### Summary
+
+Handler called when the [CellWidth](#P-ExperimentalProject-Views-WidgetBoard-CellWidth 'ExperimentalProject.Views.WidgetBoard.CellWidth') changes
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| d | [System.Windows.DependencyObject](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Windows.DependencyObject 'System.Windows.DependencyObject') |  |
+| e | [System.Windows.DependencyPropertyChangedEventArgs](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Windows.DependencyPropertyChangedEventArgs 'System.Windows.DependencyPropertyChangedEventArgs') |  |
 
 <a name='M-ExperimentalProject-Views-WidgetBoard-OnCreateWidgetHandler-System-Object,ExperimentalProject-Widget-'></a>
 ### OnCreateWidgetHandler(sender,widget) `method`
@@ -1174,7 +1212,7 @@ Represents a UI element that allows [Widget](#T-ExperimentalProject-Widget 'Expe
 This constructor has no parameters.
 
 <a name='M-ExperimentalProject-WidgetPalette-#ctor-System-Type,System-Type,System-Type-'></a>
-### #ctor(widgetType,widgetControlType,widgetControlViewModel) `constructor`
+### #ctor(widgetType,widgetControlType,widgetViewModelType) `constructor`
 
 ##### Summary
 
@@ -1189,7 +1227,7 @@ Class that provides the ability to create widgets on a
     [Widget](#T-ExperimentalProject-Widget 'ExperimentalProject.Widget') class. |
 | widgetControlType | [System.Type](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Type 'System.Type') | The type that should inherit [UserControl](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Windows.Controls.UserControl 'System.Windows.Controls.UserControl') and that will be
     embedded in the Widget. |
-| widgetControlViewModel | [System.Type](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Type 'System.Type') |  |
+| widgetViewModelType | [System.Type](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Type 'System.Type') |  |
 
 ##### Exceptions
 
