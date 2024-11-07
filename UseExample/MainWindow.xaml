@@ -13,7 +13,7 @@
         <widget:WidgetBoard 
             BoardBackground="{Binding BackgroundColor}"
             BoardForeground="White"
-            PaletteBackground="DimGray"
+            PaletteBackground="DarkCyan"
             PaletteForeground="White"
             IsGridDisplayed="{Binding IsGridDisplayed}"
 

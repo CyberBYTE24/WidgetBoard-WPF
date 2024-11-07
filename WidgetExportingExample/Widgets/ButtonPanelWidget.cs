@@ -6,7 +6,7 @@ namespace WidgetExportingExample.Widgets
 {
     internal class ButtonPanelWidget : ExperimentalProject.Widget
     {
-        public ButtonPanelWidget(UserControl control, IUserWidgetViewModel widgetViewModel, Guid widgetId) : base(control, widgetViewModel, widgetId)
+        public ButtonPanelWidget(UserControl control, object widgetViewModel, Guid widgetId) : base(control, widgetViewModel, widgetId)
         {
             Title = "Button Panel";
             MinRowSpan = 2;

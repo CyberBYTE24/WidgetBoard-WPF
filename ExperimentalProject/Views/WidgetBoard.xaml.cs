@@ -393,8 +393,13 @@ namespace ExperimentalProject.Views
         private static void OnPaletteForegroundChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is WidgetBoard board)
+            {
                 foreach (var label in board.sidebarGroupLabels)
                     label.Foreground = (Brush)e.NewValue;
+                board.Resources["ForegroundBrush"] = (Brush)e.NewValue;
+            }
+                
+
         }
 
         /// <summary>

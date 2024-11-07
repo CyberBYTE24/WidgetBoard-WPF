@@ -7,7 +7,7 @@ namespace WidgetExportingExample.WidgetPalettes
     internal class SampleWidgetPaletteSecond : ExperimentalProject.WidgetPalette
     {
 
-        public SampleWidgetPaletteSecond() : base(typeof(Widgets.SampleWidgetSecond), typeof(Views.SampleWidgetSecond), null)
+        public SampleWidgetPaletteSecond() : base(typeof(Widgets.SampleWidgetSecond), typeof(Views.SampleWidgetSecond), typeof(ViewModel.SampleWidget))
         {
             WidgetId = new Guid("7CFDB26F-B12C-4C1C-BD2A-A461EC0C48B0");
             Title = "Palette No.2";
