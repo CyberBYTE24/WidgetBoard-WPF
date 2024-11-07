@@ -14,15 +14,15 @@ namespace ExperimentalProject
     /// </summary>
     public abstract class WidgetPalette : INotifyPropertyChanged
     {
+        private readonly bool isWidgetSettingsEnabled;
         private readonly Type widgetControlType;
-        private readonly Type widgetControlViewModel;
         private readonly Type widgetType;
+        private readonly Type widgetViewModelType;
+        private byte[] iconBytes;
         private Guid widgetId;
         private RelayCommand createWidgetCommand;
-        private string title;
         private string groupName;
-        private byte[] iconBytes;
-        private readonly bool isWidgetSettingsEnabled;
+        private string title;
 
         /// <summary>
         ///     Class that provides the ability to create widgets on a
@@ -36,9 +36,9 @@ namespace ExperimentalProject
         ///     The type that should inherit <see cref="UserControl">UserControl</see> and that will be
         ///     embedded in the Widget.
         /// </param>
-        /// <param name="widgetControlViewModel"></param>
+        /// <param name="widgetViewModelType"></param>
         /// <exception cref="ArgumentException">Occurs when types are passed as arguments that do not inherit the required classes.</exception>
-        protected WidgetPalette(Type widgetType, Type widgetControlType, Type widgetControlViewModel)
+        protected WidgetPalette(Type widgetType, Type widgetControlType, Type widgetViewModelType)
         {
             WidgetPaletteView = new V.WidgetPalette
             {
@@ -50,17 +50,18 @@ namespace ExperimentalProject
             if (widgetControlType.BaseType != typeof(UserControl))
                 throw new ArgumentException(
                     "Expected to get class type inherited from `System.Windows.Controls.UserControl` in `widgetControlType` argument");
-            //if (widgetControlViewModel.GetInterfaces().All(x => x != typeof(IUserWidgetViewModel)))
+            //if (widgetViewModelType.GetInterfaces().All(x => x != typeof(IUserWidgetViewModel)))
             //    throw new ArgumentException(
-            //        "Expected to get class type what implement `IUserWidgetViewModel` in `widgetControlViewModel` argument");
+            //        "Expected to get class type what implement `IUserWidgetViewModel` in `widgetViewModelType` argument");
 
-            if (widgetControlViewModel != null && widgetControlViewModel.GetInterfaces().Any(x => x == typeof(IUserWidgetViewModel)))
+            if (widgetViewModelType != null &&
+                widgetViewModelType.GetInterfaces().Any(x => x == typeof(IUserWidgetViewModel)))
                 isWidgetSettingsEnabled = true;
 
 
             this.widgetType = widgetType;
             this.widgetControlType = widgetControlType;
-            this.widgetControlViewModel = widgetControlViewModel;
+            this.widgetViewModelType = widgetViewModelType;
         }
 
         /// <summary>
@@ -75,31 +76,14 @@ namespace ExperimentalProject
         /// </summary>
         public event OnCreateWidget OnCreateWidgetEvent;
 
+        /// <summary>
+        ///     Event that triggered when any properties are changed
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public string GroupName
-        {
-            get => groupName;
-            set
-            {
-                groupName = value;
-                OnPropertyChanged();
-            }
-        }
-
         /// <summary>
-        ///     The title displayed in the interface of the <see cref="WidgetPalette" />
+        ///     Gets or sets the ByteArray of SVG file for drawing the icon
         /// </summary>
-        public string Title
-        {
-            get => title;
-            set
-            {
-                title = value;
-                OnPropertyChanged();
-            }
-        }
-
         public byte[] IconBytes
         {
             get => iconBytes;
@@ -110,10 +94,9 @@ namespace ExperimentalProject
                 OnPropertyChanged(nameof(IconBase64));
             }
         }
-        public string IconBase64 => $"data:image/svg+xml;base64,{Convert.ToBase64String(IconBytes)}";
 
         /// <summary>
-        ///     Widget variant ID
+        ///     Gets or protected sets the widget variant ID
         /// </summary>
         public Guid WidgetId
         {
@@ -138,7 +121,38 @@ namespace ExperimentalProject
         }
 
         /// <summary>
-        ///     View for WidgetPalette Control
+        ///     Gets or sets the name for grouping widgets in the palette
+        /// </summary>
+        public string GroupName
+        {
+            get => groupName;
+            set
+            {
+                groupName = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        ///     Gets the Icon in Base64 format
+        /// </summary>
+        public string IconBase64 => $"data:image/svg+xml;base64,{Convert.ToBase64String(IconBytes)}";
+
+        /// <summary>
+        ///     Gets or sets the title displayed in the interface of the <see cref="WidgetPalette" />
+        /// </summary>
+        public string Title
+        {
+            get => title;
+            set
+            {
+                title = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        ///     Gets the view for WidgetPalette Control
         /// </summary>
         internal V.WidgetPalette WidgetPaletteView { get; private set; }
 
@@ -164,27 +178,25 @@ namespace ExperimentalProject
                 throw new Exception("ControlView class does not have a constructor with zero argument overload");
 
 
-            IUserWidgetViewModel controlViewModel = null;
+            object controlViewModel = null;
 
-            if (widgetControlViewModel != null &&
-                widgetControlViewModel.GetInterfaces().Any(x => x == typeof(IUserWidgetViewModel)))
+            if (widgetViewModelType != null)
             {
-                controlViewModel =
-                    (IUserWidgetViewModel)widgetControlViewModel.GetConstructor(new Type[] { })
-                        ?.Invoke(new object[] { });
+                controlViewModel = widgetViewModelType.GetConstructor(new Type[] { })
+                    ?.Invoke(new object[] { });
                 if (controlViewModel == null)
-                    throw new Exception("ControlViewModel class does not have a constructor with zero argument overload");
-
+                    throw new Exception(
+                        "ControlViewModel class does not have a constructor with zero argument overload");
             }
 
-            var widget = (Widget)widgetType.GetConstructor(new[] { typeof(UserControl), typeof(IUserWidgetViewModel), typeof(Guid) })
-                ?.Invoke(new object[] { controlView, controlViewModel, WidgetId });
+            var widget = (Widget)widgetType.GetConstructor(new[] { typeof(UserControl), typeof(object), typeof(Guid) })
+                ?.Invoke(new[] { controlView, controlViewModel, WidgetId });
 
             if (widget == null)
                 throw new Exception(
-                    "ControlView class does not have a constructor with two arguments overload `UserControl` and `IUserWidgetViewModel`");
+                    "ControlView class does not have a constructor with two arguments overload `UserControl` and `object` for ViewModel");
 
-            widget.IsSettingsButtonVisible = isWidgetSettingsEnabled;
+            widget.IsSettingsButtonVisible = controlViewModel is IUserWidgetViewModel;
 
             OnCreateWidgetEvent?.Invoke(this, widget);
             return widget;

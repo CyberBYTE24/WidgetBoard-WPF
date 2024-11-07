@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Windows.Controls;
 using ExperimentalProject;
+using WidgetExportingExample.Views;
 
 namespace WidgetExportingExample.Widgets
 {
-    internal class ButtonPanelWidget : ExperimentalProject.Widget
+    internal class ButtonPanelWidget : Widget
     {
-        private string settings;
-        public ButtonPanelWidget(UserControl control, IUserWidgetViewModel widgetViewModel, Guid widgetId) : base(control, widgetViewModel, widgetId)
+        public ButtonPanelWidget(UserControl control, object widgetViewModel, Guid widgetId) : base(control,
+            widgetViewModel, widgetId)
         {
             Title = "Button Panel";
             MinRowSpan = 2;
@@ -15,18 +16,15 @@ namespace WidgetExportingExample.Widgets
             OnSettingsWidgetEvent += OnSettingsHandler;
         }
 
-        private void OnSettingsHandler(ExperimentalProject.Widget sender)
+        private void OnSettingsHandler(Widget sender)
         {
-            Views.ButtonPanelSettings settingsView = new Views.ButtonPanelSettings();
+            var settingsView = new ButtonPanelSettings();
             var settingsViewModel = new ViewModel.ButtonPanelSettings();
             settingsView.DataContext = settingsViewModel;
-            settingsViewModel.SelectedParameter = settings;
+            settingsViewModel.SelectedParameter = Settings;
 
 
-            if (settingsView.ShowDialog() == true)
-            {
-                Settings = settingsViewModel.SelectedParameter;
-            }
+            if (settingsView.ShowDialog() == true) Settings = settingsViewModel.SelectedParameter;
         }
     }
 }

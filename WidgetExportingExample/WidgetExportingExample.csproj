@@ -27,7 +27,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\UseExample\bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -50,7 +50,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Utilities\RelayCommand.cs" />
     <Compile Include="ViewModel\ButtonPanel.cs" />
+    <Compile Include="ViewModel\SampleWidget.cs" />
     <Compile Include="Views\ButtonPanel.xaml.cs">
       <DependentUpon>ButtonPanel.xaml</DependentUpon>
     </Compile>
@@ -119,5 +121,6 @@
   <ItemGroup>
     <None Include="Resources\Icon1.svg" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

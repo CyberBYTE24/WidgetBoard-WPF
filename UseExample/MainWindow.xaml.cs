@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Windows;
+using ExperimentalProject.Views;
 
 namespace UseExample
 {
@@ -10,10 +12,9 @@ namespace UseExample
         public MainWindow()
         {
             InitializeComponent();
-            ViewModels.MainWindow dataContext = new ViewModels.MainWindow();
+            var dataContext = new ViewModels.MainWindow();
             DataContext = dataContext;
             Closed += dataContext.MainWindow_Closed;
         }
-        
     }
 }

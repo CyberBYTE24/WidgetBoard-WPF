@@ -17,12 +17,14 @@ namespace ExperimentalProject.Views
     /// </summary>
     public partial class WidgetBoard
     {
+        public static readonly DependencyProperty AutoCellSizeProperty;
         public static readonly DependencyProperty BoardBackgroundProperty;
         public static readonly DependencyProperty BoardForegroundProperty;
-        public static readonly DependencyProperty IsGridDisplayedProperty;
-        public static readonly DependencyProperty CellSizeProperty;
+        public static readonly DependencyProperty CellHeightProperty;
+        public static readonly DependencyProperty CellWidthProperty;
         public static readonly DependencyProperty GridColumnCountProperty;
         public static readonly DependencyProperty GridRowCountProperty;
+        public static readonly DependencyProperty IsGridDisplayedProperty;
         public static readonly DependencyProperty IsManipulatorHiddenProperty;
         public static readonly DependencyProperty IsSidebarHiddenProperty;
         public static readonly DependencyProperty PaletteBackgroundProperty;
@@ -30,8 +32,6 @@ namespace ExperimentalProject.Views
         public static readonly DependencyProperty SidebarWidthProperty;
         public static readonly DependencyProperty WidgetsOnBoardProperty;
         public static readonly DependencyProperty WidgetsPaletteProperty;
-
-        private readonly List<Line> boardGridLines = new List<Line>();
         private readonly List<TextBlock> sidebarGroupLabels = new List<TextBlock>();
 
         /// <summary>
@@ -85,13 +85,22 @@ namespace ExperimentalProject.Views
                 )
             );
 
-            CellSizeProperty = DependencyProperty.Register(
-                "CellSize",
+            CellHeightProperty = DependencyProperty.Register(
+                "CellHeight",
                 typeof(double),
                 typeof(WidgetBoard),
                 new FrameworkPropertyMetadata(
                     150.0d,
-                    OnCellSizeChanged
+                    OnCellHeightChanged
+                )
+            );
+            CellWidthProperty = DependencyProperty.Register(
+                "CellWidth",
+                typeof(double),
+                typeof(WidgetBoard),
+                new FrameworkPropertyMetadata(
+                    200.0d,
+                    OnCellWidthChanged
                 )
             );
             SidebarWidthProperty = DependencyProperty.Register(
@@ -138,6 +147,15 @@ namespace ExperimentalProject.Views
                     OnIsSidebarHiddenChanged
                 )
             );
+            AutoCellSizeProperty = DependencyProperty.Register(
+                "AutoCellSize",
+                typeof(bool),
+                typeof(WidgetBoard),
+                new FrameworkPropertyMetadata(
+                    true,
+                    OnAutoCellSizeChanged
+                )
+            );
             GridColumnCountProperty = DependencyProperty.Register(
                 "GridColumnCount",
                 typeof(int),
@@ -158,31 +176,29 @@ namespace ExperimentalProject.Views
             );
         }
 
-        private static void OnIsGridDisplayedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is WidgetBoard board)
-            {
-                board.RenderGrid();
-            }
-        }
-
         /// <summary>
         ///     Class for handling interface logic and providing bindings
         /// </summary>
         public WidgetBoard()
         {
             InitializeComponent();
-            RenderGrid();
+            Loaded += OnLoad;
+            SizeChanged += OnSizeChanged;
+            UpdateGridDimensions();
         }
 
         /// <summary>
-        ///     Flag indicating the visibility of widget manipulators for <see cref="Widget" />
+        ///     Gets or sets the activity of calculated cell sizes
         /// </summary>
-        public bool IsManipulatorHidden
+        public bool AutoCellSize
         {
-            get => (bool)GetValue(IsManipulatorHiddenProperty);
-            set => SetValue(IsManipulatorHiddenProperty, value);
+            get => (bool)GetValue(AutoCellSizeProperty);
+            set => SetValue(AutoCellSizeProperty, value);
         }
+
+        /// <summary>
+        ///     Gets or sets the grid's rendering state
+        /// </summary>
         public bool IsGridDisplayed
         {
             get => (bool)GetValue(IsGridDisplayedProperty);
@@ -190,7 +206,16 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Flag indicating the visibility of sidebar with <see cref="Views.WidgetPalette">WidgetPalette</see>
+        ///     Gets or sets the visibility of widget manipulators for <see cref="Widget" />
+        /// </summary>
+        public bool IsManipulatorHidden
+        {
+            get => (bool)GetValue(IsManipulatorHiddenProperty);
+            set => SetValue(IsManipulatorHiddenProperty, value);
+        }
+
+        /// <summary>
+        ///     Gets or sets the visibility of sidebar with <see cref="Views.WidgetPalette">WidgetPalette</see>
         /// </summary>
         public bool IsSidebarHidden
         {
@@ -198,24 +223,36 @@ namespace ExperimentalProject.Views
             set => SetValue(IsSidebarHiddenProperty, value);
         }
 
+        /// <summary>
+        ///     Gets or sets the filling the background for the main widget board field
+        /// </summary>
         public Brush BoardBackground
         {
             get => (Brush)GetValue(BoardBackgroundProperty);
             set => SetValue(BoardBackgroundProperty, value);
         }
 
+        /// <summary>
+        ///     Gets or sets the color for grid lines and other stuff
+        /// </summary>
         public Brush BoardForeground
         {
             get => (Brush)GetValue(BoardForegroundProperty);
             set => SetValue(BoardForegroundProperty, value);
         }
 
+        /// <summary>
+        ///     Gets or sets the filling the background for the widget palette field
+        /// </summary>
         public Brush PaletteBackground
         {
             get => (Brush)GetValue(PaletteBackgroundProperty);
             set => SetValue(PaletteBackgroundProperty, value);
         }
 
+        /// <summary>
+        ///     Gets or sets the color for Group Labels and other stuff
+        /// </summary>
         public Brush PaletteForeground
         {
             get => (Brush)GetValue(PaletteForegroundProperty);
@@ -223,16 +260,25 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Cell size to use in building the interface.
+        ///     Gets or sets the cell height to use in building the interface.
         /// </summary>
-        public double CellSize
+        public double CellHeight
         {
-            get => (double)GetValue(CellSizeProperty);
-            set => SetValue(CellSizeProperty, value);
+            get => (double)GetValue(CellHeightProperty);
+            set => SetValue(CellHeightProperty, value);
         }
 
         /// <summary>
-        ///     Sidebar width with <see cref="Views.WidgetPalette">WidgetPalette</see>
+        ///     Gets or sets the cell width to use in building the interface.
+        /// </summary>
+        public double CellWidth
+        {
+            get => (double)GetValue(CellWidthProperty);
+            set => SetValue(CellWidthProperty, value);
+        }
+
+        /// <summary>
+        ///     Gets or sets the sidebar width with <see cref="Views.WidgetPalette">WidgetPalette</see>
         /// </summary>
         public double SidebarWidth
         {
@@ -241,7 +287,7 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Displayed on background grid column count
+        ///     Gets or sets the displayed on background grid column count
         /// </summary>
         public int GridColumnCount
         {
@@ -250,7 +296,7 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Displayed on background grid row count
+        ///     Gets or sets the displayed on background grid row count
         /// </summary>
         public int GridRowCount
         {
@@ -259,7 +305,7 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     A collection of <see cref="ExperimentalProject.Widget">Widgets</see> located on a board
+        ///     Gets or sets the collection of <see cref="ExperimentalProject.Widget">Widgets</see> located on a board
         /// </summary>
         public ObservableCollection<ExperimentalProject.Widget> WidgetsOnBoard
         {
@@ -268,7 +314,8 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     A collection of <see cref="ExperimentalProject.WidgetPalette">WidgetPalettes</see> located on a board
+        ///     Gets or sets the collection of <see cref="ExperimentalProject.WidgetPalette">WidgetPalettes</see> located on a
+        ///     board
         /// </summary>
         public ObservableCollection<ExperimentalProject.WidgetPalette> WidgetsPalette
         {
@@ -276,30 +323,65 @@ namespace ExperimentalProject.Views
             set => SetValue(WidgetsPaletteProperty, value);
         }
 
+        /// <summary>
+        ///     Handler called when the <see cref="AutoCellSize"> Auto cell size</see> value changes
+        /// </summary>
+        /// <param name="d">The <see cref="WidgetBoard" /> instance whose property has been changed</param>
+        /// <param name="e">An object that describes a change in a dependent property</param>
+        private static void OnAutoCellSizeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is WidgetBoard board)
+                board.ToggleAutoCellSize();
+        }
+
+        /// <summary>
+        ///     Handler called when the <see cref="BoardBackground">Board Background</see> changes
+        /// </summary>
+        /// <param name="d">The <see cref="WidgetBoard" /> instance whose property has been changed</param>
+        /// <param name="e">An object that describes a change in a dependent property</param>
         private static void OnBoardBackgroundChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is WidgetBoard board) board.WidgetCanvas.Background = (Brush)e.NewValue;
         }
 
+        /// <summary>
+        ///     Handler called when the <see cref="BoardForeground">Board Foreground</see> changes
+        /// </summary>
+        /// <param name="d">The <see cref="WidgetBoard" /> instance whose property has been changed </param>
+        /// <param name="e">An object that describes a change in a dependent property</param>
         private static void OnBoardForegroundChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is WidgetBoard board)
-                foreach (var line in board.boardGridLines)
+                foreach (Line line in board.GridOverlay.Children)
                     line.Stroke = (Brush)e.NewValue;
         }
 
         /// <summary>
-        ///     Handler called when the <see cref="CellSize">CellSize</see> changes
+        ///     Handler called when the <see cref="CellHeight">CellHeight</see> changes
         /// </summary>
-        /// <param name="d">The <see cref="WidgetBoard" /> instance whose property has been changed </param>
+        /// <param name="d">The <see cref="WidgetBoard" /> instance whose property has been changed</param>
         /// <param name="e">An object that describes a change in a dependent property</param>
-        private static void OnCellSizeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnCellHeightChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (!(d is WidgetBoard board)) return;
 
-            board.RenderGrid();
+            board.ResizeGrid();
             foreach (var widget in board.WidgetsOnBoard)
-                widget.SetCellSize((double)e.NewValue);
+                widget.SetCellHeight((double)e.NewValue);
+        }
+
+        /// <summary>
+        ///     Handler called when the <see cref="CellWidth">CellWidth</see> changes
+        /// </summary>
+        /// <param name="d"></param>
+        /// <param name="e"></param>
+        private static void OnCellWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (!(d is WidgetBoard board)) return;
+
+            board.ResizeGrid();
+            foreach (var widget in board.WidgetsOnBoard)
+                widget.SetCellWidth((double)e.NewValue);
         }
 
         /// <summary>
@@ -309,8 +391,7 @@ namespace ExperimentalProject.Views
         /// <param name="e">An object that describes a change in a dependent property</param>
         private static void OnGridColumnCountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is WidgetBoard board)
-                board.RenderGrid();
+            if (d is WidgetBoard board) board.UpdateGridDimensions();
         }
 
         /// <summary>
@@ -321,7 +402,21 @@ namespace ExperimentalProject.Views
         private static void OnGridRowCountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is WidgetBoard board)
-                board.RenderGrid();
+                board.UpdateGridDimensions();
+        }
+
+        /// <summary>
+        ///     Handler called when the <see cref="IsGridDisplayed">Grid Displayed</see> changes
+        /// </summary>
+        /// <param name="d">The <see cref="WidgetBoard" /> instance whose property has been changed </param>
+        /// <param name="e">An object that describes a change in a dependent property</param>
+        private static void OnIsGridDisplayedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is WidgetBoard board)
+            {
+                board.ResizeGrid();
+                board.GridOverlay.Visibility = (bool)e.NewValue ? Visibility.Visible : Visibility.Hidden;
+            }
         }
 
         /// <summary>
@@ -346,19 +441,29 @@ namespace ExperimentalProject.Views
                 board.ToggleWidgetSidebar();
         }
 
+        /// <summary>
+        ///     Handler called when the <see cref="PaletteBackground">Palette Background</see> changes
+        /// </summary>
+        /// <param name="d">The <see cref="WidgetBoard" /> instance whose property has been changed </param>
+        /// <param name="e">An object that describes a change in a dependent property</param>
         private static void OnPaletteBackgroundChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is WidgetBoard board)
-            {
-                board.WidgetSidebarBackground.Fill = (Brush)e.NewValue;
-            }
+            if (d is WidgetBoard board) board.WidgetSidebarBackground.Fill = (Brush)e.NewValue;
         }
 
+        /// <summary>
+        ///     Handler called when the <see cref="PaletteForeground">Palette Foreground</see> changes
+        /// </summary>
+        /// <param name="d">The <see cref="WidgetBoard" /> instance whose property has been changed </param>
+        /// <param name="e">An object that describes a change in a dependent property</param>
         private static void OnPaletteForegroundChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is WidgetBoard board)
+            {
                 foreach (var label in board.sidebarGroupLabels)
                     label.Foreground = (Brush)e.NewValue;
+                board.Resources["ForegroundBrush"] = (Brush)e.NewValue;
+            }
         }
 
         /// <summary>
@@ -434,10 +539,12 @@ namespace ExperimentalProject.Views
         /// <param name="widget">Widget to add</param>
         private void AddWidget(ExperimentalProject.Widget widget)
         {
-            var cellSize = (double)GetValue(CellSizeProperty);
+            var cellHeight = (double)GetValue(CellHeightProperty);
+            var cellWidth = (double)GetValue(CellWidthProperty);
             widget.IsManipulatorVisible = !IsManipulatorHidden;
             widget.OnRemoveWidgetEvent += RemoveWidget;
-            widget.SetCellSize(cellSize);
+            widget.SetCellHeight(cellHeight);
+            widget.SetCellWidth(cellWidth);
             WidgetCanvas.Children.Add(widget.WidgetView);
         }
 
@@ -470,6 +577,15 @@ namespace ExperimentalProject.Views
         private void OnCreateWidgetHandler(object sender, ExperimentalProject.Widget widget)
         {
             WidgetsOnBoard.Add(widget);
+        }
+
+        /// <summary>
+        ///     Handler called when the <see cref="WidgetBoard">Widget Board</see> has been completely initialized
+        /// </summary>
+        /// <param name="sender">The <see cref="WidgetBoard" /> instance that has been initialized </param>
+        private void OnLoad(object sender, RoutedEventArgs e)
+        {
+            ToggleAutoCellSize();
         }
 
         /// <summary>
@@ -509,6 +625,16 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
+        ///     Handler called when the <see cref="WidgetBoard">Widget Board</see> has been resized
+        /// </summary>
+        /// <param name="sender">The <see cref="WidgetBoard" /> instance whose property has been changed</param>
+        /// <param name="e">An object that describes a size changing</param>
+        private void OnSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            ToggleAutoCellSize();
+        }
+
+        /// <summary>
         ///     Handler called then transform animation is completed
         /// </summary>
         /// <param name="sender">The object that initiated the change to the collection</param>
@@ -526,53 +652,6 @@ namespace ExperimentalProject.Views
         {
             WidgetsOnBoard.Remove(widget);
             WidgetCanvas.Children.Remove(widget.WidgetView);
-        }
-
-        /// <summary>
-        ///     Draw a background grid to show the size of the cells
-        /// </summary>
-        private void RenderGrid()
-        {
-            var cellSize = (double)GetValue(CellSizeProperty);
-
-            GridOverlay.Children.Clear();
-            boardGridLines.Clear();
-
-            if(!IsGridDisplayed)
-                return;
-            for (var i = 0; i <= GridColumnCount; i++)
-            {
-                var verticalLine = new Line
-                {
-                    Stroke = BoardForeground,
-                    X1 = i * cellSize,
-                    X2 = i * cellSize,
-                    Y1 = 0,
-                    Y2 = GridRowCount * cellSize,
-                    StrokeThickness = 1,
-                    StrokeDashArray = new DoubleCollection { 4, 4 },
-                    ClipToBounds = true
-                };
-                boardGridLines.Add(verticalLine);
-                GridOverlay.Children.Add(verticalLine);
-            }
-
-            for (var i = 0; i <= GridRowCount; i++)
-            {
-                var horizontalLine = new Line
-                {
-                    Stroke = BoardForeground,
-                    X1 = 0,
-                    X2 = GridColumnCount * cellSize,
-                    Y1 = i * cellSize,
-                    Y2 = i * cellSize,
-                    StrokeThickness = 1,
-                    StrokeDashArray = new DoubleCollection { 4, 4 },
-                    ClipToBounds = true
-                };
-                boardGridLines.Add(horizontalLine);
-                GridOverlay.Children.Add(horizontalLine);
-            }
         }
 
         /// <summary>
@@ -596,6 +675,78 @@ namespace ExperimentalProject.Views
 
                 foreach (var widget in widgetGroup) WidgetPalette.Children.Add(widget.WidgetPaletteView);
             }
+        }
+
+        /// <summary>
+        ///     Update the positions of the background grid lines
+        /// </summary>
+        private void ResizeGrid()
+        {
+            if (!IsGridDisplayed)
+                return;
+
+            for (var i = 0; i <= GridColumnCount; i++)
+            {
+                ((Line)GridOverlay.Children[i]).X1 = i * CellWidth;
+                ((Line)GridOverlay.Children[i]).X2 = i * CellWidth;
+                ((Line)GridOverlay.Children[i]).Y1 = 0;
+                ((Line)GridOverlay.Children[i]).Y2 = GridRowCount * CellHeight;
+            }
+
+            for (var i = 0; i <= GridRowCount; i++)
+            {
+                ((Line)GridOverlay.Children[i + GridColumnCount + 1]).X1 = 0;
+                ((Line)GridOverlay.Children[i + GridColumnCount + 1]).X2 = GridColumnCount * CellWidth;
+                ((Line)GridOverlay.Children[i + GridColumnCount + 1]).Y1 = i * CellHeight;
+                ((Line)GridOverlay.Children[i + GridColumnCount + 1]).Y2 = i * CellHeight;
+            }
+        }
+
+        /// <summary>
+        ///     Update cell size by <see cref="AutoCellSize">AutoCellSize</see> value
+        /// </summary>
+        private void ToggleAutoCellSize()
+        {
+            if (AutoCellSize)
+            {
+                CellHeight = ActualHeight / GridRowCount;
+                CellWidth = ActualWidth / GridColumnCount;
+            }
+            ResizeGrid();
+        }
+
+        /// <summary>
+        ///     Complete updating grid lines
+        /// </summary>
+        private void UpdateGridDimensions()
+        {
+            GridOverlay.Children.Clear();
+
+            for (var i = 0; i <= GridColumnCount; i++)
+            {
+                var verticalLine = new Line
+                {
+                    Stroke = BoardForeground,
+                    StrokeThickness = 1,
+                    StrokeDashArray = new DoubleCollection { 4, 4 },
+                    ClipToBounds = true
+                };
+                GridOverlay.Children.Add(verticalLine);
+            }
+
+            for (var i = 0; i <= GridRowCount; i++)
+            {
+                var horizontalLine = new Line
+                {
+                    Stroke = BoardForeground,
+                    StrokeThickness = 1,
+                    StrokeDashArray = new DoubleCollection { 4, 4 },
+                    ClipToBounds = true
+                };
+                GridOverlay.Children.Add(horizontalLine);
+            }
+
+            ToggleAutoCellSize();
         }
     }
 }

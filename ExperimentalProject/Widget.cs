@@ -15,7 +15,7 @@ namespace ExperimentalProject
     /// </summary>
     public abstract class Widget : INotifyPropertyChanged
     {
-        private readonly IUserWidgetViewModel widgetViewModelControlViewModel;
+        private readonly object widgetViewModel;
         private readonly V.Widget widgetView;
         private double shadowOpacity;
         private int column;
@@ -33,11 +33,12 @@ namespace ExperimentalProject
         ///     Class that represents the view model of a <see cref="V.Widget">Widget</see> on a widget board.
         /// </summary>
         /// <param name="widgetControl"><see cref="UserControl" /> to be included in the widget</param>
-        /// <param name="widgetViewModelControlViewModel"></param>
-        protected Widget(UserControl widgetControl, IUserWidgetViewModel widgetViewModelControlViewModel, Guid widgetId)
+        /// <param name="widgetViewModel">ViewModel object for WidgetControl</param>
+        /// <param name="widgetId">Widget type ID</param>
+        protected Widget(UserControl widgetControl, object widgetViewModel, Guid widgetId)
         {
-            this.widgetViewModelControlViewModel = widgetViewModelControlViewModel;
-            widgetControl.DataContext = widgetViewModelControlViewModel;
+            this.widgetViewModel = widgetViewModel;
+            widgetControl.DataContext = this.widgetViewModel;
             widgetView = new V.Widget(widgetControl)
             {
                 DataContext = this
@@ -84,10 +85,13 @@ namespace ExperimentalProject
         /// </summary>
         public event ActionsWidgetHandler OnSettingsWidgetEvent;
 
+        /// <summary>
+        ///     Event that triggered when any properties are changed
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        ///     Custom settings for saving state in serialized data
+        ///     Gets or sets the custom settings for saving state in serialized data
         /// </summary>
         public virtual string Settings
         {
@@ -97,13 +101,14 @@ namespace ExperimentalProject
                 if (string.IsNullOrEmpty(value))
                     return;
                 settings = value;
-                widgetViewModelControlViewModel.Settings = value;
+                if (widgetViewModel is IUserWidgetViewModel model)
+                    model.Settings = value;
                 OnPropertyChanged();
             }
         }
 
         /// <summary>
-        ///     Flag representing the visibility state of controls
+        ///     Gets or sets the flag representing the visibility state of controls
         /// </summary>
         public bool IsManipulatorVisible
         {
@@ -112,7 +117,7 @@ namespace ExperimentalProject
         }
 
         /// <summary>
-        /// Flag representing the visibility state of Settings Button in header
+        ///     Gets or sets the flag representing the visibility state of Settings Button in header
         /// </summary>
         public bool IsSettingsButtonVisible
         {
@@ -120,6 +125,9 @@ namespace ExperimentalProject
             set => widgetView.SettingsButtonVisibility = value ? Visibility.Visible : Visibility.Collapsed;
         }
 
+        /// <summary>
+        ///     Gets or sets the transparency value of the shadow cast by the widget
+        /// </summary>
         public double ShadowOpacity
         {
             get => shadowOpacity;
@@ -131,12 +139,12 @@ namespace ExperimentalProject
         }
 
         /// <summary>
-        ///     Widget variant ID
+        ///     Gets or protected sets the widget variant ID
         /// </summary>
         public Guid WidgetId { get; protected set; }
 
         /// <summary>
-        ///     X-position on <see cref="V.WidgetBoard">WidgetBoard</see> (measured in cells)
+        ///     Gets or sets the X-position on <see cref="V.WidgetBoard">WidgetBoard</see> (measured in cells)
         /// </summary>
         public int Column
         {
@@ -149,7 +157,7 @@ namespace ExperimentalProject
         }
 
         /// <summary>
-        ///     Width on <see cref="V.WidgetBoard">WidgetBoard</see> (measured in cells)
+        ///     Gets or sets the width on <see cref="V.WidgetBoard">WidgetBoard</see> (measured in cells)
         /// </summary>
         public int ColumnSpan
         {
@@ -162,7 +170,7 @@ namespace ExperimentalProject
         }
 
         /// <summary>
-        ///     Minimal Widget width (measured in cells)
+        ///     Gets or sets the minimal Widget width (measured in cells)
         /// </summary>
         public int MinColumnSpan
         {
@@ -175,7 +183,7 @@ namespace ExperimentalProject
         }
 
         /// <summary>
-        ///     Minimal Widget height (measured in cells)
+        ///     Gets or sets the minimal Widget height (measured in cells)
         /// </summary>
         public int MinRowSpan
         {
@@ -188,7 +196,7 @@ namespace ExperimentalProject
         }
 
         /// <summary>
-        ///     Widget height on <see cref="V.WidgetBoard">WidgetBoard</see> (measured in cells)
+        ///     Gets or sets the widget height on <see cref="V.WidgetBoard">WidgetBoard</see> (measured in cells)
         /// </summary>
         public int Row
         {
@@ -201,7 +209,7 @@ namespace ExperimentalProject
         }
 
         /// <summary>
-        ///     Height on <see cref="V.WidgetBoard">WidgetBoard</see> (measured in cells)
+        ///     Gets or sets the height on <see cref="V.WidgetBoard">WidgetBoard</see> (measured in cells)
         /// </summary>
         public int RowSpan
         {
@@ -238,7 +246,7 @@ namespace ExperimentalProject
         }
 
         /// <summary>
-        ///     The title displayed in the interface of the <see cref="Widget" />
+        ///     Gets or sets the title displayed in the interface of the <see cref="Widget" />
         /// </summary>
         public string Title
         {
@@ -265,12 +273,21 @@ namespace ExperimentalProject
         }
 
         /// <summary>
-        ///     Sets the cell size to use in building the interface.
+        ///     Sets the cell height to use in building the interface.
         /// </summary>
-        /// <param name="cellSize">Cell side size</param>
-        internal void SetCellSize(double cellSize)
+        /// <param name="value">Cell height size</param>
+        internal void SetCellHeight(double value)
         {
-            widgetView.SetCellSize(cellSize);
+            widgetView.SetCellHeight(value);
+        }
+
+        /// <summary>
+        ///     Sets the cell width to use in building the interface.
+        /// </summary>
+        /// <param name="value">Cell width size</param>
+        internal void SetCellWidth(double value)
+        {
+            widgetView.SetCellWidth(value);
         }
     }
 }

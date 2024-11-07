@@ -3,7 +3,7 @@
 namespace WidgetExportingExample.Views
 {
     /// <summary>
-    /// Логика взаимодействия для SampleWidgetSecond.xaml
+    ///     Логика взаимодействия для SampleWidgetSecond.xaml
     /// </summary>
     public partial class SampleWidgetSecond : UserControl
     {

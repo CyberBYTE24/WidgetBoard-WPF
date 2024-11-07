@@ -23,7 +23,8 @@ namespace ExperimentalProject.Views
 
         private bool isDragging;
         private bool isResizing;
-        private double cellSize = 100;
+        private double cellHeight = 150;
+        private double cellWidth = 200;
         private Point lastPosition;
 
         /// <summary>
@@ -131,7 +132,16 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     X-position on <see cref="WidgetBoard">WidgetBoard</see> (measured in cells)
+        ///     The transparency of the shadow cast by the widget
+        /// </summary>
+        public double ShadowOpacity
+        {
+            get => (double)GetValue(ShadowOpacityProperty);
+            set => SetValue(ShadowOpacityProperty, value);
+        }
+
+        /// <summary>
+        ///     Gets or sets the X-position on <see cref="WidgetBoard">WidgetBoard</see> (measured in cells)
         /// </summary>
         public int Column
         {
@@ -140,7 +150,7 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Width on <see cref="WidgetBoard">WidgetBoard</see> (measured in cells)
+        ///     Gets or sets the width on <see cref="WidgetBoard">WidgetBoard</see> (measured in cells)
         /// </summary>
         public int ColumnSpan
         {
@@ -149,7 +159,7 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Minimal Widget width (measured in cells)
+        ///     Gets or sets the minimal Widget width (measured in cells)
         /// </summary>
         public int MinColumnSpan
         {
@@ -158,7 +168,7 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Minimal Widget height (measured in cells)
+        ///     Gets or sets the minimal Widget height (measured in cells)
         /// </summary>
         public int MinRowSpan
         {
@@ -167,7 +177,7 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Widget height on <see cref="WidgetBoard">WidgetBoard</see> (measured in cells)
+        ///     Gets or sets the Y-position on <see cref="WidgetBoard">WidgetBoard</see> (measured in cells)
         /// </summary>
         public int Row
         {
@@ -176,7 +186,7 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Height on <see cref="WidgetBoard">WidgetBoard</see> (measured in cells)
+        ///     Gets or sets the height on <see cref="WidgetBoard">WidgetBoard</see> (measured in cells)
         /// </summary>
         public int RowSpan
         {
@@ -185,7 +195,7 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Representing the visibility state of Widget manipulator
+        ///     Gets or sets the visibility state of Widget manipulator
         /// </summary>
         public Visibility ManipulatorVisibility
         {
@@ -193,15 +203,13 @@ namespace ExperimentalProject.Views
             set => SetValue(ManipulatorVisibilityProperty, value);
         }
 
+        /// <summary>
+        ///     Gets or sets the visibility of the settings button
+        /// </summary>
         public Visibility SettingsButtonVisibility
         {
             get => (Visibility)GetValue(SettingsButtonVisibilityProperty);
             set => SetValue(SettingsButtonVisibilityProperty, value);
-        }
-        public double ShadowOpacity
-        {
-            get => (double)GetValue(ShadowOpacityProperty);
-            set => SetValue(ShadowOpacityProperty, value);
         }
 
         /// <summary>
@@ -212,7 +220,7 @@ namespace ExperimentalProject.Views
         private static void OnColumnChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is Widget widget)
-                Canvas.SetLeft(widget, (int)e.NewValue * widget.cellSize);
+                Canvas.SetLeft(widget, (int)e.NewValue * widget.cellWidth);
         }
 
         /// <summary>
@@ -223,7 +231,7 @@ namespace ExperimentalProject.Views
         private static void OnColumnSpanChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is Widget widget)
-                widget.Width = (int)e.NewValue * widget.cellSize;
+                widget.Width = (int)e.NewValue * widget.cellWidth;
         }
 
         /// <summary>
@@ -268,7 +276,7 @@ namespace ExperimentalProject.Views
         private static void OnRowChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is Widget widget)
-                Canvas.SetTop(widget, (int)e.NewValue * widget.cellSize);
+                Canvas.SetTop(widget, (int)e.NewValue * widget.cellHeight);
         }
 
         /// <summary>
@@ -279,27 +287,47 @@ namespace ExperimentalProject.Views
         private static void OnRowSpanChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is Widget widget)
-                widget.Height = (int)e.NewValue * widget.cellSize;
+                widget.Height = (int)e.NewValue * widget.cellHeight;
         }
+
+        /// <summary>
+        ///     Handler that is called when the visibility state changes
+        /// </summary>
+        /// <param name="d">The <see cref="Widget" /> instance whose property has been changed</param>
+        /// <param name="e">An object that describes a change in a dependent property</param>
+        private static void OnSettingsButtonVisibilityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is Widget widget) widget.SettingsButton.Visibility = (Visibility)e.NewValue;
+        }
+
+        /// <summary>
+        ///     Handler that is called when the shadow opacity changes
+        /// </summary>
+        /// <param name="d">The <see cref="Widget" /> instance whose property has been changed</param>
+        /// <param name="e">An object that describes a change in a dependent property</param>
         private static void OnShadowOpacityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is Widget widget)
                 widget.ShadowOpacity = (double)e.NewValue;
         }
 
-        private static void OnSettingsButtonVisibilityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        ///     Set new cell height and then update transform
+        /// </summary>
+        /// <param name="value">New cell height</param>
+        internal void SetCellHeight(double value)
         {
-            if (d is Widget widget) widget.SettingsButton.Visibility = (Visibility)e.NewValue;
+            cellHeight = value;
+            InitializeOnBoard();
         }
 
-
         /// <summary>
-        ///     Set new Cell size and then update transform
+        ///     Set new cell width and then update transform
         /// </summary>
-        /// <param name="newCellSize"></param>
-        internal void SetCellSize(double newCellSize)
+        /// <param name="value">New cell width</param>
+        internal void SetCellWidth(double value)
         {
-            cellSize = newCellSize;
+            cellWidth = value;
             InitializeOnBoard();
         }
 
@@ -331,8 +359,8 @@ namespace ExperimentalProject.Views
             var left = Canvas.GetLeft(this);
             var top = Canvas.GetTop(this);
 
-            var snappedLeft = Math.Round(left / cellSize) * cellSize;
-            var snappedTop = Math.Round(top / cellSize) * cellSize;
+            var snappedLeft = Math.Round(left / cellWidth) * cellWidth;
+            var snappedTop = Math.Round(top / cellHeight) * cellHeight;
 
             var leftAnimation = new DoubleAnimation
             {
@@ -366,8 +394,8 @@ namespace ExperimentalProject.Views
             BeginAnimation(Canvas.LeftProperty, leftAnimation);
             BeginAnimation(Canvas.TopProperty, topAnimation);
 
-            Column = (int)Math.Round(snappedLeft / cellSize);
-            Row = (int)Math.Round(snappedTop / cellSize);
+            Column = (int)Math.Round(snappedLeft / cellWidth);
+            Row = (int)Math.Round(snappedTop / cellHeight);
             InitializeOnBoard();
         }
 
@@ -409,12 +437,12 @@ namespace ExperimentalProject.Views
         /// </summary>
         private void InitializeOnBoard()
         {
-            Canvas.SetTop(this, Row * cellSize);
-            Canvas.SetLeft(this, Column * cellSize);
-            Height = RowSpan * cellSize;
-            Width = ColumnSpan * cellSize;
-            MinWidth = cellSize * MinColumnSpan;
-            MinHeight = cellSize * MinRowSpan;
+            Canvas.SetTop(this, Row * cellHeight);
+            Canvas.SetLeft(this, Column * cellWidth);
+            Height = RowSpan * cellHeight;
+            Width = ColumnSpan * cellWidth;
+            MinWidth = cellWidth * MinColumnSpan;
+            MinHeight = cellHeight * MinRowSpan;
         }
 
         /// <summary>
@@ -449,8 +477,8 @@ namespace ExperimentalProject.Views
             isResizing = false;
             Mouse.Capture(null);
 
-            var newWidth = Math.Round(Width / cellSize) * cellSize;
-            var newHeight = Math.Round(Height / cellSize) * cellSize;
+            var newWidth = Math.Round(Width / cellWidth) * cellWidth;
+            var newHeight = Math.Round(Height / cellHeight) * cellHeight;
 
             var widthAnimation = new DoubleAnimation
             {
@@ -481,8 +509,8 @@ namespace ExperimentalProject.Views
             };
             BeginAnimation(WidthProperty, widthAnimation);
             BeginAnimation(HeightProperty, heightAnimation);
-            RowSpan = Math.Max((int)Math.Round(newHeight / cellSize), MinRowSpan);
-            ColumnSpan = Math.Max((int)Math.Round(newWidth / cellSize), MinColumnSpan);
+            RowSpan = Math.Max((int)Math.Round(newHeight / cellHeight), MinRowSpan);
+            ColumnSpan = Math.Max((int)Math.Round(newWidth / cellWidth), MinColumnSpan);
 
             InitializeOnBoard();
         }
