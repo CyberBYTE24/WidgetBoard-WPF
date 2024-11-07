@@ -9,53 +9,6 @@ namespace WidgetExportingExample.ViewModel
 {
     public class ButtonPanel : INotifyPropertyChanged, IUserWidgetViewModel
     {
-        private RelayCommand firstCommand;
-        private RelayCommand secondCommand;
-        private RelayCommand thirdCommand;
-        private RelayCommand fourthCommand;
-
-        public RelayCommand FirstCommand
-        {
-            get
-            {
-                return firstCommand ?? (firstCommand = new RelayCommand(obj =>
-                {
-                    MessageBox.Show("First Command ");
-                }));
-            }
-        }
-        public RelayCommand SecondCommand
-        {
-            get
-            {
-                return secondCommand ?? (secondCommand = new RelayCommand(obj =>
-                {
-                    MessageBox.Show("Second Command ");
-                }));
-            }
-        }
-        public RelayCommand ThirdCommand
-        {
-            get
-            {
-                return thirdCommand ?? (thirdCommand = new RelayCommand(obj =>
-                {
-                    MessageBox.Show("Third Command ");
-                }));
-            }
-        }
-        public RelayCommand FourthCommand
-        {
-            get
-            {
-                return fourthCommand ?? (fourthCommand = new RelayCommand(obj =>
-                {
-                    MessageBox.Show("Fourth Command ");
-                }));
-            }
-        }
-
-
         private static readonly SolidColorBrush[] FirstColorScheme = new SolidColorBrush[4]
         {
             Brushes.Gray, Brushes.Orange, Brushes.Coral, Brushes.OrangeRed
@@ -71,14 +24,53 @@ namespace WidgetExportingExample.ViewModel
             Brushes.White, Brushes.DarkGray, Brushes.Gray, Brushes.DimGray
         };
 
+        private RelayCommand firstCommand;
+        private RelayCommand fourthCommand;
+        private RelayCommand secondCommand;
+        private RelayCommand thirdCommand;
+
         private SolidColorBrush firstButtonColor = FirstColorScheme[0];
+        private SolidColorBrush fourthButtonColor = FirstColorScheme[3];
         private SolidColorBrush secondButtonColor = FirstColorScheme[1];
         private SolidColorBrush thirdButtonColor = FirstColorScheme[2];
-        private SolidColorBrush fourthButtonColor = FirstColorScheme[3];
         private string colorSchemeName;
         private string settings;
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public RelayCommand FirstCommand
+        {
+            get
+            {
+                return firstCommand ?? (firstCommand = new RelayCommand(obj => { MessageBox.Show("First Command "); }));
+            }
+        }
+
+        public RelayCommand FourthCommand
+        {
+            get
+            {
+                return fourthCommand ??
+                       (fourthCommand = new RelayCommand(obj => { MessageBox.Show("Fourth Command "); }));
+            }
+        }
+
+        public RelayCommand SecondCommand
+        {
+            get
+            {
+                return secondCommand ??
+                       (secondCommand = new RelayCommand(obj => { MessageBox.Show("Second Command "); }));
+            }
+        }
+
+        public RelayCommand ThirdCommand
+        {
+            get
+            {
+                return thirdCommand ?? (thirdCommand = new RelayCommand(obj => { MessageBox.Show("Third Command "); }));
+            }
+        }
 
         public SolidColorBrush FirstButtonColor
         {

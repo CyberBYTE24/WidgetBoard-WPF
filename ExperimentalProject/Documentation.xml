@@ -6,12 +6,12 @@
     <members>
         <member name="T:ExperimentalProject.IUserWidgetViewModel">
             <summary>
-            Declares properties for working with widget settings
+                Declares properties for working with widget settings
             </summary>
         </member>
         <member name="P:ExperimentalProject.IUserWidgetViewModel.Settings">
             <summary>
-             Gets or sets the settings of widget
+                Gets or sets the settings of widget
             </summary>
         </member>
         <member name="T:ExperimentalProject.Views.Widget">
@@ -35,7 +35,7 @@
         </member>
         <member name="P:ExperimentalProject.Views.Widget.ShadowOpacity">
             <summary>
-            The transparency of the shadow cast by the widget
+                The transparency of the shadow cast by the widget
             </summary>
         </member>
         <member name="P:ExperimentalProject.Views.Widget.Column">
@@ -143,9 +143,15 @@
         </member>
         <member name="M:ExperimentalProject.Views.Widget.SetCellHeight(System.Double)">
             <summary>
-                Set new Cell height and then update transform
+                Set new cell height and then update transform
             </summary>
-            <param name="value"></param>
+            <param name="value">New cell height</param>
+        </member>
+        <member name="M:ExperimentalProject.Views.Widget.SetCellWidth(System.Double)">
+            <summary>
+                Set new cell width and then update transform
+            </summary>
+            <param name="value">New cell width</param>
         </member>
         <member name="M:ExperimentalProject.Views.Widget.HeaderMouseLeftButtonDownHandler(System.Object,System.Windows.Input.MouseButtonEventArgs)">
             <summary>
@@ -265,14 +271,19 @@
                 Class for handling interface logic and providing bindings
             </summary>
         </member>
-        <member name="P:ExperimentalProject.Views.WidgetBoard.IsManipulatorHidden">
+        <member name="P:ExperimentalProject.Views.WidgetBoard.AutoCellSize">
             <summary>
-                Gets or sets the visibility of widget manipulators for <see cref="T:ExperimentalProject.Views.Widget" />
+                Gets or sets the activity of calculated cell sizes
             </summary>
         </member>
         <member name="P:ExperimentalProject.Views.WidgetBoard.IsGridDisplayed">
             <summary>
                 Gets or sets the grid's rendering state
+            </summary>
+        </member>
+        <member name="P:ExperimentalProject.Views.WidgetBoard.IsManipulatorHidden">
+            <summary>
+                Gets or sets the visibility of widget manipulators for <see cref="T:ExperimentalProject.Views.Widget" />
             </summary>
         </member>
         <member name="P:ExperimentalProject.Views.WidgetBoard.IsSidebarHidden">
@@ -332,14 +343,22 @@
         </member>
         <member name="P:ExperimentalProject.Views.WidgetBoard.WidgetsPalette">
             <summary>
-                Gets or sets the collection of <see cref="T:ExperimentalProject.WidgetPalette">WidgetPalettes</see> located on a board
+                Gets or sets the collection of <see cref="T:ExperimentalProject.WidgetPalette">WidgetPalettes</see> located on a
+                board
             </summary>
+        </member>
+        <member name="M:ExperimentalProject.Views.WidgetBoard.OnAutoCellSizeChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+                Handler called when the <see cref="P:ExperimentalProject.Views.WidgetBoard.AutoCellSize"> Auto cell size</see> value changes
+            </summary>
+            <param name="d">The <see cref="T:ExperimentalProject.Views.WidgetBoard" /> instance whose property has been changed</param>
+            <param name="e">An object that describes a change in a dependent property</param>
         </member>
         <member name="M:ExperimentalProject.Views.WidgetBoard.OnBoardBackgroundChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
             <summary>
                 Handler called when the <see cref="P:ExperimentalProject.Views.WidgetBoard.BoardBackground">Board Background</see> changes
             </summary>
-            <param name="d">The <see cref="T:ExperimentalProject.Views.WidgetBoard" /> instance whose property has been changed </param>
+            <param name="d">The <see cref="T:ExperimentalProject.Views.WidgetBoard" /> instance whose property has been changed</param>
             <param name="e">An object that describes a change in a dependent property</param>
         </member>
         <member name="M:ExperimentalProject.Views.WidgetBoard.OnBoardForegroundChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
@@ -373,6 +392,13 @@
         <member name="M:ExperimentalProject.Views.WidgetBoard.OnGridRowCountChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
             <summary>
                 Handler called when the <see cref="P:ExperimentalProject.Views.WidgetBoard.GridRowCount">GridRowCount</see> changes
+            </summary>
+            <param name="d">The <see cref="T:ExperimentalProject.Views.WidgetBoard" /> instance whose property has been changed </param>
+            <param name="e">An object that describes a change in a dependent property</param>
+        </member>
+        <member name="M:ExperimentalProject.Views.WidgetBoard.OnIsGridDisplayedChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+                Handler called when the <see cref="P:ExperimentalProject.Views.WidgetBoard.IsGridDisplayed">Grid Displayed</see> changes
             </summary>
             <param name="d">The <see cref="T:ExperimentalProject.Views.WidgetBoard" /> instance whose property has been changed </param>
             <param name="e">An object that describes a change in a dependent property</param>
@@ -450,12 +476,25 @@
             <param name="sender">The object that initiated the change to the collection</param>
             <param name="widget">Created <see cref="T:ExperimentalProject.Widget">Widget</see> instance</param>
         </member>
+        <member name="M:ExperimentalProject.Views.WidgetBoard.OnLoad(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+                Handler called when the <see cref="T:ExperimentalProject.Views.WidgetBoard">Widget Board</see> has been completely initialized
+            </summary>
+            <param name="sender">The <see cref="T:ExperimentalProject.Views.WidgetBoard" /> instance that has been initialized </param>
+        </member>
         <member name="M:ExperimentalProject.Views.WidgetBoard.OnPaletteChangedHandler(System.Object,System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
             <summary>
                 Handler called when the <see cref="P:ExperimentalProject.Views.WidgetBoard.WidgetsPalette">WidgetsPalette</see> collection changed
             </summary>
             <param name="sender">The object that initiated the change to the collection</param>
             <param name="e">An object that describes a change in a collection</param>
+        </member>
+        <member name="M:ExperimentalProject.Views.WidgetBoard.OnSizeChanged(System.Object,System.Windows.SizeChangedEventArgs)">
+            <summary>
+                Handler called when the <see cref="T:ExperimentalProject.Views.WidgetBoard">Widget Board</see> has been resized
+            </summary>
+            <param name="sender">The <see cref="T:ExperimentalProject.Views.WidgetBoard" /> instance whose property has been changed</param>
+            <param name="e">An object that describes a size changing</param>
         </member>
         <member name="M:ExperimentalProject.Views.WidgetBoard.OnWidthAnimationCompletedHandler(System.Object,System.EventArgs)">
             <summary>
@@ -470,14 +509,24 @@
             </summary>
             <param name="widget">Removed <see cref="T:ExperimentalProject.Widget">Widget</see> instance</param>
         </member>
-        <member name="M:ExperimentalProject.Views.WidgetBoard.RenderGrid">
-            <summary>
-                Draw a background grid to show the size of the cells
-            </summary>
-        </member>
         <member name="M:ExperimentalProject.Views.WidgetBoard.RenderWidgetPalette">
             <summary>
                 Draw a widget palettes in sidebar
+            </summary>
+        </member>
+        <member name="M:ExperimentalProject.Views.WidgetBoard.ResizeGrid">
+            <summary>
+                Update the positions of the background grid lines
+            </summary>
+        </member>
+        <member name="M:ExperimentalProject.Views.WidgetBoard.ToggleAutoCellSize">
+            <summary>
+                Update cell size by <see cref="P:ExperimentalProject.Views.WidgetBoard.AutoCellSize">AutoCellSize</see> value
+            </summary>
+        </member>
+        <member name="M:ExperimentalProject.Views.WidgetBoard.UpdateGridDimensions">
+            <summary>
+                Complete updating grid lines
             </summary>
         </member>
         <member name="M:ExperimentalProject.Views.WidgetBoard.InitializeComponent">
@@ -532,7 +581,7 @@
         </member>
         <member name="P:ExperimentalProject.Widget.IsSettingsButtonVisible">
             <summary>
-            Gets or sets the flag representing the visibility state of Settings Button in header
+                Gets or sets the flag representing the visibility state of Settings Button in header
             </summary>
         </member>
         <member name="P:ExperimentalProject.Widget.ShadowOpacity">
@@ -652,24 +701,9 @@
                 Event that triggered when any properties are changed
             </summary>
         </member>
-        <member name="P:ExperimentalProject.WidgetPalette.GroupName">
-            <summary>
-                Gets or sets the name for grouping widgets in the palette
-            </summary>
-        </member>
-        <member name="P:ExperimentalProject.WidgetPalette.Title">
-            <summary>
-                Gets or sets the title displayed in the interface of the <see cref="T:ExperimentalProject.WidgetPalette" />
-            </summary>
-        </member>
         <member name="P:ExperimentalProject.WidgetPalette.IconBytes">
             <summary>
                 Gets or sets the ByteArray of SVG file for drawing the icon
-            </summary>
-        </member>
-        <member name="P:ExperimentalProject.WidgetPalette.IconBase64">
-            <summary>
-                Gets the Icon in Base64 format
             </summary>
         </member>
         <member name="P:ExperimentalProject.WidgetPalette.WidgetId">
@@ -680,6 +714,21 @@
         <member name="P:ExperimentalProject.WidgetPalette.CreateWidgetCommand">
             <summary>
                 Command that triggered <see cref="E:ExperimentalProject.WidgetPalette.OnCreateWidgetEvent">OnCreateWidgetEvent</see>
+            </summary>
+        </member>
+        <member name="P:ExperimentalProject.WidgetPalette.GroupName">
+            <summary>
+                Gets or sets the name for grouping widgets in the palette
+            </summary>
+        </member>
+        <member name="P:ExperimentalProject.WidgetPalette.IconBase64">
+            <summary>
+                Gets the Icon in Base64 format
+            </summary>
+        </member>
+        <member name="P:ExperimentalProject.WidgetPalette.Title">
+            <summary>
+                Gets or sets the title displayed in the interface of the <see cref="T:ExperimentalProject.WidgetPalette" />
             </summary>
         </member>
         <member name="P:ExperimentalProject.WidgetPalette.WidgetPaletteView">
