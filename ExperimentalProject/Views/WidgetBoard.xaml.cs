@@ -20,7 +20,8 @@ namespace ExperimentalProject.Views
         public static readonly DependencyProperty BoardBackgroundProperty;
         public static readonly DependencyProperty BoardForegroundProperty;
         public static readonly DependencyProperty IsGridDisplayedProperty;
-        public static readonly DependencyProperty CellSizeProperty;
+        public static readonly DependencyProperty CellHeightProperty;
+        public static readonly DependencyProperty CellWidthProperty;
         public static readonly DependencyProperty GridColumnCountProperty;
         public static readonly DependencyProperty GridRowCountProperty;
         public static readonly DependencyProperty IsManipulatorHiddenProperty;
@@ -85,13 +86,22 @@ namespace ExperimentalProject.Views
                 )
             );
 
-            CellSizeProperty = DependencyProperty.Register(
-                "CellSize",
+            CellHeightProperty = DependencyProperty.Register(
+                "CellHeight",
                 typeof(double),
                 typeof(WidgetBoard),
                 new FrameworkPropertyMetadata(
                     150.0d,
-                    OnCellSizeChanged
+                    OnCellHeightChanged
+                )
+            );
+            CellWidthProperty = DependencyProperty.Register(
+                "CellWidth",
+                typeof(double),
+                typeof(WidgetBoard),
+                new FrameworkPropertyMetadata(
+                    200.0d,
+                    OnCellWidthChanged
                 )
             );
             SidebarWidthProperty = DependencyProperty.Register(
@@ -239,12 +249,21 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Gets or sets the cell size to use in building the interface.
+        ///     Gets or sets the cell height to use in building the interface.
         /// </summary>
-        public double CellSize
+        public double CellHeight
         {
-            get => (double)GetValue(CellSizeProperty);
-            set => SetValue(CellSizeProperty, value);
+            get => (double)GetValue(CellHeightProperty);
+            set => SetValue(CellHeightProperty, value);
+        }
+
+        /// <summary>
+        ///     Gets or sets the cell width to use in building the interface.
+        /// </summary>
+        public double CellWidth
+        {
+            get => (double)GetValue(CellWidthProperty);
+            set => SetValue(CellWidthProperty, value);
         }
 
         /// <summary>
@@ -315,17 +334,31 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Handler called when the <see cref="CellSize">CellSize</see> changes
+        ///     Handler called when the <see cref="CellHeight">CellHeight</see> changes
         /// </summary>
         /// <param name="d">The <see cref="WidgetBoard" /> instance whose property has been changed</param>
         /// <param name="e">An object that describes a change in a dependent property</param>
-        private static void OnCellSizeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnCellHeightChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (!(d is WidgetBoard board)) return;
 
             board.RenderGrid();
             foreach (var widget in board.WidgetsOnBoard)
-                widget.SetCellSize((double)e.NewValue);
+                widget.SetCellHeight((double)e.NewValue);
+        }
+
+        /// <summary>
+        ///     Handler called when the <see cref="CellWidth">CellWidth</see> changes
+        /// </summary>
+        /// <param name="d"></param>
+        /// <param name="e"></param>
+        private static void OnCellWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (!(d is WidgetBoard board)) return;
+
+            board.RenderGrid();
+            foreach (var widget in board.WidgetsOnBoard)
+                widget.SetCellWidth((double)e.NewValue);
         }
 
         /// <summary>
@@ -475,10 +508,12 @@ namespace ExperimentalProject.Views
         /// <param name="widget">Widget to add</param>
         private void AddWidget(ExperimentalProject.Widget widget)
         {
-            var cellSize = (double)GetValue(CellSizeProperty);
+            var cellHeight = (double)GetValue(CellHeightProperty);
+            var cellWidth = (double)GetValue(CellWidthProperty);
             widget.IsManipulatorVisible = !IsManipulatorHidden;
             widget.OnRemoveWidgetEvent += RemoveWidget;
-            widget.SetCellSize(cellSize);
+            widget.SetCellHeight(cellHeight);
+            widget.SetCellWidth(cellWidth);
             WidgetCanvas.Children.Add(widget.WidgetView);
         }
 
@@ -574,7 +609,8 @@ namespace ExperimentalProject.Views
         /// </summary>
         private void RenderGrid()
         {
-            var cellSize = (double)GetValue(CellSizeProperty);
+            var cellHeight = (double)GetValue(CellHeightProperty);
+            var cellWidth = (double)GetValue(CellWidthProperty);
 
             GridOverlay.Children.Clear();
             boardGridLines.Clear();
@@ -586,10 +622,10 @@ namespace ExperimentalProject.Views
                 var verticalLine = new Line
                 {
                     Stroke = BoardForeground,
-                    X1 = i * cellSize,
-                    X2 = i * cellSize,
+                    X1 = i * cellWidth,
+                    X2 = i * cellWidth,
                     Y1 = 0,
-                    Y2 = GridRowCount * cellSize,
+                    Y2 = GridRowCount * cellHeight,
                     StrokeThickness = 1,
                     StrokeDashArray = new DoubleCollection { 4, 4 },
                     ClipToBounds = true
@@ -604,9 +640,9 @@ namespace ExperimentalProject.Views
                 {
                     Stroke = BoardForeground,
                     X1 = 0,
-                    X2 = GridColumnCount * cellSize,
-                    Y1 = i * cellSize,
-                    Y2 = i * cellSize,
+                    X2 = GridColumnCount * cellWidth,
+                    Y1 = i * cellHeight,
+                    Y2 = i * cellHeight,
                     StrokeThickness = 1,
                     StrokeDashArray = new DoubleCollection { 4, 4 },
                     ClipToBounds = true
