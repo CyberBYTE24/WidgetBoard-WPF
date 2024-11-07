@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Windows;
+using ExperimentalProject.Views;
 
 namespace UseExample
 {
@@ -14,6 +16,5 @@ namespace UseExample
             DataContext = dataContext;
             Closed += dataContext.MainWindow_Closed;
         }
-        
     }
 }
