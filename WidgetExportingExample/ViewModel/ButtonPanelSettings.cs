@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using ExperimentalProject.Utilities;
 
 namespace WidgetExportingExample.ViewModel
 {
@@ -18,7 +11,9 @@ namespace WidgetExportingExample.ViewModel
         public const string ThirdColorScheme = "Third Color Scheme";
         private string selectedParameter;
 
-        public ObservableCollection<string> FirstParameter { get; set; } = new ObservableCollection<string>()
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public ObservableCollection<string> FirstParameter { get; set; } = new ObservableCollection<string>
         {
             FirstColorScheme,
             SecondColorScheme,
@@ -34,8 +29,6 @@ namespace WidgetExportingExample.ViewModel
                 OnPropertyChanged();
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
