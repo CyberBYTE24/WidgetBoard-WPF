@@ -30,7 +30,8 @@ namespace UseExample.ViewModels
         private bool isManipulatorHidden = true;
         private bool isSidebarHidden = true;
         private bool isAutoCellSize = true;
-        private Brush backgroundImage = Brushes.LightSlateGray;
+        private bool ignoreWidgetCollision = false;
+        private Brush backgroundBrush = Brushes.LightSlateGray;
         private double cellWidth = 120;
         private double cellHeight = 120;
         private int gridColumnCount = 10;
@@ -38,6 +39,7 @@ namespace UseExample.ViewModels
         private RelayCommand setBackgroundCommand;
         private RelayCommand toggleManipulatorCommand;
         private RelayCommand toggleSidebarCommand;
+        private string backgroundImagePath;
 
         /// <summary>
         ///     Class that represents the view model of a <see cref="UseExample.MainWindow">Main Window</see>.
@@ -51,24 +53,37 @@ namespace UseExample.ViewModels
             foreach (var type in inheritingTypes)
                 WidgetPalette.Add((WidgetPalette)type.GetConstructor(new Type[] { })?.Invoke(new object[] { }));
 
-            if (string.IsNullOrEmpty(Settings.Default.WidgetSerialized)) return;
-            var serializer = new XmlSerializer(typeof(List<WidgetSerializable>));
-            var reader = new StringReader(Settings.Default.WidgetSerialized);
-            var deserialized = (List<WidgetSerializable>)serializer.Deserialize(reader);
 
-            foreach (var widget in deserialized)
+            if (string.IsNullOrEmpty(Settings.Default.WidgetSerialized)) return;
+
+            var serializer = new XmlSerializer(typeof(WidgetBoardSerializable));
+            var reader = new StringReader(Settings.Default.WidgetSerialized);
+            var deserialized = (WidgetBoardSerializable)serializer.Deserialize(reader);
+            reader.Dispose();
+
+            CellHeight = deserialized.CellHeight;
+            CellWidth = deserialized.CellWidth;
+            GridColumnCount = deserialized.ColumnCount;
+            GridRowCount = deserialized.RowCount;
+            IsAutoCellSize = deserialized.AutomaticCellSize;
+            IgnoreWidgetCollision = deserialized.IgnoreWidgetCollision;
+            if (File.Exists(deserialized.BackgroundImagePath))
+            {
+                backgroundImagePath = deserialized.BackgroundImagePath;
+                SetBackgroundImage(deserialized.BackgroundImagePath);
+            }
+
+            foreach (var widget in deserialized.WidgetsOnBoard)
             {
                 var palette = WidgetPalette.FirstOrDefault(x => x.WidgetId == widget.WidgetId);
                 if (palette == null)
                     continue;
                 var widgetInstance = palette.CreateWidgetInstance();
-
                 widgetInstance.Row = widget.Row;
                 widgetInstance.Column = widget.Column;
                 widgetInstance.RowSpan = widget.RowSpan;
                 widgetInstance.ColumnSpan = widget.ColumnSpan;
                 widgetInstance.Settings = widget.Settings;
-
                 WidgetBoard.Add(widgetInstance);
             }
         }
@@ -117,15 +132,25 @@ namespace UseExample.ViewModels
             }
         }
 
+        public bool IgnoreWidgetCollision
+        {
+            get => ignoreWidgetCollision;
+            set
+            {
+                ignoreWidgetCollision = value;
+                OnPropertyChanged();
+            }
+        }
+
         /// <summary>
         ///     Bound property to fill the background with a color or image
         /// </summary>
         public Brush BackgroundColor
         {
-            get => backgroundImage;
+            get => backgroundBrush;
             set
             {
-                backgroundImage = value;
+                backgroundBrush = value;
                 OnPropertyChanged();
             }
         }
@@ -211,23 +236,29 @@ namespace UseExample.ViewModels
                     dialog.Multiselect = false;
                     if (dialog.ShowDialog() == true)
                     {
-                        var image = Image.FromFile(dialog.FileName);
-                        var bitmap = new Bitmap(image);
-                        var bitmapSource = Imaging.CreateBitmapSourceFromHBitmap(
-                            bitmap.GetHbitmap(),
-                            IntPtr.Zero,
-                            Int32Rect.Empty,
-                            BitmapSizeOptions.FromEmptyOptions()
-                        );
-                        bitmap.Dispose();
-
-                        BackgroundColor = new ImageBrush(bitmapSource)
-                        {
-                            Stretch = Stretch.UniformToFill
-                        };
+                        backgroundImagePath = dialog.FileName;
+                        SetBackgroundImage(backgroundImagePath);
                     }
                 }));
             }
+        }
+
+        private void SetBackgroundImage(string imagePath)
+        {
+            var image = Image.FromFile(imagePath);
+            var bitmap = new Bitmap(image);
+            var bitmapSource = Imaging.CreateBitmapSourceFromHBitmap(
+                bitmap.GetHbitmap(),
+                IntPtr.Zero,
+                Int32Rect.Empty,
+                BitmapSizeOptions.FromEmptyOptions()
+            );
+            bitmap.Dispose();
+
+            BackgroundColor = new ImageBrush(bitmapSource)
+            {
+                Stretch = Stretch.UniformToFill
+            };
         }
 
         /// <summary>
@@ -275,9 +306,22 @@ namespace UseExample.ViewModels
                     Settings = widget.Settings
                 });
 
-            var serializer = new XmlSerializer(typeof(List<WidgetSerializable>));
+            var serializableWidgetBoardStruct = new WidgetBoardSerializable
+            {
+                WidgetsOnBoard = serializableWidgetStruct,
+                IgnoreWidgetCollision = IgnoreWidgetCollision,
+                AutomaticCellSize = IsAutoCellSize,
+                CellHeight = CellHeight,
+                CellWidth = CellWidth,
+                ColumnCount = GridColumnCount,
+                RowCount = GridRowCount,
+                BackgroundImagePath = backgroundImagePath
+            };
+
+
+            var serializer = new XmlSerializer(typeof(WidgetBoardSerializable));
             var writer = new StringWriter();
-            serializer.Serialize(writer, serializableWidgetStruct);
+            serializer.Serialize(writer, serializableWidgetBoardStruct);
             Settings.Default.WidgetSerialized = writer.ToString();
             Settings.Default.Save();
             writer.Dispose();
