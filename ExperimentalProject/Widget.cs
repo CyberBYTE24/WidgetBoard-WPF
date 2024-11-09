@@ -289,5 +289,13 @@ namespace ExperimentalProject
         {
             widgetView.SetCellWidth(value);
         }
+
+        internal IWidgetTransformSolver WidgetTransformSolver
+        {
+            get => widgetView.WidgetTransformSolver;
+            set => widgetView.WidgetTransformSolver = value;
+        }
+
+        internal (int x1, int y1, int x2, int y2) Bound => widgetView.Bound;
     }
 }

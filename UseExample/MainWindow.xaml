@@ -15,6 +15,7 @@
             BoardForeground="White"
             PaletteBackground="DarkCyan"
             PaletteForeground="White"
+            IgnoreWidgetCollision="{Binding IgnoreWidgetCollision}"
             IsGridDisplayed="{Binding IsGridDisplayed}"
             AutoCellSize="{Binding IsAutoCellSize}"
             GridColumnCount="{Binding GridColumnCount}"
@@ -27,6 +28,7 @@
             CellHeight="{Binding CellHeight, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
         <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10pt">
+            <CheckBox IsChecked="{Binding IgnoreWidgetCollision}">Ignore widget collision</CheckBox>
             <CheckBox IsChecked="{Binding IsAutoCellSize}">Cell automatic size</CheckBox>
             <Slider Width="120px" Minimum="7" Maximum="14" Value="{Binding GridColumnCount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
             <Slider Width="120px" Minimum="5" Maximum="10" Value="{Binding GridRowCount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>

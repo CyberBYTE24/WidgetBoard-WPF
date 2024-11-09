@@ -93,6 +93,7 @@
       <DependentUpon>WidgetBoard.xaml</DependentUpon>
     </Compile>
     <Compile Include="WidgetPalette.cs" />
+    <Compile Include="WidgetTransformSolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
