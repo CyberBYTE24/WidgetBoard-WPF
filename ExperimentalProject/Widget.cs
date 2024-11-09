@@ -296,6 +296,6 @@ namespace ExperimentalProject
             set => widgetView.WidgetTransformSolver = value;
         }
 
-        internal (int, int, int, int) Bound => widgetView.Bound;
+        internal (int x1, int y1, int x2, int y2) Bound => widgetView.Bound;
     }
 }
