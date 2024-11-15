@@ -24,6 +24,7 @@ namespace ExperimentalProject.Views
         public static readonly DependencyProperty CellWidthProperty;
         public static readonly DependencyProperty GridColumnCountProperty;
         public static readonly DependencyProperty GridRowCountProperty;
+        public static readonly DependencyProperty IgnoreWidgetCollisionProperty;
         public static readonly DependencyProperty IsGridDisplayedProperty;
         public static readonly DependencyProperty IsManipulatorHiddenProperty;
         public static readonly DependencyProperty IsSidebarHiddenProperty;
@@ -32,7 +33,9 @@ namespace ExperimentalProject.Views
         public static readonly DependencyProperty SidebarWidthProperty;
         public static readonly DependencyProperty WidgetsOnBoardProperty;
         public static readonly DependencyProperty WidgetsPaletteProperty;
+
         private readonly List<TextBlock> sidebarGroupLabels = new List<TextBlock>();
+        private IWidgetTransformSolver _widgetTransformSolver;
 
         /// <summary>
         ///     Class for handling interface logic and providing bindings
@@ -138,6 +141,15 @@ namespace ExperimentalProject.Views
                     OnIsManipulatorHiddenChanged
                 )
             );
+            IgnoreWidgetCollisionProperty = DependencyProperty.Register(
+                "IgnoreWidgetCollision",
+                typeof(bool),
+                typeof(WidgetBoard),
+                new FrameworkPropertyMetadata(
+                    false,
+                    OnIgnoreWidgetCollisionChanged
+                )
+            );
             IsSidebarHiddenProperty = DependencyProperty.Register(
                 "IsSidebarHidden",
                 typeof(bool),
@@ -176,6 +188,13 @@ namespace ExperimentalProject.Views
             );
         }
 
+        private static void OnIgnoreWidgetCollisionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (!(d is WidgetBoard board)) return;
+
+            board._widgetTransformSolver.IgnoreWidgetCollision = (bool)e.NewValue;
+        }
+
         /// <summary>
         ///     Class for handling interface logic and providing bindings
         /// </summary>
@@ -185,6 +204,7 @@ namespace ExperimentalProject.Views
             Loaded += OnLoad;
             SizeChanged += OnSizeChanged;
             UpdateGridDimensions();
+            _widgetTransformSolver = new WidgetTransformSolver(WidgetsOnBoard);
         }
 
         /// <summary>
@@ -221,6 +241,12 @@ namespace ExperimentalProject.Views
         {
             get => (bool)GetValue(IsSidebarHiddenProperty);
             set => SetValue(IsSidebarHiddenProperty, value);
+        }
+
+        public bool IgnoreWidgetCollision
+        {
+            get=> (bool) GetValue(IgnoreWidgetCollisionProperty);
+            set=> SetValue(IgnoreWidgetCollisionProperty, value);
         }
 
         /// <summary>
@@ -475,10 +501,19 @@ namespace ExperimentalProject.Views
         {
             if (d is WidgetBoard board)
             {
+                ((ObservableCollection<ExperimentalProject.Widget>)e.OldValue).CollectionChanged -=
+                    board.OnBoardChangedHandler;
                 ((ObservableCollection<ExperimentalProject.Widget>)e.NewValue).CollectionChanged +=
                     board.OnBoardChangedHandler;
+                board._widgetTransformSolver =
+                    new WidgetTransformSolver((ObservableCollection<ExperimentalProject.Widget>)e.NewValue);
+
+
                 foreach (var widget in (ObservableCollection<ExperimentalProject.Widget>)e.NewValue)
+                {
+                    widget.WidgetTransformSolver = board._widgetTransformSolver;
                     board.AddWidget(widget);
+                }
             }
         }
 
@@ -559,8 +594,12 @@ namespace ExperimentalProject.Views
             {
                 case NotifyCollectionChangedAction.Add:
                     foreach (ExperimentalProject.Widget widget in e.NewItems)
+                    {
+                        widget.WidgetTransformSolver = _widgetTransformSolver;
                         AddWidget(widget);
+                    }
                     break;
+
                 case NotifyCollectionChangedAction.Remove:
                     foreach (ExperimentalProject.Widget widget in e.OldItems)
                         RemoveWidget(widget);

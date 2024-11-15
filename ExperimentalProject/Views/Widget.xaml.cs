@@ -128,6 +128,7 @@ namespace ExperimentalProject.Views
             ResizeGrip.MouseMove += ResizeMouseMoveHandler;
 
             UserControl.Content = userControl;
+
             InitializeOnBoard();
         }
 
@@ -193,6 +194,10 @@ namespace ExperimentalProject.Views
             get => (int)GetValue(RowSpanProperty);
             set => SetValue(RowSpanProperty, value);
         }
+
+        internal (int x1, int y1, int x2, int y2) Bound => (Column, Row, Column + ColumnSpan, Row + RowSpan);
+
+        internal IWidgetTransformSolver WidgetTransformSolver { get; set; }
 
         /// <summary>
         ///     Gets or sets the visibility state of Widget manipulator
@@ -338,12 +343,12 @@ namespace ExperimentalProject.Views
         /// <param name="e">Provides data for mouse button events</param>
         private void HeaderMouseLeftButtonDownHandler(object sender, MouseButtonEventArgs e)
         {
-            if (!isResizing)
-            {
-                isDragging = true;
-                lastPosition = e.GetPosition(Parent as Canvas);
-                Mouse.Capture(WidgetHeader);
-            }
+            if (isResizing) return;
+
+            isDragging = true;
+            lastPosition = e.GetPosition(Parent as Canvas);
+            Mouse.Capture(WidgetHeader);
+            Panel.SetZIndex(this, 1);
         }
 
         /// <summary>
@@ -359,13 +364,21 @@ namespace ExperimentalProject.Views
             var left = Canvas.GetLeft(this);
             var top = Canvas.GetTop(this);
 
-            var snappedLeft = Math.Round(left / cellWidth) * cellWidth;
-            var snappedTop = Math.Round(top / cellHeight) * cellHeight;
+            var snappedLeft = (int)Math.Round(left / cellWidth);
+            var snappedTop = (int)Math.Round(top / cellHeight);
 
+            var targetLeft = Column;
+            var targetTop = Row;
+
+            if (WidgetTransformSolver.IsWidgetTransformPossible(this, (snappedLeft, snappedTop, snappedLeft+ColumnSpan, snappedTop+RowSpan)))
+            {
+                targetLeft = snappedLeft;
+                targetTop = snappedTop;
+            }
             var leftAnimation = new DoubleAnimation
             {
                 From = left,
-                To = snappedLeft,
+                To = targetLeft * cellWidth,
                 Duration = TimeSpan.FromMilliseconds(600)
             };
 
@@ -380,7 +393,7 @@ namespace ExperimentalProject.Views
             var topAnimation = new DoubleAnimation
             {
                 From = top,
-                To = snappedTop,
+                To = targetTop * cellHeight,
                 Duration = TimeSpan.FromMilliseconds(600)
             };
             topAnimation.Completed += TopAnimation_Completed;
@@ -394,8 +407,8 @@ namespace ExperimentalProject.Views
             BeginAnimation(Canvas.LeftProperty, leftAnimation);
             BeginAnimation(Canvas.TopProperty, topAnimation);
 
-            Column = (int)Math.Round(snappedLeft / cellWidth);
-            Row = (int)Math.Round(snappedTop / cellHeight);
+            Column = targetLeft;
+            Row = targetTop;
             InitializeOnBoard();
         }
 
@@ -430,6 +443,7 @@ namespace ExperimentalProject.Views
         private void HeightAnimation_Completed(object sender, EventArgs e)
         {
             BeginAnimation(HeightProperty, null);
+            Panel.SetZIndex(this, 0);
         }
 
         /// <summary>
@@ -443,6 +457,9 @@ namespace ExperimentalProject.Views
             Width = ColumnSpan * cellWidth;
             MinWidth = cellWidth * MinColumnSpan;
             MinHeight = cellHeight * MinRowSpan;
+
+            RowSpan = Math.Max(RowSpan, MinRowSpan);
+            ColumnSpan = Math.Max(ColumnSpan, MinColumnSpan);
         }
 
         /// <summary>
@@ -453,6 +470,7 @@ namespace ExperimentalProject.Views
         private void LeftAnimation_Completed(object sender, EventArgs e)
         {
             BeginAnimation(Canvas.LeftProperty, null);
+            Panel.SetZIndex(this, 0);
         }
 
         /// <summary>
@@ -465,6 +483,7 @@ namespace ExperimentalProject.Views
             isResizing = true;
             lastPosition = e.GetPosition(Parent as Canvas);
             Mouse.Capture(ResizeGrip);
+            Panel.SetZIndex(this, 1);
         }
 
         /// <summary>
@@ -477,13 +496,23 @@ namespace ExperimentalProject.Views
             isResizing = false;
             Mouse.Capture(null);
 
-            var newWidth = Math.Round(Width / cellWidth) * cellWidth;
-            var newHeight = Math.Round(Height / cellHeight) * cellHeight;
+            var snappedWidth = (int) Math.Round(Width / cellWidth);
+            var snappedHeight = (int) Math.Round(Height / cellHeight);
+
+            var targetWidth = ColumnSpan;
+            var targetHeight = RowSpan;
+
+            if (WidgetTransformSolver.IsWidgetTransformPossible(this,
+                    (Column, Row, Column + snappedWidth, Row + snappedHeight)))
+            {
+                targetWidth = snappedWidth;
+                targetHeight = snappedHeight;
+            }
 
             var widthAnimation = new DoubleAnimation
             {
                 From = Width,
-                To = newWidth,
+                To = targetWidth * cellWidth,
                 Duration = TimeSpan.FromMilliseconds(600)
             };
             widthAnimation.Completed += WidthAnimation_Completed;
@@ -497,7 +526,7 @@ namespace ExperimentalProject.Views
             var heightAnimation = new DoubleAnimation
             {
                 From = Height,
-                To = newHeight,
+                To = targetHeight * cellHeight,
                 Duration = TimeSpan.FromMilliseconds(600)
             };
             heightAnimation.Completed += HeightAnimation_Completed;
@@ -509,8 +538,8 @@ namespace ExperimentalProject.Views
             };
             BeginAnimation(WidthProperty, widthAnimation);
             BeginAnimation(HeightProperty, heightAnimation);
-            RowSpan = Math.Max((int)Math.Round(newHeight / cellHeight), MinRowSpan);
-            ColumnSpan = Math.Max((int)Math.Round(newWidth / cellWidth), MinColumnSpan);
+            RowSpan = Math.Max(targetHeight, MinRowSpan);
+            ColumnSpan = Math.Max(targetWidth, MinColumnSpan);
 
             InitializeOnBoard();
         }
@@ -546,6 +575,7 @@ namespace ExperimentalProject.Views
         private void TopAnimation_Completed(object sender, EventArgs e)
         {
             BeginAnimation(Canvas.TopProperty, null);
+            Panel.SetZIndex(this, 0);
         }
 
         /// <summary>
@@ -556,6 +586,7 @@ namespace ExperimentalProject.Views
         private void WidthAnimation_Completed(object sender, EventArgs e)
         {
             BeginAnimation(WidthProperty, null);
+            Panel.SetZIndex(this, 0);
         }
     }
 }
