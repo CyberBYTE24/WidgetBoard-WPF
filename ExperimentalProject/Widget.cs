@@ -26,7 +26,6 @@ namespace ExperimentalProject
         private int rowSpan;
         private RelayCommand removeCommand;
         private RelayCommand settingsCommand;
-        private string settings;
         private string title;
 
         /// <summary>
@@ -95,14 +94,18 @@ namespace ExperimentalProject
         /// </summary>
         public virtual string Settings
         {
-            get => settings;
+            get
+            {
+                if (widgetViewModel is IUserWidgetViewModel vm)
+                {
+                    return vm.Settings;
+                }
+                return null;
+            }
             set
             {
-                if (string.IsNullOrEmpty(value))
-                    return;
-                settings = value;
-                if (widgetViewModel is IUserWidgetViewModel model)
-                    model.Settings = value;
+                if (!(widgetViewModel is IUserWidgetViewModel vm)) return;
+                vm.Settings = value;
                 OnPropertyChanged();
             }
         }
