@@ -195,7 +195,7 @@ namespace ExperimentalProject.Views
             set => SetValue(RowSpanProperty, value);
         }
 
-        internal (int, int, int, int) Bound => (Column, Row, Column + ColumnSpan, Row + RowSpan);
+        internal (int x1, int y1, int x2, int y2) Bound => (Column, Row, Column + ColumnSpan, Row + RowSpan);
 
         internal IWidgetTransformSolver WidgetTransformSolver { get; set; }
 
