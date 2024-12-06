@@ -255,6 +255,17 @@ namespace UseExample.ViewModels
             }
         }
 
+        public RelayCommand ClearWidgetBoardCommand
+        {
+            get
+            {
+                return clearWidgetBoardCommand ?? (clearWidgetBoardCommand = new RelayCommand(obj =>
+                {
+                    WidgetBoard.Clear();
+                }));
+            }
+        }
+
         private void SetBackgroundImage(string imagePath)
         {
             var image = Image.FromFile(imagePath);

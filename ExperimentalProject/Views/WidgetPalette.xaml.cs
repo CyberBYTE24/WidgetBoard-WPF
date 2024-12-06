@@ -8,7 +8,7 @@ using System.Windows.Media.Animation;
 namespace ExperimentalProject.Views
 {
     /// <summary>
-    ///     Логика взаимодействия для WidgetPalette.xaml
+    ///     Логика взаимодействия для SidebarStackPanel.xaml
     /// </summary>
     public partial class WidgetPalette
     {
