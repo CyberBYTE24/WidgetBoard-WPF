@@ -43,6 +43,7 @@
                 <Button Command="{Binding ToggleSidebarVisibleCommand}">Sidebar</Button>
                 <Button Command="{Binding ToggleManipulatorVisibleCommand}">Manipulator</Button>
                 <Button Command="{Binding SetBackgroundCommand}">Set Background</Button>
+                <Button Command="{Binding ClearWidgetBoardCommand}">Clear Widget Board</Button>
             </StackPanel>
         </Grid>
     </Grid>

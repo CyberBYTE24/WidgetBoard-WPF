@@ -526,8 +526,10 @@ namespace ExperimentalProject.Views
         {
             if (d is WidgetBoard board)
             {
-                var newWidgetsPalette = (ObservableCollection<ExperimentalProject.WidgetPalette>)e.NewValue;
-                newWidgetsPalette.CollectionChanged += board.OnPaletteChangedHandler;
+                ((ObservableCollection<ExperimentalProject.WidgetPalette>)e.OldValue).CollectionChanged -=
+                    board.OnPaletteChangedHandler;
+                ((ObservableCollection<ExperimentalProject.WidgetPalette>)e.NewValue).CollectionChanged +=
+                    board.OnPaletteChangedHandler;
 
                 foreach (var widgetPalette in (ObservableCollection<ExperimentalProject.WidgetPalette>)e.NewValue)
                     widgetPalette.OnCreateWidgetEvent += board.OnCreateWidgetHandler;
@@ -604,6 +606,9 @@ namespace ExperimentalProject.Views
                     foreach (ExperimentalProject.Widget widget in e.OldItems)
                         RemoveWidget(widget);
                     break;
+                case NotifyCollectionChangedAction.Reset:
+                    WidgetCanvas.Children.RemoveRange(1, WidgetCanvas.Children.Count-1);
+                    break;
             }
         }
 
@@ -657,6 +662,7 @@ namespace ExperimentalProject.Views
                 case NotifyCollectionChangedAction.Move:
                     break;
                 case NotifyCollectionChangedAction.Reset:
+                    RenderWidgetPalette();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
