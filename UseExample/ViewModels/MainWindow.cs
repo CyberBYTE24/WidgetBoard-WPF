@@ -243,6 +243,17 @@ namespace UseExample.ViewModels
                 }));
             }
         }
+        
+        public RelayCommand ClearWidgetBoardCommand
+        {
+            get
+            {
+                return clearWidgetBoardCommand ?? (clearWidgetBoardCommand = new RelayCommand(obj =>
+                {
+                    WidgetBoard.Clear();
+                }));
+            }
+        }
 
         public RelayCommand ClearWidgetBoardCommand
         {

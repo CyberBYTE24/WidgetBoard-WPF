@@ -603,7 +603,7 @@ namespace ExperimentalProject.Views
                         RemoveWidget(widget);
                     break;
                 case NotifyCollectionChangedAction.Reset:
-                    RenderWidgetCanvas();
+                    WidgetCanvas.Children.RemoveRange(1, WidgetCanvas.Children.Count-1);
                     break;
             }
         }
