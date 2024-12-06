@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
@@ -235,7 +236,7 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Gets or sets the visibility of sidebar with <see cref="Views.WidgetPalette">WidgetPalette</see>
+        ///     Gets or sets the visibility of sidebar with <see cref="Views.WidgetPalette">SidebarStackPanel</see>
         /// </summary>
         public bool IsSidebarHidden
         {
@@ -304,7 +305,7 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Gets or sets the sidebar width with <see cref="Views.WidgetPalette">WidgetPalette</see>
+        ///     Gets or sets the sidebar width with <see cref="Views.WidgetPalette">SidebarStackPanel</see>
         /// </summary>
         public double SidebarWidth
         {
@@ -505,20 +506,16 @@ namespace ExperimentalProject.Views
                     board.OnBoardChangedHandler;
                 ((ObservableCollection<ExperimentalProject.Widget>)e.NewValue).CollectionChanged +=
                     board.OnBoardChangedHandler;
+
                 board._widgetTransformSolver =
                     new WidgetTransformSolver((ObservableCollection<ExperimentalProject.Widget>)e.NewValue);
 
-
-                foreach (var widget in (ObservableCollection<ExperimentalProject.Widget>)e.NewValue)
-                {
-                    widget.WidgetTransformSolver = board._widgetTransformSolver;
-                    board.AddWidget(widget);
-                }
+                board.RenderWidgetCanvas();
             }
         }
 
         /// <summary>
-        ///     Handler called when the <see cref="WidgetPalette">WidgetPalette</see> replaced
+        ///     Handler called when the <see cref="SidebarStackPanel">SidebarStackPanel</see> replaced
         /// </summary>
         /// <param name="d">The <see cref="WidgetBoard" /> instance whose property has been changed </param>
         /// <param name="e">An object that describes a change in a dependent property</param>
@@ -526,9 +523,10 @@ namespace ExperimentalProject.Views
         {
             if (d is WidgetBoard board)
             {
-                var newWidgetsPalette = (ObservableCollection<ExperimentalProject.WidgetPalette>)e.NewValue;
-                newWidgetsPalette.CollectionChanged += board.OnPaletteChangedHandler;
-
+                ((ObservableCollection<ExperimentalProject.WidgetPalette>)e.OldValue).CollectionChanged -=
+                    board.OnPaletteChangedHandler;
+                ((ObservableCollection<ExperimentalProject.WidgetPalette>)e.NewValue).CollectionChanged +=
+                    board.OnPaletteChangedHandler;
                 foreach (var widgetPalette in (ObservableCollection<ExperimentalProject.WidgetPalette>)e.NewValue)
                     widgetPalette.OnCreateWidgetEvent += board.OnCreateWidgetHandler;
                 board.RenderWidgetPalette();
@@ -604,11 +602,14 @@ namespace ExperimentalProject.Views
                     foreach (ExperimentalProject.Widget widget in e.OldItems)
                         RemoveWidget(widget);
                     break;
+                case NotifyCollectionChangedAction.Reset:
+                    RenderWidgetCanvas();
+                    break;
             }
         }
 
         /// <summary>
-        ///     Handler called when <see cref="ExperimentalProject.WidgetPalette">WidgetPalette</see> instance create a new
+        ///     Handler called when <see cref="ExperimentalProject.WidgetPalette">SidebarStackPanel</see> instance create a new
         ///     <see cref="ExperimentalProject.Widget">Widget</see> instance
         /// </summary>
         /// <param name="sender">The object that initiated the change to the collection</param>
@@ -639,7 +640,7 @@ namespace ExperimentalProject.Views
                 case NotifyCollectionChangedAction.Add:
                     foreach (ExperimentalProject.WidgetPalette widgetPalette in e.NewItems)
                     {
-                        WidgetPalette.Children.Add(widgetPalette.WidgetPaletteView);
+                        SidebarStackPanel.Children.Add(widgetPalette.WidgetPaletteView);
                         widgetPalette.OnCreateWidgetEvent += OnCreateWidgetHandler;
                     }
 
@@ -648,7 +649,7 @@ namespace ExperimentalProject.Views
                     foreach (ExperimentalProject.WidgetPalette widgetPalette in e.OldItems)
                     {
                         WidgetsPalette.Remove(widgetPalette);
-                        WidgetPalette.Children.Remove(widgetPalette.WidgetPaletteView);
+                        SidebarStackPanel.Children.Remove(widgetPalette.WidgetPaletteView);
                     }
 
                     break;
@@ -657,6 +658,7 @@ namespace ExperimentalProject.Views
                 case NotifyCollectionChangedAction.Move:
                     break;
                 case NotifyCollectionChangedAction.Reset:
+                    RenderWidgetPalette();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -698,6 +700,7 @@ namespace ExperimentalProject.Views
         /// </summary>
         private void RenderWidgetPalette()
         {
+            SidebarStackPanel.Children.Clear();
             sidebarGroupLabels.Clear();
 
             foreach (var widgetGroup in WidgetsPalette.OrderBy(x => x.GroupName).ThenBy(x => x.Title)
@@ -710,9 +713,19 @@ namespace ExperimentalProject.Views
                     Foreground = PaletteForeground
                 };
                 sidebarGroupLabels.Add(label);
-                WidgetPalette.Children.Add(label);
+                SidebarStackPanel.Children.Add(label);
 
-                foreach (var widget in widgetGroup) WidgetPalette.Children.Add(widget.WidgetPaletteView);
+                foreach (var widget in widgetGroup) SidebarStackPanel.Children.Add(widget.WidgetPaletteView);
+            }
+        }
+
+        private void RenderWidgetCanvas()
+        {
+            WidgetCanvas.Children.Clear();
+            foreach (var widget in WidgetsOnBoard)
+            {
+                widget.WidgetTransformSolver = _widgetTransformSolver;
+                AddWidget(widget);
             }
         }
 

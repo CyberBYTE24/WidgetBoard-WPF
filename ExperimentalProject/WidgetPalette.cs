@@ -9,7 +9,7 @@ using V = ExperimentalProject.Views;
 namespace ExperimentalProject
 {
     /// <summary>
-    ///     Represents a view model for <see cref="V.WidgetPalette">WidgetPalette</see> that provide instantiating
+    ///     Represents a view model for <see cref="V.WidgetPalette">SidebarStackPanel</see> that provide instantiating
     ///     <see cref="Widget">Widget</see> on a <see cref="V.WidgetBoard">WidgetBoard</see>.
     /// </summary>
     public abstract class WidgetPalette : INotifyPropertyChanged
@@ -152,7 +152,7 @@ namespace ExperimentalProject
         }
 
         /// <summary>
-        ///     Gets the view for WidgetPalette Control
+        ///     Gets the view for SidebarStackPanel Control
         /// </summary>
         internal V.WidgetPalette WidgetPaletteView { get; private set; }
 

@@ -28,9 +28,10 @@
             CellHeight="{Binding CellHeight, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
         <Grid VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5pt">
+
             <Border Background="White" CornerRadius="10">
                 <Border.Effect>
-                    <DropShadowEffect Direction="270" BlurRadius="20"/>
+                    <DropShadowEffect Direction="270" BlurRadius="10"/>
                 </Border.Effect>
             </Border>
             <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10pt">
@@ -43,6 +44,7 @@
                 <Button Command="{Binding ToggleSidebarVisibleCommand}">Sidebar</Button>
                 <Button Command="{Binding ToggleManipulatorVisibleCommand}">Manipulator</Button>
                 <Button Command="{Binding SetBackgroundCommand}">Set Background</Button>
+                <Button Command="{Binding ClearWidgetBoardCommand}">Clear WidgetBoard</Button>
             </StackPanel>
         </Grid>
     </Grid>

@@ -37,6 +37,7 @@ namespace UseExample.ViewModels
         private int gridColumnCount = 10;
         private int gridRowCount = 5;
         private RelayCommand setBackgroundCommand;
+        private RelayCommand clearWidgetBoardCommand;
         private RelayCommand toggleManipulatorCommand;
         private RelayCommand toggleSidebarCommand;
         private string backgroundImagePath;
@@ -239,6 +240,17 @@ namespace UseExample.ViewModels
                         backgroundImagePath = dialog.FileName;
                         SetBackgroundImage(backgroundImagePath);
                     }
+                }));
+            }
+        }
+
+        public RelayCommand ClearWidgetBoardCommand
+        {
+            get
+            {
+                return clearWidgetBoardCommand ?? (clearWidgetBoardCommand = new RelayCommand(obj =>
+                {
+                    WidgetBoard.Clear();
                 }));
             }
         }
