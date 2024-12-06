@@ -721,7 +721,7 @@ namespace ExperimentalProject.Views
 
         private void RenderWidgetCanvas()
         {
-            WidgetCanvas.Children.Clear();
+            WidgetCanvas.Children.RemoveRange(1, WidgetCanvas.Children.Count-1);
             foreach (var widget in WidgetsOnBoard)
             {
                 widget.WidgetTransformSolver = _widgetTransformSolver;
