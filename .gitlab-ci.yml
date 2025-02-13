@@ -4,7 +4,7 @@ variables:
   # Тут куча путей до утилит, которые просто обязаны лежать там, где ожидается
   VSWHERE_PATH: '%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe'
   NUGET_PATH: 'C:\Tools\Nuget\nuget.exe'
-  MSBUILD_PATH: 'C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin\msbuild.exe'
+  MSBUILD_PATH: 'C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin\msbuild.exe'
   XUNIT_PATH: 'C:\Tools\XUnit\net472\xunit.console.exe'
   TESTS_OUTPUT_FOLDER_PATH: '.\tests\WidgetBoard.Tests\bin\Release\'
 
