@@ -29,8 +29,9 @@ build_job:
     - '& "$env:NUGET_PATH" restore'
     - '& "$env:MSBUILD_PATH" /p:Configuration=Release /m:$env:MSBUILD_CONCURRENCY /nr:false /clp:ErrorsOnly'
     - 'New-Item -ItemType Directory -Path .\flattened_artifacts'
-    - 'Copy-Item -Path .\ExperimentalProject\bin\Release\* -Destination .\flattened_artifacts\ -Recurse'
+    - 'Copy-Item -Path .\ExperimentalProject\bin\Release\* -Destination .\ -Recurse'
   artifacts: 
+    untracked: true 
     expire_in: 6 mos 
     name: '$env:ARTIFACT' 
     paths: 
