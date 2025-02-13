@@ -32,7 +32,6 @@ build_job:
     - 'Copy-Item -Path .\ExperimentalProject\bin\Release\* -Destination .\flattened_artifacts\ -Recurse'
   artifacts: 
     expire_in: 6 mos 
-    expose_as: '$env:ARTIFACT' 
     name: '$env:ARTIFACT' 
     paths: 
       - '.\flattened_artifacts\'
