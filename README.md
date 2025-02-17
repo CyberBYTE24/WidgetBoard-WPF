@@ -1,6 +1,7 @@
 # Доска виджетов (WPF)
- | ReadMe | [Documentation](ExperimentalProject/Documentation.md) | 
-![pipeline](http://192.168.188.66/libraries/widget-board-wpf/badges/main/pipeline.svg)
+ | ReadMe | [Documentation](ExperimentalProject/Documentation.md) |
+ 
+ ![pipeline](http://192.168.188.66/libraries/widget-board-wpf/badges/main/pipeline.svg)
 ## Описание
 
 Данная библиотека компонентов WPF предоставляет компонент WidgetBoard, на котором вы можете реализовать UI, предоставляющий пользователю возможность размещения и масштабирования ваших UserControl в его поле
