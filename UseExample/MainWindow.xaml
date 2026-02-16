@@ -9,6 +9,32 @@
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=vm:MainWindow}"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style TargetType="widget:Widget">
+            <Setter Property="TitleBackground" Value="#222"/>
+            <Setter Property="TitleForeground" Value="#eee"/>
+            <Setter Property="SettingsButtonBackgroundNormalBrush">
+                <Setter.Value>
+                    <SolidColorBrush Color="#222"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="SettingsButtonBackgroundHoveredBrush">
+                <Setter.Value>
+                    <SolidColorBrush Color="#444"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="SettingsButtonBackgroundPressedBrush">
+                <Setter.Value>
+                    <SolidColorBrush Color="#000"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="SettingsButtonForegroundBrush">
+                <Setter.Value>
+                    <SolidColorBrush Color="#eee"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid Margin="20 20">
         <widget:WidgetBoard 
             BoardBackground="{Binding BackgroundColor}"

@@ -1,11 +1,15 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using ExperimentalProject.Utilities;
 using V = ExperimentalProject.Views;
+using Brush = System.Windows.Media.Brush;
+using Color = System.Windows.Media.Color;
+using System.Windows.Media;
 
 namespace ExperimentalProject
 {
@@ -64,7 +68,6 @@ namespace ExperimentalProject
             widgetView.SetBinding(V.Widget.ShadowOpacityProperty,
                 new Binding("ShadowOpacity")
                     { UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged, Mode = BindingMode.TwoWay });
-
             WidgetId = widgetId;
         }
 

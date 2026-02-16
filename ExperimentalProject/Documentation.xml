@@ -68,6 +68,37 @@
                 Gets or sets the height on <see cref="T:ExperimentalProject.Views.WidgetBoard">WidgetBoard</see> (measured in cells)
             </summary>
         </member>
+        <member name="P:ExperimentalProject.Views.Widget.TitleBackground">
+            <summary>
+                Gets or sets the title background on <see cref="T:ExperimentalProject.Views.WidgetBoard">WidgetBoard</see>
+            </summary>
+        </member>
+        <member name="P:ExperimentalProject.Views.Widget.TitleForeground">
+            <summary>
+                Gets or sets the title foreground on <see cref="T:ExperimentalProject.Views.WidgetBoard">WidgetBoard</see>
+            </summary>
+        </member>
+        <member name="P:ExperimentalProject.Views.Widget.SettingsButtonBackgroundNormalBrush">
+            <summary>
+                Gets or sets the settings button background brush for normal state
+            </summary>
+        </member>
+        <member name="P:ExperimentalProject.Views.Widget.SettingsButtonBackgroundHoveredBrush">
+            <summary>
+                Gets or sets the settings button background brush for hovered state
+            </summary>
+        </member>
+        <member name="P:ExperimentalProject.Views.Widget.SettingsButtonBackgroundPressedBrush">
+            <summary>
+                Gets or sets the settings button background brush for pressed state
+            </summary>
+        </member>
+        <member name="P:ExperimentalProject.Views.Widget.SettingsButtonBackgroundDisabledBrush">
+            <summary>
+                Gets or sets the settings button background brush for disabled state
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:ExperimentalProject.Views.Widget.SettingsButtonForegroundBrush" -->
         <member name="P:ExperimentalProject.Views.Widget.ManipulatorVisibility">
             <summary>
                 Gets or sets the visibility state of Widget manipulator
@@ -137,6 +168,20 @@
         <member name="M:ExperimentalProject.Views.Widget.OnShadowOpacityChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
             <summary>
                 Handler that is called when the shadow opacity changes
+            </summary>
+            <param name="d">The <see cref="T:ExperimentalProject.Views.Widget" /> instance whose property has been changed</param>
+            <param name="e">An object that describes a change in a dependent property</param>
+        </member>
+        <member name="M:ExperimentalProject.Views.Widget.OnTitleBackgroundChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+                Handler that is called when the title background changes
+            </summary>
+            <param name="d">The <see cref="T:ExperimentalProject.Views.Widget" /> instance whose property has been changed</param>
+            <param name="e">An object that describes a change in a dependent property</param>
+        </member>
+        <member name="M:ExperimentalProject.Views.Widget.OnTitleForegroundChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+                Handler that is called when the title foreground changes
             </summary>
             <param name="d">The <see cref="T:ExperimentalProject.Views.Widget" /> instance whose property has been changed</param>
             <param name="e">An object that describes a change in a dependent property</param>
@@ -288,7 +333,7 @@
         </member>
         <member name="P:ExperimentalProject.Views.WidgetBoard.IsSidebarHidden">
             <summary>
-                Gets or sets the visibility of sidebar with <see cref="T:ExperimentalProject.Views.WidgetPalette">WidgetPalette</see>
+                Gets or sets the visibility of sidebar with <see cref="T:ExperimentalProject.Views.WidgetPalette">SidebarStackPanel</see>
             </summary>
         </member>
         <member name="P:ExperimentalProject.Views.WidgetBoard.BoardBackground">
@@ -323,7 +368,7 @@
         </member>
         <member name="P:ExperimentalProject.Views.WidgetBoard.SidebarWidth">
             <summary>
-                Gets or sets the sidebar width with <see cref="T:ExperimentalProject.Views.WidgetPalette">WidgetPalette</see>
+                Gets or sets the sidebar width with <see cref="T:ExperimentalProject.Views.WidgetPalette">SidebarStackPanel</see>
             </summary>
         </member>
         <member name="P:ExperimentalProject.Views.WidgetBoard.GridColumnCount">
@@ -440,7 +485,7 @@
         </member>
         <member name="M:ExperimentalProject.Views.WidgetBoard.OnWidgetsPaletteChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
             <summary>
-                Handler called when the <see cref="F:ExperimentalProject.Views.WidgetBoard.WidgetPalette">WidgetPalette</see> replaced
+                Handler called when the <see cref="F:ExperimentalProject.Views.WidgetBoard.SidebarStackPanel">SidebarStackPanel</see> replaced
             </summary>
             <param name="d">The <see cref="T:ExperimentalProject.Views.WidgetBoard" /> instance whose property has been changed </param>
             <param name="e">An object that describes a change in a dependent property</param>
@@ -470,7 +515,7 @@
         </member>
         <member name="M:ExperimentalProject.Views.WidgetBoard.OnCreateWidgetHandler(System.Object,ExperimentalProject.Widget)">
             <summary>
-                Handler called when <see cref="T:ExperimentalProject.WidgetPalette">WidgetPalette</see> instance create a new
+                Handler called when <see cref="T:ExperimentalProject.WidgetPalette">SidebarStackPanel</see> instance create a new
                 <see cref="T:ExperimentalProject.Widget">Widget</see> instance
             </summary>
             <param name="sender">The object that initiated the change to the collection</param>
@@ -664,7 +709,7 @@
         </member>
         <member name="T:ExperimentalProject.WidgetPalette">
             <summary>
-                Represents a view model for <see cref="T:ExperimentalProject.Views.WidgetPalette">WidgetPalette</see> that provide instantiating
+                Represents a view model for <see cref="T:ExperimentalProject.Views.WidgetPalette">SidebarStackPanel</see> that provide instantiating
                 <see cref="T:ExperimentalProject.Widget">Widget</see> on a <see cref="T:ExperimentalProject.Views.WidgetBoard">WidgetBoard</see>.
             </summary>
         </member>
@@ -733,7 +778,7 @@
         </member>
         <member name="P:ExperimentalProject.WidgetPalette.WidgetPaletteView">
             <summary>
-                Gets the view for WidgetPalette Control
+                Gets the view for SidebarStackPanel Control
             </summary>
         </member>
         <member name="M:ExperimentalProject.WidgetPalette.OnPropertyChanged(System.String)">

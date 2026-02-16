@@ -16,8 +16,79 @@
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="Foreground" Value="#222"/>
         </Style>
-        <Style x:Key="HeaderButton" TargetType="Button">
-            <Setter Property="Width" Value="20pt"/>
+        <Style x:Key="CloseButton" TargetType="Button">
+            <Setter Property="Background" Value="Crimson"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0 0 0 5"/>
+            <Setter Property="Width" Value="30pt"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border 
+                    x:Name="border"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    Padding="{TemplateBinding Padding}">
+                            <ContentPresenter 
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Center"
+                        RecognizesAccessKey="True"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#ff4455"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#cc0000"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Background" Value="#888"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="SettingsButton" TargetType="Button">
+            <Setter Property="Background" Value="{Binding SettingsButtonBackgroundNormalBrush, RelativeSource={RelativeSource AncestorType=views:Widget}}"/>
+            <Setter Property="Foreground" Value="{Binding SettingsButtonForegroundBrush, RelativeSource={RelativeSource AncestorType=views:Widget}}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0 0 0 5"/>
+            <Setter Property="Width" Value="30pt"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border
+                    x:Name="border"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    Padding="{TemplateBinding Padding}">
+                            <ContentPresenter
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        RecognizesAccessKey="True"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="{Binding SettingsButtonBackgroundHoveredBrush, RelativeSource={RelativeSource AncestorType=views:Widget}}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="{Binding SettingsButtonBackgroundPressedBrush, RelativeSource={RelativeSource AncestorType=views:Widget}}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Background" Value="{Binding SettingsButtonBackgroundDisabledBrush, RelativeSource={RelativeSource AncestorType=views:Widget}}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </UserControl.Resources>
     <Grid>
@@ -30,13 +101,45 @@
                 <RowDefinition Height="20pt"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Background="#eee">
+            <Grid Grid.Row="0" x:Name="TitleBackgroundGrid">
                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                    <TextBlock VerticalAlignment="Center" Margin="10pt 0" Style="{StaticResource HeaderText}" Text="{Binding Title}" d:Text="Title"/>
+                    <TextBlock VerticalAlignment="Center" x:Name="TitleTextBlock" Margin="10pt 0" Style="{StaticResource HeaderText}" Text="{Binding Title}" d:Text="Title"/>
                 </StackPanel>
                 <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
-                    <Button x:Name="SettingsButton" Style="{StaticResource HeaderButton}" Command="{Binding SettingsCommand}" BorderThickness="0">S</Button>
-                    <Button Style="{StaticResource HeaderButton}" Command="{Binding RemoveCommand}" Background="Crimson" Foreground="White" BorderThickness="0px">X</Button>
+                    <Button Style="{StaticResource SettingsButton}" Margin="0 0 0 5" Width="30pt" x:Name="SettingsButton" Command="{Binding SettingsCommand}" BorderThickness="0">
+                        <Image Margin="3pt">
+                            <Image.Source>
+                                <DrawingImage>
+                                    <DrawingImage.Drawing>
+                                        <DrawingGroup>
+                                            <GeometryDrawing Brush="{Binding SettingsButtonForegroundBrush, RelativeSource={RelativeSource AncestorType=views:Widget}}">
+                                                <GeometryDrawing.Geometry>
+                                                    <PathGeometry Figures="M 4 13.743 l -1 0.579 a 1 1 0 0 0 -0.366 1.366 l 1.488 2.578 a 1 1 0 0 0 1.366 0.366 L 6.5 18.05 a 1.987 1.987 0 0 1 1.986 0 l 0.02 0.011 a 1.989 1.989 0 0 1 1 1.724 V 21 a 1 1 0 0 0 1 1 h 3 a 1 1 0 0 0 1 -1 V 19.782 a 1.985 1.985 0 0 1 0.995 -1.721 l 0.021 -0.012 a 1.987 1.987 0 0 1 1.986 0 l 1.008 0.582 a 1 1 0 0 0 1.366 -0.366 l 1.488 -2.578 A 1 1 0 0 0 21 14.322 l -1 -0.579 a 1.994 1.994 0 0 1 -1 -1.733 v -0.021 a 1.991 1.991 0 0 1 1 -1.732 l 1 -0.579 a 1 1 0 0 0 0.366 -1.366 L 19.876 5.734 a 1 1 0 0 0 -1.366 -0.366 L 17.5 5.95 a 1.987 1.987 0 0 1 -1.986 0 L 15.5 5.94 a 1.989 1.989 0 0 1 -1 -1.724 V 3 a 1 1 0 0 0 -1 -1 h -3 a 1 1 0 0 0 -1 1 V 4.294 A 1.856 1.856 0 0 1 8.57 5.9 l -0.153 0.088 a 1.855 1.855 0 0 1 -1.853 0 L 5.49 5.368 a 1 1 0 0 0 -1.366 0.366 L 2.636 8.312 A 1 1 0 0 0 3 9.678 l 1 0.579 A 1.994 1.994 0 0 1 5 11.99 v 0.021 A 1.991 1.991 0 0 1 4 13.743 Z M 12 9 a 3 3 0 1 1 -3 3 A 3 3 0 0 1 12 9 Z" FillRule="Nonzero" />
+                                                </GeometryDrawing.Geometry>
+                                            </GeometryDrawing>
+                                        </DrawingGroup>
+                                    </DrawingImage.Drawing>
+                                </DrawingImage>
+                            </Image.Source>
+                        </Image>
+                    </Button>
+                    <Button Style="{StaticResource CloseButton}" Command="{Binding RemoveCommand}">
+                        <Image Margin="4pt">
+                            <Image.Source>
+                                <DrawingImage>
+                                    <DrawingImage.Drawing>
+                                        <DrawingGroup>
+                                            <GeometryDrawing Brush="#fff">
+                                                <GeometryDrawing.Geometry>
+                                                    <PathGeometry Figures="M336.47,379.04h-13.31c-6.7-2.16-13.01-5.46-18.15-10.32-1.32-1.24-2.02-2.93-3.27-4.12-38.27-36.41-74.42-74.94-112.05-112l-116.46,116.47c-5.3,4.68-11,7.86-17.76,9.97h-13.31c-6.77-2.13-12.05-5-17.4-9.59-9.86-8.47-21.03-19.9-24.75-32.56v-13.31c1.84-4.91,3.57-9.96,7.02-14.06l119.42-119.42L9.97,73.63c-4.68-5.3-7.86-11-9.97-17.76v-13.31C3.6,29.96,14.95,18.43,24.75,10.01c15.43-13.25,33.84-13.26,48.85.74l116.08,116.11L308.72,7.79c23.85-18.25,44.43-1.11,60.31,17.38,13.26,15.43,13.25,33.86-.74,48.85l-115.33,115.44.64,1.4c39.57,40.04,80.33,79.02,118.98,119.9,10.08,14.65,7.62,30.52-3.55,43.52-8.42,9.81-19.95,21.15-32.56,24.75Z" FillRule="Nonzero" />
+                                                </GeometryDrawing.Geometry>
+                                            </GeometryDrawing>
+                                        </DrawingGroup>
+                                    </DrawingImage.Drawing>
+                                </DrawingImage>
+                            </Image.Source>
+                        </Image>
+                    </Button>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="1" Background="#000" Opacity="0.2">

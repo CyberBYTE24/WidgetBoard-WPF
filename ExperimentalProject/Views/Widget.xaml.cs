@@ -1,8 +1,13 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
+using Point = System.Windows.Point;
+using Color = System.Windows.Media.Color;
+using Brush = System.Windows.Media.Brush;
 
 namespace ExperimentalProject.Views
 {
@@ -20,6 +25,13 @@ namespace ExperimentalProject.Views
         public static readonly DependencyProperty RowSpanProperty;
         public static readonly DependencyProperty SettingsButtonVisibilityProperty;
         public static readonly DependencyProperty ShadowOpacityProperty;
+        public static readonly DependencyProperty TitleBackgroundProperty;
+        public static readonly DependencyProperty TitleForegroundProperty;
+        public static readonly DependencyProperty SettingsButtonBackgroundNormalBrushProperty;
+        public static readonly DependencyProperty SettingsButtonBackgroundHoveredBrushProperty;
+        public static readonly DependencyProperty SettingsButtonBackgroundPressedBrushProperty;
+        public static readonly DependencyProperty SettingsButtonBackgroundDisabledBrushProperty;
+        public static readonly DependencyProperty SettingsButtonForegroundBrushProperty;
 
         private bool isDragging;
         private bool isResizing;
@@ -110,6 +122,69 @@ namespace ExperimentalProject.Views
                     OnShadowOpacityChanged
                 )
             );
+            TitleBackgroundProperty = DependencyProperty.Register(
+                "TitleBackground",
+                typeof(Brush),
+                typeof(Widget),
+                new FrameworkPropertyMetadata(
+                    new SolidColorBrush(Color.FromRgb(255,255,255)),
+                    OnTitleBackgroundChanged
+                )
+            );
+            TitleForegroundProperty = DependencyProperty.Register(
+                "TitleForeground",
+                typeof(Brush),
+                typeof(Widget),
+                new FrameworkPropertyMetadata(
+                    new SolidColorBrush(Color.FromRgb(0, 0, 0)),
+                    OnTitleForegroundChanged
+                )
+            );
+            SettingsButtonBackgroundNormalBrushProperty = DependencyProperty.Register(
+                "SettingsButtonBackgroundNormalBrush",
+                typeof(Brush),
+                typeof(Widget),
+                new FrameworkPropertyMetadata(
+                    new SolidColorBrush(Color.FromRgb(0xAA, 0xAA, 0xAA)),
+                    OnSettingsButtonBackgroundNormalBrushChanged
+                )
+            );
+            SettingsButtonBackgroundHoveredBrushProperty = DependencyProperty.Register(
+                "SettingsButtonBackgroundHoveredBrush",
+                typeof(Brush),
+                typeof(Widget),
+                new FrameworkPropertyMetadata(
+                    new SolidColorBrush(Color.FromRgb(0xCC, 0xCC, 0xCC)),
+                    OnSettingsButtonBackgroundHoveredBrushChanged
+                )
+            );
+            SettingsButtonBackgroundPressedBrushProperty = DependencyProperty.Register(
+                "SettingsButtonBackgroundPressedBrush",
+                typeof(Brush),
+                typeof(Widget),
+                new FrameworkPropertyMetadata(
+                    new SolidColorBrush(Color.FromRgb(0x88, 0x88, 0x88)),
+                    OnSettingsButtonBackgroundPressedBrushChanged
+                )
+            );
+            SettingsButtonBackgroundDisabledBrushProperty = DependencyProperty.Register(
+                "SettingsButtonBackgroundDisabledBrush",
+                typeof(Brush),
+                typeof(Widget),
+                new FrameworkPropertyMetadata(
+                    new SolidColorBrush(Color.FromRgb(0x88, 0x88, 0x88)),
+                    OnSettingsButtonBackgroundDisabledBrushChanged
+                )
+            );
+            SettingsButtonForegroundBrushProperty = DependencyProperty.Register(
+                "SettingsButtonForegroundBrush",
+                typeof(Brush),
+                typeof(Widget),
+                new FrameworkPropertyMetadata(
+                    new SolidColorBrush(Color.FromRgb(0x22, 0x22, 0x22)),
+                    OnSettingsButtonForegroundBrushChanged
+                )
+            );
         }
 
         /// <summary>
@@ -193,6 +268,68 @@ namespace ExperimentalProject.Views
         {
             get => (int)GetValue(RowSpanProperty);
             set => SetValue(RowSpanProperty, value);
+        }
+
+        /// <summary>
+        ///     Gets or sets the title background on <see cref="WidgetBoard">WidgetBoard</see>
+        /// </summary>
+        public Brush TitleBackground
+        {
+            get => (Brush)GetValue(TitleBackgroundProperty);
+            set => SetValue(TitleBackgroundProperty, value);
+        }
+
+        /// <summary>
+        ///     Gets or sets the title foreground on <see cref="WidgetBoard">WidgetBoard</see>
+        /// </summary>
+        public Brush TitleForeground
+        {
+            get => (Brush)GetValue(TitleForegroundProperty);
+            set => SetValue(TitleForegroundProperty, value);
+        }
+
+        /// <summary>
+        ///     Gets or sets the settings button background brush for normal state
+        /// </summary>
+        public Brush SettingsButtonBackgroundNormalBrush
+        {
+            get => (Brush)GetValue(SettingsButtonBackgroundNormalBrushProperty);
+            set => SetValue(SettingsButtonBackgroundNormalBrushProperty, value);
+        }
+
+        /// <summary>
+        ///     Gets or sets the settings button background brush for hovered state
+        /// </summary>
+        public Brush SettingsButtonBackgroundHoveredBrush
+        {
+            get => (Brush)GetValue(SettingsButtonBackgroundHoveredBrushProperty);
+            set => SetValue(SettingsButtonBackgroundHoveredBrushProperty, value);
+        }
+
+        /// <summary>
+        ///     Gets or sets the settings button background brush for pressed state
+        /// </summary>
+        public Brush SettingsButtonBackgroundPressedBrush
+        {
+            get => (Brush)GetValue(SettingsButtonBackgroundPressedBrushProperty);
+            set => SetValue(SettingsButtonBackgroundPressedBrushProperty, value);
+        }
+
+        /// <summary>
+        ///     Gets or sets the settings button background brush for disabled state
+        /// </summary>
+        public Brush SettingsButtonBackgroundDisabledBrush
+        {
+            get => (Brush)GetValue(SettingsButtonBackgroundDisabledBrushProperty);
+            set => SetValue(SettingsButtonBackgroundDisabledBrushProperty, value);
+        }
+
+        /// <summary>
+        ///     Gets or sets the settings button foreground brush
+        public Brush SettingsButtonForegroundBrush
+        {
+            get => (Brush)GetValue(SettingsButtonForegroundBrushProperty);
+            set => SetValue(SettingsButtonForegroundBrushProperty, value);
         }
 
         internal (int x1, int y1, int x2, int y2) Bound => (Column, Row, Column + ColumnSpan, Row + RowSpan);
@@ -314,6 +451,74 @@ namespace ExperimentalProject.Views
         {
             if (d is Widget widget)
                 widget.ShadowOpacity = (double)e.NewValue;
+        }
+
+        /// <summary>
+        ///     Handler that is called when the title background changes
+        /// </summary>
+        /// <param name="d">The <see cref="Widget" /> instance whose property has been changed</param>
+        /// <param name="e">An object that describes a change in a dependent property</param>
+        private static void OnTitleBackgroundChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is Widget widget)
+            {
+                widget.TitleBackground = (Brush)e.NewValue;
+                widget.TitleBackgroundGrid.Background = (Brush)e.NewValue;
+            }
+        }
+
+        /// <summary>
+        ///     Handler that is called when the title foreground changes
+        /// </summary>
+        /// <param name="d">The <see cref="Widget" /> instance whose property has been changed</param>
+        /// <param name="e">An object that describes a change in a dependent property</param>
+        private static void OnTitleForegroundChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is Widget widget)
+            {
+                widget.TitleForeground = (Brush)e.NewValue;
+                widget.TitleTextBlock.Foreground = (Brush)e.NewValue;
+            }
+        }
+
+        private static void OnSettingsButtonBackgroundNormalBrushChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is Widget widget)
+            {
+                widget.SettingsButtonBackgroundNormalBrush = (Brush)e.NewValue;
+            }
+        }
+
+        private static void OnSettingsButtonBackgroundHoveredBrushChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is Widget widget)
+            {
+                widget.SettingsButtonBackgroundHoveredBrush = (Brush)e.NewValue;
+            }
+        }
+
+        private static void OnSettingsButtonBackgroundPressedBrushChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is Widget widget)
+            {
+                widget.SettingsButtonBackgroundPressedBrush = (Brush)e.NewValue;
+            }
+        }
+
+        private static void OnSettingsButtonBackgroundDisabledBrushChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is Widget widget)
+            {
+                widget.SettingsButtonBackgroundDisabledBrush = (Brush)e.NewValue;
+            }
+        }
+
+        private static void OnSettingsButtonForegroundBrushChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is Widget widget)
+            {
+                widget.SettingsButtonForegroundBrush = (Brush)e.NewValue;
+            }
         }
 
         /// <summary>
