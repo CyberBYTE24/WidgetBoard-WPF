@@ -1,5 +1,5 @@
 ﻿using System;
-using ExperimentalProject;
+using WidgetBoardControl;
 using WidgetExportingExample.Properties;
 using WidgetExportingExample.Views;
 using WidgetExportingExample.Widgets;

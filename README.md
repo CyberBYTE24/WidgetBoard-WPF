@@ -1,5 +1,5 @@
 # Доска виджетов (WPF)
- | ReadMe | [Documentation](ExperimentalProject/Documentation.md) |
+ | ReadMe | [Documentation](WidgetBoardControl/Documentation.md) |
  
  ![pipeline](http://192.168.188.66/libraries/widget-board-wpf/badges/main/pipeline.svg)
 ## Описание

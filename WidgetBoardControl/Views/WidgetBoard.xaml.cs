@@ -10,11 +10,11 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
-namespace ExperimentalProject.Views
+namespace WidgetBoardControl.Views
 {
     /// <summary>
-    ///     Represent element for placing <see cref="ExperimentalProject.Widget">Widgets</see> and
-    ///     <see cref="ExperimentalProject.WidgetPalette">WidgetPalettes</see>
+    ///     Represent element for placing <see cref="WidgetBoardControl.Widget">Widgets</see> and
+    ///     <see cref="WidgetBoardControl.WidgetPalette">WidgetPalettes</see>
     /// </summary>
     public partial class WidgetBoard
     {
@@ -117,19 +117,19 @@ namespace ExperimentalProject.Views
             );
             WidgetsOnBoardProperty = DependencyProperty.Register(
                 "WidgetsOnBoard",
-                typeof(ObservableCollection<ExperimentalProject.Widget>),
+                typeof(ObservableCollection<WidgetBoardControl.Widget>),
                 typeof(WidgetBoard),
                 new FrameworkPropertyMetadata(
-                    new ObservableCollection<ExperimentalProject.Widget>(),
+                    new ObservableCollection<WidgetBoardControl.Widget>(),
                     OnWidgetsOnBoardChanged
                 )
             );
             WidgetsPaletteProperty = DependencyProperty.Register(
                 "WidgetsPalette",
-                typeof(ObservableCollection<ExperimentalProject.WidgetPalette>),
+                typeof(ObservableCollection<WidgetBoardControl.WidgetPalette>),
                 typeof(WidgetBoard),
                 new FrameworkPropertyMetadata(
-                    new ObservableCollection<ExperimentalProject.WidgetPalette>(),
+                    new ObservableCollection<WidgetBoardControl.WidgetPalette>(),
                     OnWidgetsPaletteChanged
                 )
             );
@@ -332,21 +332,21 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Gets or sets the collection of <see cref="ExperimentalProject.Widget">Widgets</see> located on a board
+        ///     Gets or sets the collection of <see cref="WidgetBoardControl.Widget">Widgets</see> located on a board
         /// </summary>
-        public ObservableCollection<ExperimentalProject.Widget> WidgetsOnBoard
+        public ObservableCollection<WidgetBoardControl.Widget> WidgetsOnBoard
         {
-            get => (ObservableCollection<ExperimentalProject.Widget>)GetValue(WidgetsOnBoardProperty);
+            get => (ObservableCollection<WidgetBoardControl.Widget>)GetValue(WidgetsOnBoardProperty);
             set => SetValue(WidgetsOnBoardProperty, value);
         }
 
         /// <summary>
-        ///     Gets or sets the collection of <see cref="ExperimentalProject.WidgetPalette">WidgetPalettes</see> located on a
+        ///     Gets or sets the collection of <see cref="WidgetBoardControl.WidgetPalette">WidgetPalettes</see> located on a
         ///     board
         /// </summary>
-        public ObservableCollection<ExperimentalProject.WidgetPalette> WidgetsPalette
+        public ObservableCollection<WidgetBoardControl.WidgetPalette> WidgetsPalette
         {
-            get => (ObservableCollection<ExperimentalProject.WidgetPalette>)GetValue(WidgetsPaletteProperty);
+            get => (ObservableCollection<WidgetBoardControl.WidgetPalette>)GetValue(WidgetsPaletteProperty);
             set => SetValue(WidgetsPaletteProperty, value);
         }
 
@@ -502,13 +502,13 @@ namespace ExperimentalProject.Views
         {
             if (d is WidgetBoard board)
             {
-                ((ObservableCollection<ExperimentalProject.Widget>)e.OldValue).CollectionChanged -=
+                ((ObservableCollection<WidgetBoardControl.Widget>)e.OldValue).CollectionChanged -=
                     board.OnBoardChangedHandler;
-                ((ObservableCollection<ExperimentalProject.Widget>)e.NewValue).CollectionChanged +=
+                ((ObservableCollection<WidgetBoardControl.Widget>)e.NewValue).CollectionChanged +=
                     board.OnBoardChangedHandler;
 
                 board._widgetTransformSolver =
-                    new WidgetTransformSolver((ObservableCollection<ExperimentalProject.Widget>)e.NewValue);
+                    new WidgetTransformSolver((ObservableCollection<WidgetBoardControl.Widget>)e.NewValue);
 
                 board.RenderWidgetCanvas();
             }
@@ -523,18 +523,18 @@ namespace ExperimentalProject.Views
         {
             if (d is WidgetBoard board)
             {
-                ((ObservableCollection<ExperimentalProject.WidgetPalette>)e.OldValue).CollectionChanged -=
+                ((ObservableCollection<WidgetBoardControl.WidgetPalette>)e.OldValue).CollectionChanged -=
                     board.OnPaletteChangedHandler;
-                ((ObservableCollection<ExperimentalProject.WidgetPalette>)e.NewValue).CollectionChanged +=
+                ((ObservableCollection<WidgetBoardControl.WidgetPalette>)e.NewValue).CollectionChanged +=
                     board.OnPaletteChangedHandler;
-                foreach (var widgetPalette in (ObservableCollection<ExperimentalProject.WidgetPalette>)e.NewValue)
+                foreach (var widgetPalette in (ObservableCollection<WidgetBoardControl.WidgetPalette>)e.NewValue)
                     widgetPalette.OnCreateWidgetEvent += board.OnCreateWidgetHandler;
                 board.RenderWidgetPalette();
             }
         }
 
         /// <summary>
-        ///     Toggles visibility of <see cref="ExperimentalProject.Widget">Widget</see> Manipulators
+        ///     Toggles visibility of <see cref="WidgetBoardControl.Widget">Widget</see> Manipulators
         /// </summary>
         public void ToggleWidgetManipulators()
         {
@@ -543,7 +543,7 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Toggles visibility of sidebar with <see cref="ExperimentalProject.WidgetPalette">WidgetPalettes</see>
+        ///     Toggles visibility of sidebar with <see cref="WidgetBoardControl.WidgetPalette">WidgetPalettes</see>
         /// </summary>
         public void ToggleWidgetSidebar()
         {
@@ -567,10 +567,10 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Add <see cref="ExperimentalProject.Widget">Widget</see> to this WidgetBoard
+        ///     Add <see cref="WidgetBoardControl.Widget">Widget</see> to this WidgetBoard
         /// </summary>
         /// <param name="widget">Widget to add</param>
-        private void AddWidget(ExperimentalProject.Widget widget)
+        private void AddWidget(WidgetBoardControl.Widget widget)
         {
             var cellHeight = (double)GetValue(CellHeightProperty);
             var cellWidth = (double)GetValue(CellWidthProperty);
@@ -591,7 +591,7 @@ namespace ExperimentalProject.Views
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    foreach (ExperimentalProject.Widget widget in e.NewItems)
+                    foreach (WidgetBoardControl.Widget widget in e.NewItems)
                     {
                         widget.WidgetTransformSolver = _widgetTransformSolver;
                         AddWidget(widget);
@@ -599,7 +599,7 @@ namespace ExperimentalProject.Views
                     break;
 
                 case NotifyCollectionChangedAction.Remove:
-                    foreach (ExperimentalProject.Widget widget in e.OldItems)
+                    foreach (WidgetBoardControl.Widget widget in e.OldItems)
                         RemoveWidget(widget);
                     break;
                 case NotifyCollectionChangedAction.Reset:
@@ -609,12 +609,12 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Handler called when <see cref="ExperimentalProject.WidgetPalette">SidebarStackPanel</see> instance create a new
-        ///     <see cref="ExperimentalProject.Widget">Widget</see> instance
+        ///     Handler called when <see cref="WidgetBoardControl.WidgetPalette">SidebarStackPanel</see> instance create a new
+        ///     <see cref="WidgetBoardControl.Widget">Widget</see> instance
         /// </summary>
         /// <param name="sender">The object that initiated the change to the collection</param>
-        /// <param name="widget">Created <see cref="ExperimentalProject.Widget">Widget</see> instance</param>
-        private void OnCreateWidgetHandler(object sender, ExperimentalProject.Widget widget)
+        /// <param name="widget">Created <see cref="WidgetBoardControl.Widget">Widget</see> instance</param>
+        private void OnCreateWidgetHandler(object sender, WidgetBoardControl.Widget widget)
         {
             WidgetsOnBoard.Add(widget);
         }
@@ -638,7 +638,7 @@ namespace ExperimentalProject.Views
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    foreach (ExperimentalProject.WidgetPalette widgetPalette in e.NewItems)
+                    foreach (WidgetBoardControl.WidgetPalette widgetPalette in e.NewItems)
                     {
                         SidebarStackPanel.Children.Add(widgetPalette.WidgetPaletteView);
                         widgetPalette.OnCreateWidgetEvent += OnCreateWidgetHandler;
@@ -646,7 +646,7 @@ namespace ExperimentalProject.Views
 
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    foreach (ExperimentalProject.WidgetPalette widgetPalette in e.OldItems)
+                    foreach (WidgetBoardControl.WidgetPalette widgetPalette in e.OldItems)
                     {
                         WidgetsPalette.Remove(widgetPalette);
                         SidebarStackPanel.Children.Remove(widgetPalette.WidgetPaletteView);
@@ -686,10 +686,10 @@ namespace ExperimentalProject.Views
         }
 
         /// <summary>
-        ///     Remove <see cref="ExperimentalProject.Widget">Widget</see> from WidgetBoard
+        ///     Remove <see cref="WidgetBoardControl.Widget">Widget</see> from WidgetBoard
         /// </summary>
-        /// <param name="widget">Removed <see cref="ExperimentalProject.Widget">Widget</see> instance</param>
-        private void RemoveWidget(ExperimentalProject.Widget widget)
+        /// <param name="widget">Removed <see cref="WidgetBoardControl.Widget">Widget</see> instance</param>
+        private void RemoveWidget(WidgetBoardControl.Widget widget)
         {
             WidgetsOnBoard.Remove(widget);
             WidgetCanvas.Children.Remove(widget.WidgetView);

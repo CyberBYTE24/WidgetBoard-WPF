@@ -9,7 +9,7 @@ using Point = System.Windows.Point;
 using Color = System.Windows.Media.Color;
 using Brush = System.Windows.Media.Brush;
 
-namespace ExperimentalProject.Views
+namespace WidgetBoardControl.Views
 {
     /// <summary>
     ///     Represents a Widget item on a <see cref="WidgetBoard">WidgetBoard</see>.

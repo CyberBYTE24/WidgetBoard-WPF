@@ -5,13 +5,13 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using ExperimentalProject.Utilities;
-using V = ExperimentalProject.Views;
+using WidgetBoardControl.Utilities;
+using V = WidgetBoardControl.Views;
 using Brush = System.Windows.Media.Brush;
 using Color = System.Windows.Media.Color;
 using System.Windows.Media;
 
-namespace ExperimentalProject
+namespace WidgetBoardControl
 {
     /// <summary>
     ///     Represents a view model for <see cref="V.Widget">Widget</see> that can be placed on a

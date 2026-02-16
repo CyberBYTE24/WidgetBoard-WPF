@@ -12,7 +12,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml.Serialization;
-using ExperimentalProject;
+using WidgetBoardControl;
 using Microsoft.Win32;
 using UseExample.Properties;
 using UseExample.Utilities;

@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Media;
-using ExperimentalProject;
+using WidgetBoardControl;
 using WidgetExportingExample.Utilities;
 
 namespace WidgetExportingExample.ViewModel

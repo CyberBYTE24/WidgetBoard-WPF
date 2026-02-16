@@ -1,11 +1,11 @@
-﻿using ExperimentalProject.Views;
+﻿using WidgetBoardControl.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExperimentalProject
+namespace WidgetBoardControl
 {
     internal interface IWidgetTransformSolver
     {

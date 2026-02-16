@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="ExperimentalProject.Views.WidgetPalette"
+﻿<UserControl x:Class="WidgetBoardControl.Views.WidgetPalette"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ExperimentalProject"
+             xmlns:local="clr-namespace:WidgetBoardControl"
              xmlns:vector="http://sharpvectors.codeplex.com/svgc/"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=local:WidgetPalette}" Height="100" Width="100" Margin="5pt">

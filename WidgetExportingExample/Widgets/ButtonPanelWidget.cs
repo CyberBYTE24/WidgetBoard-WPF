@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Controls;
-using ExperimentalProject;
+using WidgetBoardControl;
 using WidgetExportingExample.Views;
 
 namespace WidgetExportingExample.Widgets

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35219.272
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExperimentalProject", "ExperimentalProject\ExperimentalProject.csproj", "{D4819D3E-8F7B-48B5-8642-92393783DE00}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WidgetBoardControl", "WidgetBoardControl\WidgetBoardControl.csproj", "{D4819D3E-8F7B-48B5-8642-92393783DE00}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UseExample", "UseExample\UseExample.csproj", "{1A215694-2E3A-41D3-861A-1544662F64C8}"
 	ProjectSection(ProjectDependencies) = postProject

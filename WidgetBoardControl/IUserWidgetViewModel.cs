@@ -1,4 +1,4 @@
-﻿namespace ExperimentalProject
+﻿namespace WidgetBoardControl
 {
     /// <summary>
     ///     Declares properties for working with widget settings

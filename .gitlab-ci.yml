@@ -4,7 +4,7 @@ variables:
   NUGET_PATH: 'C:\Tools\Nuget\nuget.exe'
   MSBUILD_PATH: 'C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin\msbuild.exe'
   XUNIT_PATH: 'C:\Tools\XUnit\net472\xunit.console.exe'
-  ARTIFACTS_PATH: '.\ExperimentalProject\bin\Release' 
+  ARTIFACTS_PATH: '.\WidgetBoardControl\bin\Release' 
 
 
 .before_msbuild: &enter_vsdevshell
@@ -28,7 +28,7 @@ build_job:
     - '& "$env:NUGET_PATH" restore'
     - '& "$env:MSBUILD_PATH" /p:Configuration=Release /m:$env:MSBUILD_CONCURRENCY /nr:false /clp:ErrorsOnly'
     - 'New-Item -ItemType Directory -Path .\flattened_artifacts'
-    - 'Copy-Item -Path .\ExperimentalProject\bin\Release\* -Destination .\ -Recurse'
+    - 'Copy-Item -Path .\WidgetBoardControl\bin\Release\* -Destination .\ -Recurse'
   artifacts: 
     expire_in: 6 mos 
     name: 'WidgetBoard' 

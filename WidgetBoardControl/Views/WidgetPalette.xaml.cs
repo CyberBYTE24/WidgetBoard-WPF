@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
-namespace ExperimentalProject.Views
+namespace WidgetBoardControl.Views
 {
     /// <summary>
     ///     Логика взаимодействия для SidebarStackPanel.xaml
@@ -13,7 +13,7 @@ namespace ExperimentalProject.Views
     public partial class WidgetPalette
     {
         /// <summary>
-        ///     Represents a UI element that allows <see cref="ExperimentalProject.Widget">Widgets</see> of the specified type to
+        ///     Represents a UI element that allows <see cref="WidgetBoardControl.Widget">Widgets</see> of the specified type to
         ///     be created on a <see cref="WidgetBoard">WidgetBoard</see>.
         /// </summary>
         public WidgetPalette()

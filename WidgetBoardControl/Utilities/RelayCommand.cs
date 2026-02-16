@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace ExperimentalProject.Utilities
+namespace WidgetBoardControl.Utilities
 {
     public class RelayCommand : ICommand
     {

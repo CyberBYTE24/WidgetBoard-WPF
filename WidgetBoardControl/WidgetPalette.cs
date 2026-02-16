@@ -3,10 +3,10 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
-using ExperimentalProject.Utilities;
-using V = ExperimentalProject.Views;
+using WidgetBoardControl.Utilities;
+using V = WidgetBoardControl.Views;
 
-namespace ExperimentalProject
+namespace WidgetBoardControl
 {
     /// <summary>
     ///     Represents a view model for <see cref="V.WidgetPalette">SidebarStackPanel</see> that provide instantiating
@@ -26,11 +26,11 @@ namespace ExperimentalProject
 
         /// <summary>
         ///     Class that provides the ability to create widgets on a
-        ///     <see cref="ExperimentalProject.Views.WidgetBoard">WidgetBoard</see>.
+        ///     <see cref="WidgetBoardControl.Views.WidgetBoard">WidgetBoard</see>.
         /// </summary>
         /// <param name="widgetType">
         ///     The type of child class that should inherit
-        ///     <see cref="ExperimentalProject.Widget">Widget</see> class.
+        ///     <see cref="WidgetBoardControl.Widget">Widget</see> class.
         /// </param>
         /// <param name="widgetControlType">
         ///     The type that should inherit <see cref="UserControl">UserControl</see> and that will be
@@ -46,7 +46,7 @@ namespace ExperimentalProject
             };
             if (widgetType.BaseType != typeof(Widget))
                 throw new ArgumentException(
-                    "Expected to get class type inherited from `ExperimentalProject.Widget` in `widgetType` argument");
+                    "Expected to get class type inherited from `WidgetBoardControl.Widget` in `widgetType` argument");
             if (widgetControlType.BaseType != typeof(UserControl))
                 throw new ArgumentException(
                     "Expected to get class type inherited from `System.Windows.Controls.UserControl` in `widgetControlType` argument");

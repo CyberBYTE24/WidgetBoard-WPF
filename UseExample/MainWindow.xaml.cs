@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows;
-using ExperimentalProject.Views;
+using WidgetBoardControl.Views;
 
 namespace UseExample
 {
